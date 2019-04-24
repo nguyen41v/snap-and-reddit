@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c7923cbb-a012-41fa-ae83-c7ea58116a5b" name="Default Changelist" comment="" />
+    <list default="true" id="c7923cbb-a012-41fa-ae83-c7ea58116a5b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../MyApplication/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/TestRun2/.idea/vcs.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -83,6 +86,14 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="-1417035118">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <splitter split-orientation="horizontal" split-proportion="0.3534884">
@@ -156,7 +167,7 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -190,7 +201,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="208" />
     <option name="width" value="2184" />
     <option name="height" value="1952" />
@@ -262,7 +273,7 @@
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="983" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23642612" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23986255" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -306,9 +317,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Advanced topics in comp sci/MyServer/src/main/java/MyServer/MyServer.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Advanced topics in comp sci/MyServer/src/main/java/MyServer/MyServer.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/snap/App.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -323,13 +332,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Advanced topics in comp sci/Homework/MyServer/src/main/java/project/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="45" column="48" selection-start-line="45" selection-start-column="48" selection-end-line="45" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Advanced topics in comp sci/Homework/MyServer/src/main/java/project/UserController.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/snap/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
@@ -462,26 +465,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/Business.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithoutClasses1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="99" column="52" selection-start-line="95" selection-start-column="50" selection-end-line="99" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithoutClasses.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="25" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithClasses.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/Business.java" />
+    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithoutClasses1.java" />
+    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithoutClasses.java" />
+    <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithClasses.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/snap/HelloControllerTest.java" />
     <entry file="file://$PROJECT_DIR$/FinalInsert.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1326">
@@ -506,13 +494,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="269">
           <caret line="76" column="17" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/snap/HelloControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
         </state>
       </provider>
     </entry>
