@@ -5,7 +5,8 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TestTabbedActivity$LoginTab">
+    android:background="@color/white"
+    tools:context="LoginTab">
 
 
     <TextView
@@ -16,8 +17,8 @@
         android:text="SIGN UP"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintStart_toStartOf="@+id/new_password"
+        app:layout_constraintTop_toBottomOf="@+id/new_password" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -30,7 +31,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/new_password" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/botbar"
@@ -70,7 +71,7 @@
     </androidx.cardview.widget.CardView>
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/new_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -80,15 +81,15 @@
         android:background="@color/white"
         android:ems="10"
         android:hint="Username"
+        android:inputType="textPersonName"
         android:maxLines="1"
         android:singleLine="true"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content" />
+        app:layout_constraintTop_toBottomOf="@+id/signUp" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/new_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -101,48 +102,35 @@
         android:imeActionId="6"
         android:imeActionLabel="Sign in"
         android:imeOptions="actionUnspecified"
+        android:inputType="textPassword"
         android:maxLines="1"
         android:singleLine="true"
-        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/new_username" />
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="88dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_white_bg_round" />
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/signUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:elevation="3dp"
-        android:text="Log in to SeeIt"
+        android:text="Log in"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/icon" />
-
-    <TextView
-        android:id="@+id/logInMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:textColor="@color/colorSecondary"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

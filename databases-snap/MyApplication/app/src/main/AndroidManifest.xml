@@ -19,13 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".TestTabbedActivity"
+            android:name=".LoginSignup"
             android:label="@string/title_activity_test_tabbed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.Light"></activity>
         <activity
             android:name=".TestScrollingActivity"
             android:label="@string/title_activity_test_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Light" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -47,7 +47,7 @@
         <activity
             android:name=".Navigation"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.Light" />
         <activity android:name=".Overview">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

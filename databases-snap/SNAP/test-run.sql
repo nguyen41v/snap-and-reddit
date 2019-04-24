@@ -4,27 +4,67 @@ FROM (SELECT * FROM States WHERE state="AZ") as S
 LEFT JOIN (Benefits as B)
 ON B.state=S.state;
 
+
+SELECT s.state, name, s.type, day, condition1, condition2, condition3, condition4, condition5
+FROM (SELECT * FROM States WHERE state="MO") as S
+LEFT JOIN (Benefits as B)
+ON B.state=S.state;
+
+
+SELECT s.state, name, s.type, day, condition1, condition2, condition3, condition4, condition5
+FROM (SELECT * FROM States WHERE state="AL") as S
+LEFT JOIN (Benefits as B)
+ON B.state=S.state;
+
+
+SELECT s.state, name, s.type, day, condition1, condition2, condition3, condition4, condition5
+FROM (SELECT * FROM States WHERE state="CA") as S
+LEFT JOIN (Benefits as B)
+ON B.state=S.state;
+
+
+
+// get state and hotlines + state only hotlines (may not exist)
 SELECT name, state_hotline, state_only_hotline
-FROM (SELECT * FROM States WHERE state="AZ) as S
+FROM (SELECT * FROM States WHERE state="AZ") as S
+LEFT OUTER JOIN State_specific
+ON State_specific.state = S.state;
+
+// get state and state only hotlines if they exist
+SELECT name, state_hotline, state_only_hotline
+FROM (SELECT * FROM States WHERE state="AZ") as S
     NATURAL JOIN State_specific;
 
 SELECT name, phone_number, street, city, state, zip_code, county
 FROM (SELECT * FROM Local_offices WHERE state="AZ") as L NATURAL JOIN States
 
-SELECT * FROM Stores WHERE 30 > (57 * SQRT(POW(longitude - -118.211904, 2) + POW(lattitude - 34.126813, 2)));
+// get stores in a 5 mile radius
+SELECT * FROM Stores WHERE 5 > (5 * SQRT(POW(longitude - -118.211904, 2) + POW(latitude - 34.126813, 2)));
 
-SELECT COUNT(*) FROM Stores WHERE 30 > (57 * SQRT(POW(longitude - -118.211904, 2) + POW(lattitude - 34.126813, 2)));
+// get number of stores in a 5 mile radius
+SELECT COUNT(*) FROM Stores WHERE 5 > (57 * SQRT(POW(longitude - -118.211904, 2) + POW(latitude - 34.126813, 2)));
 
-SELECT current_balance, average_meals FROM Users WHERE name = "my_username";
+SELECT current_balance, average_meals FROM Users WHERE name = "bob";
 
-SELECT * FROM Transactions WHERE name = "my_username";
+SELECT * FROM Transactions WHERE name = "bob";
 
-SELECT SUM(*)
+// get all purchases over last month
+SELECT SUM(amount) total_spent
 FROM Transactions
-WHERE name = "my_username" AND month(date) = month(NOW()) - 1 AND number < 0;
+WHERE name = "bob" AND MONTH(date) = MONTH(NOW()) - 1 AND spend;
 
-SELECT average_meals FROM Users WHERE name = "my_username";
+// get average purchases/day from previous month
+SELECT SUM(amount) / DAY(LAST_DAY(NOW() - INTERVAL 1 MONTH)) as average_spent
+FROM Transactions
+WHERE name = "bob" AND MONTH(date) = MONTH(NOW()) - 1 AND spend;
 
-SELECT current_balance, average_meals, current_balance/(average_meals * (DAY(LAST_DAY(yourdate)) - DAY(NOW())) as money_per_meals_left
+// get average purchases/meal from previous month
+SELECT SUM(amount) / (DAY(LAST_DAY(now() - INTERVAL 1 MONTH)) * average_meals) as average_spent
+FROM Transactions, (SELECT average_meals FROM Users WHERE name ="bob") as A
+WHERE name = "bob" AND MONTH(date) = MONTH(NOW()) - 1 AND spend;
+
+
+// get average $$/meal for remainder of month
+SELECT current_balance, average_meals, ROUND(current_balance/(average_meals * (DAY(LAST_DAY(NOW())) - DAY(NOW()))),2) as money_per_meals_left
 FROM Users
-WHERE name = "my_username";
+WHERE name = "bob";
