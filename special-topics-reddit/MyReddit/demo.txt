@@ -1,0 +1,40 @@
+/register
+Post
+{'username': 'asdgr', 'password': 'hello', 'email': 'hi@gmail.com'}
+
+/login
+Get
+/login?usename=asdgr&password=hello
+
+/post
+Post
+{'username': 'asdgr', 'sub_name': 'hehe', 'title': 'making a demo for class hehe', 'content': 'there's no real content for this. i'm just writing random stuff'}
+Get
+/post?sub_name=hehe
+Delete
+/post?sub_name=hehe&p_number=3&deleted=true
+
+/editPost
+Post
+{'p_number': 11, 'content': 'trying to change the content'}
+
+/comment
+Post
+{'username': 'asdgr', 'p_number': 11, 'num_of_comments': 0, 'content': 'making a comment:3'}
+Delete
+/comment?number=0&p_number=3&deleted=true
+Get
+comment?p_number=11
+
+/editComment
+Post
+{'p_number': 11, 'number':0, 'content': editing a comment :3'}
+
+/replyComment
+Post
+{'username': 'asdgr', 'p_number': 11, 'num_of_comments': 1, 'content': 'making a reply to a comment :3', 'c_number':0}
+
+
+
+
+
