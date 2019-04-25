@@ -29,13 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -53,9 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String PREFS_NAME = "login.txt";
     public static SharedPreferences pref;
     public static Editor editor;
-    public static String username = "";
-    public static String token = "";
-    public static File file;
+    public static String username;
+    public static String token;
     public static Boolean loggedIn = false;
     public static Boolean recreate = false;
     private Button name;
@@ -72,10 +65,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
         noConnection = findViewById(R.id.NoConnection);
         endOfPosts = findViewById(R.id.endCard);
 
-
+        // navigation drawer set up
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -88,6 +82,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        // temporary adapter for recycler view
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new PostAdapter(new ArrayList<PostItem>(), this));
+        postItems = new ArrayList<>();
+
+        // get shared preferences: username, token
+        pref = getApplicationContext().getSharedPreferences(PREFS_NAME, 0); // 0 - for private mode
+        editor = pref.edit(); //fixme move to somewhere
+
+        username = pref.getString("username", "");
+        token = pref.getString("token", "");
+        System.out.println(username + " " + token);
+        System.out.println("got shared preferences");
+
+        if (!username.isEmpty() && !token.isEmpty()) {
+            ValidateToken validateToken = new ValidateToken();
+            validateToken.execute();
+        }
+
         Menu menu = navigationView.getMenu();
         for (int menuItemIndex = 0; menuItemIndex < menu.size(); menuItemIndex++) {
             MenuItem menuItem= menu.getItem(menuItemIndex);
@@ -99,47 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logout = menuItem;
             }
         }
-
-
-        pref = getApplicationContext().getSharedPreferences(PREFS_NAME, 0); // 0 - for private mode
-//        editor = pref.edit(); //fixme move to somewhere
-
-        username = pref.getString("username", "");
-        token = pref.getString("token", "");
-
-
-//
-//        System.out.println("\n\nclickAction\nahh");
-//        file = new File(this.getFilesDir(), PREFS_NAME);
-//        System.out.println("clickAction");
-//        System.out.println(file.getAbsolutePath());
-//        try {
-//            // first time installing app
-//            if (file.createNewFile()) {
-//                BufferedWriter bufferedWriter = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(file)));
-//                bufferedWriter.write("{\"username\":\"\",\"token\":\"\"}");
-//                bufferedWriter.close();
-//                System.out.println("a file was made");
-//            // try to get login info
-//            } else {
-//                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-//                JSONObject info = new JSONObject(bufferedReader.readLine());
-//                bufferedReader.close();
-//                System.out.println(info.toString());
-//                username = info.getString("username");
-//                token = info.getString("token");
-//                System.out.println(username + " " + token);
-//                System.out.println("a file was read");
-//                if (!username.isEmpty() && !token.isEmpty()) {
-//                    ValidateToken validateToken = new ValidateToken();
-//                    validateToken.execute();
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(
@@ -162,10 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new PostAdapter(new ArrayList<PostItem>(), this));
-        postItems = new ArrayList<>();
+
     }
 
 
@@ -231,14 +201,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.logout) {
             setContentView(R.layout.activity_navigation);
             loggedIn = false;
-            try {
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false)));
-                bufferedWriter.write("{\"username\":\"\",\"token\":\"\"}");
-                bufferedWriter.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            editor.clear();
+            editor.apply();
             System.out.println("hellloooooooooooooooooooooooooooo");
             recreate();
         }
@@ -268,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-//            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
             loadIntoRecyclerView(s);
             swipeRefreshLayout.setRefreshing(false);
         }

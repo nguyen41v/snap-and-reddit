@@ -17,11 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -30,7 +26,6 @@ public class LogIn extends AppCompatActivity {
     private String username;
     private String password;
     private Button logIn;
-    private TextView message;
     private EditText user;
     private EditText pass;
     private ProgressBar progressBar;
@@ -44,8 +39,6 @@ public class LogIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         System.out.println(MainActivity.username + " " + MainActivity.token);
-        System.out.println("a file was read");
-        message = findViewById(R.id.logInMessage);
         progressBar = findViewById(R.id.progressBar);
         user = findViewById(R.id.username);
         pass = findViewById(R.id.password);
@@ -85,23 +78,19 @@ public class LogIn extends AppCompatActivity {
             super.onPostExecute(s);
             logIn.setEnabled(true);
             progressBar.setVisibility(View.GONE);
-//            message.setVisibility(View.VISIBLE);
             if (s.contentEquals("0")) {
                 Toast toast = Toast.makeText(getApplicationContext(), invalid, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER,0,64);
                 toast.show();
-//                message.setText(invalid);
             } else if (s.contentEquals("-1")) {
                 Toast toast = Toast.makeText(getApplicationContext(), noConnection, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER,0,64);
                 toast.show();
-//                message.setText(noConnection);
             }
             else {
                 Toast toast = Toast.makeText(getApplicationContext(), valid, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL,0,64);
                 toast.show();
-//                message.setText(valid);
                 try {
                     JSONObject json = new JSONObject(s);
                     for (int i = 0; i < json.length(); i++) {
@@ -109,18 +98,14 @@ public class LogIn extends AppCompatActivity {
                         MainActivity.username = username;
                         MainActivity.token = tokenInfo;
                         System.out.println(tokenInfo);
-                        try {
-                            BufferedWriter bufferedWriter = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(MainActivity.file, false)));
-                            bufferedWriter.write("{\"username\":\"" + username + "\",\"token\":\"" + tokenInfo + "\"}");
-                            bufferedWriter.close();
-                            MainActivity.loggedIn = true;
-                            MainActivity.recreate = true;
-                            System.out.println(MainActivity.loggedIn);
-                            setResult(RESULT_OK,getIntent());
-                            finish();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        MainActivity.editor.putString("username", username);
+                        MainActivity.editor.putString("token", tokenInfo);
+                        MainActivity.editor.apply();
+                        MainActivity.loggedIn = true;
+                        MainActivity.recreate = true;
+                        System.out.println(MainActivity.loggedIn);
+                        setResult(RESULT_OK,getIntent());
+                        finish();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
