@@ -50,17 +50,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CommentItem commentItem = this.commentItems.get(position);
+        holder.comment = commentItem;
+
         String temp = "Posted by u/" + commentItem.getUsername() + " \t\t " + commentItem.getDateDifference();
         holder.username.setText(temp);
         if (commentItem.getUsername().equals(MainActivity.username)) {
             holder.settings.setVisibility(View.VISIBLE);
             holder.createSettingsMenu();
-            if (commentItem.getDeleted()) {
-                holder.content.setText("[deleted]");
-                holder.delete.setTitle("Undelete");
-            } else {
-                holder.content.setText(commentItem.getContent());
-            }
         } else {
             if (commentItem.getDeleted()) {
                 holder.content.setText("[deleted]");
@@ -74,7 +70,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             holder.edited.setVisibility(View.VISIBLE);
         }
 
-        holder.comment = commentItem;
         addReply(1, holder, commentItem);
         holder.divider.addView(LayoutInflater.from(context).inflate(R.layout.vertical_divider, parent, false));
         holder.position = position;
@@ -91,12 +86,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             if (reply.getUsername().equals(MainActivity.username)) {
                 v.settings.setVisibility(View.VISIBLE);
                 v.createSettingsMenu();
-                if (reply.getDeleted()) {
-                    v.content.setText("[deleted]");
-                    v.delete.setTitle("Undelete");
-                } else {
-                    v.content.setText(reply.getContent());
-                }
             } else {
                 if (reply.getDeleted()) {
                     v.content.setText("[deleted]");
@@ -104,8 +93,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     v.content.setText(reply.getContent());
                 }
             }
-
-
             if (reply.getEdited()) {
                 temp = "Edited " + reply.getEditDifference() + " ago";
                 v.edited.setText(temp);
@@ -164,11 +151,44 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             this.settings = itemView.findViewById(R.id.more_options);
         }
 
+        private void createView() {
+            String temp = "Posted by u/" + comment.getUsername() + " \t\t " + comment.getDateDifference();
+            username.setText(temp);
+            if (comment.getUsername().equals(MainActivity.username)) {
+                settings.setVisibility(View.VISIBLE);
+                createSettingsMenu();
+
+            } else {
+                if (comment.getDeleted()) {
+                    content.setText("[deleted]");
+                } else {
+                    content.setText(comment.getContent());
+                }
+            }
+            if (comment.getEdited()) {
+                temp = "Edited " + comment.getEditDifference() + " ago";
+                edited.setText(temp);
+                edited.setVisibility(View.VISIBLE);
+            }
+
+        }
+
         public void createSettingsMenu() {
             final PopupMenu dropDownMenu = new PopupMenu(context, settings);
             final Menu menu = dropDownMenu.getMenu();
             dropDownMenu.getMenuInflater().inflate(R.menu.comment_settings, menu);
-            delete = itemView.findViewById(R.id.delete);
+
+            if (comment.getDeleted()) {
+                content.setText("[deleted]");
+                for (int menuItemIndex = 0; menuItemIndex < menu.size(); menuItemIndex++) {
+                    MenuItem menuItem = menu.getItem(menuItemIndex);
+                    if (menuItem.getItemId() == R.id.delete) {
+                        menuItem.setTitle("Undelete");
+                    }
+                }
+            } else {
+                content.setText(comment.getContent());
+            }
             dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
