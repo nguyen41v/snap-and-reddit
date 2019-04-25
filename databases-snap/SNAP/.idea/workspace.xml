@@ -2,22 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7923cbb-a012-41fa-ae83-c7ea58116a5b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/androidTest/java/com/example/SNAPapp/ExampleInstrumentedTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/LoginTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/Navigation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/Navigation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/NearbyStores.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/NearbyStores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/SignupTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/SignupTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/TestScrollingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/TestScrollingActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_scrolling.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_scrolling.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_tabbed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_tabbed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/test/java/com/example/myapplication/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/test/java/com/example/SNAPapp/ExampleUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalInsert.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalInsert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/snap-app-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/snap-app-1.0-SNAPSHOT.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/layout/activity_log_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/layout/activity_log_in.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/Project.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/target/myreddit-0.1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/target/myreddit-0.1.0.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/java/com/example/reddit/CommentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/java/com/example/reddit/CommentAdapter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -141,7 +130,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.10440457">
+    <splitter split-orientation="horizontal" split-proportion="0.47560975">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -302,7 +291,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-10" />
     <option name="y" value="2" />
     <option name="width" value="3020" />
@@ -361,7 +350,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556156006620" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556173893912" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
@@ -400,10 +389,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-5" y="1" width="1510" height="975" extended-state="0" />
+    <frame x="-6" y="-6" width="1513" height="983" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15495868" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15463917" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />

@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Project {
 	// variables for establishing connections to the database
 	public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String DB_URL = "jdbc:mysql://localhost/project?useSSL=NO";
+	public static final String DB_URL = "jdbc:mysql://localhost:3306/project?";
 	public static final String USER = "root";
 	public static final String PASSWORD = null;
 	public static HashMap<String, User> tokens = new HashMap<String, User>();
@@ -19,8 +19,7 @@ public class Project {
 	public static void main(String[] args) {
 		SpringApplication.run(Project.class, args);
 
-
+// aws.com/connectToDB?username=bob
 
 	}
 }
-

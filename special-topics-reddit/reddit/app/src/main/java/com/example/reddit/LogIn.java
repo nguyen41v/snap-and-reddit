@@ -131,7 +131,7 @@ public class LogIn extends AppCompatActivity {
                 con.setReadTimeout(5000);
                 int responseCode = con.getResponseCode();
                 System.out.println(responseCode);
-                if (responseCode == 200) {
+                if (responseCode == MainActivity.OK) {
                     StringBuilder sb = new StringBuilder();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     String json;
@@ -140,7 +140,7 @@ public class LogIn extends AppCompatActivity {
                         sb.append(json + "\n");
                     }
                     return sb.toString().trim();
-                } else if (responseCode == 400) {
+                } else if (responseCode == MainActivity.UNAUTHORIZED) {
                     return "0";
                 }
             } catch (Exception e) {

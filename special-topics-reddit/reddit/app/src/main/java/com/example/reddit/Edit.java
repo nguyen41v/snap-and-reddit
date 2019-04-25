@@ -108,9 +108,9 @@ public class Edit extends AppCompatActivity {
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
                 int responseCode = con.getResponseCode();
-                if (responseCode == 200) {
+                if (responseCode == MainActivity.OK) {
                     return true;
-                } else if (responseCode == 400) {
+                } else if (responseCode == MainActivity.UNAUTHORIZED) {
                     startActivity(new Intent(Edit.this, LogIn.class));
                     return false;
                 }

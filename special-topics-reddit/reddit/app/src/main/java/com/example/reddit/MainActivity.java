@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String token;
     public static Boolean loggedIn = false;
     public static Boolean recreate = false;
+    public static int OK = 200;
+    public static int BAD_REQUEST = 400;
+    public static int UNAUTHORIZED = 401;
     private Button name;
     private View signUpMessage;
     private MenuItem signUp;
@@ -257,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 StringBuilder sb = new StringBuilder();
                 int responseCode = con.getResponseCode();
                 System.out.println(responseCode);
-                if (responseCode == 200) {
+                if (responseCode == OK) {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     String json;
                     System.out.println("got data");

@@ -296,7 +296,7 @@ public class ViewPost extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
                 int responseCode = con.getResponseCode();
                 System.out.println(responseCode);
-                if (responseCode == 200) {
+                if (responseCode == MainActivity.OK) {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     String json;
                     System.out.println("got data");

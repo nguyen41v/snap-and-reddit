@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="091d4acb-5705-49a4-9016-3bfc8084bb6c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/res/xml/network_security_config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/androidTest/java/com/example/SNAPapp/ExampleInstrumentedTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/LoginSignup.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/LoginSignup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/LoginTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/LoginTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/Navigation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/Navigation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/NearbyStores.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/NearbyStores.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/Overview.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/Overview.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/SignupTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/SignupTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/myapplication/TestScrollingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/java/com/example/SNAPapp/TestScrollingActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/res/menu/menu_test_scrolling.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/res/menu/menu_test_scrolling.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/res/menu/menu_test_tabbed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/main/res/menu/menu_test_tabbed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/test/java/com/example/myapplication/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/MyApplication/app/src/test/java/com/example/SNAPapp/ExampleUnitTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../databases-snap/SNAP/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/SNAP/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/SNAP/FinalInsert.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/SNAP/FinalInsert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/SNAP/createdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/SNAP/createdb.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/SNAP/src/main/java/snap/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/SNAP/src/main/java/snap/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/SNAP/src/main/java/snap/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/SNAP/src/main/java/snap/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/SNAP/target/snap-app-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/SNAP/target/snap-app-1.0-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../databases-snap/SNAP/test-run.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../databases-snap/SNAP/test-run.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../reddit/app/src/main/java/com/example/reddit/CommentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../reddit/app/src/main/java/com/example/reddit/CommentAdapter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -107,22 +87,44 @@
           <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="167" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="167" />
+        </counts>
+      </usages-collector>
     </session>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="myserver" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6659794">
+    <splitter split-orientation="horizontal" split-proportion="0.6962199">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/project/UserController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-374">
-                  <caret line="20" column="12" selection-start-line="20" selection-end-line="21" />
+                <state relative-caret-position="338">
+                  <caret line="627" column="68" lean-forward="true" selection-start-line="627" selection-start-column="68" selection-end-line="627" selection-end-column="68" />
                   <folding>
                     <element signature="imports" expanded="true" />
+                    <element signature="method#validate#0;class#UserController#0" />
+                    <element signature="method#login#0;class#UserController#0" />
+                    <element signature="method#post#0;class#UserController#0" />
+                    <element signature="method#getPosts#0;class#UserController#0" />
+                    <element signature="method#deletePost#0;class#UserController#0" />
+                    <element signature="method#editPost#0;class#UserController#0" />
+                    <element signature="method#comment#0;class#UserController#0" />
+                    <element signature="method#replyComment#0;class#UserController#0" />
+                    <element signature="method#editComment#0;class#UserController#0" />
+                    <element signature="method#getComments#0;class#UserController#0" />
+                    <element signature="method#message#0;class#UserController#0" />
+                    <element signature="method#getMessage#0;class#UserController#0" />
                   </folding>
                 </state>
               </provider>
@@ -140,8 +142,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/project/Project.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="238">
-                  <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
+                <state relative-caret-position="204">
+                  <caret line="12" column="77" lean-forward="true" selection-start-line="12" selection-start-column="77" selection-end-line="12" selection-end-column="77" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -152,7 +154,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/createdb.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3009">
+                <state relative-caret-position="1779">
                   <caret line="177" column="107" selection-start-line="177" selection-end-line="178" />
                 </state>
               </provider>
@@ -174,8 +176,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/createdb.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="97">
-                  <caret line="51" column="15" selection-start-line="51" selection-start-column="15" selection-end-line="51" selection-end-column="15" />
+                <state relative-caret-position="408">
+                  <caret line="24" column="23" lean-forward="true" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
                 </state>
               </provider>
             </entry>
@@ -204,6 +206,7 @@
       <find>number</find>
       <find>jdbc</find>
       <find>editcomm</find>
+      <find>/comment</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -216,9 +219,10 @@
         <option value="$PROJECT_DIR$/createdb.sql" />
         <option value="$PROJECT_DIR$/src/main/java/Project/Project.java" />
         <option value="$PROJECT_DIR$/src/main/java/Project/UserController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/project/UserController.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/test.html" />
+        <option value="$PROJECT_DIR$/src/main/java/project/Project.java" />
+        <option value="$PROJECT_DIR$/src/main/java/project/UserController.java" />
       </list>
     </option>
   </component>
@@ -233,7 +237,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="y" value="2" />
     <option name="width" value="3020" />
@@ -371,7 +375,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/createdb.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3009">
+        <state relative-caret-position="1779">
           <caret line="177" column="107" selection-start-line="177" selection-end-line="178" />
         </state>
       </provider>
@@ -385,8 +389,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/project/Project.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
+        <state relative-caret-position="204">
+          <caret line="12" column="77" lean-forward="true" selection-start-line="12" selection-start-column="77" selection-end-line="12" selection-end-column="77" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -395,10 +399,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/project/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-374">
-          <caret line="20" column="12" selection-start-line="20" selection-end-line="21" />
+        <state relative-caret-position="338">
+          <caret line="627" column="68" lean-forward="true" selection-start-line="627" selection-start-column="68" selection-end-line="627" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#validate#0;class#UserController#0" />
+            <element signature="method#login#0;class#UserController#0" />
+            <element signature="method#post#0;class#UserController#0" />
+            <element signature="method#getPosts#0;class#UserController#0" />
+            <element signature="method#deletePost#0;class#UserController#0" />
+            <element signature="method#editPost#0;class#UserController#0" />
+            <element signature="method#comment#0;class#UserController#0" />
+            <element signature="method#replyComment#0;class#UserController#0" />
+            <element signature="method#editComment#0;class#UserController#0" />
+            <element signature="method#getComments#0;class#UserController#0" />
+            <element signature="method#message#0;class#UserController#0" />
+            <element signature="method#getMessage#0;class#UserController#0" />
           </folding>
         </state>
       </provider>

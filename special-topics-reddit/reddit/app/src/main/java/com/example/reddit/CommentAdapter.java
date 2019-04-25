@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -49,20 +52,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         CommentItem commentItem = this.commentItems.get(position);
         String temp = "Posted by u/" + commentItem.getUsername() + " \t\t " + commentItem.getDateDifference();
         holder.username.setText(temp);
-        if (commentItem.getDeleted()) {
-            holder.content.setText("[deleted]");
+        if (commentItem.getUsername().equals(MainActivity.username)) {
+            holder.settings.setVisibility(View.VISIBLE);
+            holder.createSettingsMenu();
+            if (commentItem.getDeleted()) {
+                holder.content.setText("[deleted]");
+                holder.delete.setTitle("Undelete");
+            } else {
+                holder.content.setText(commentItem.getContent());
+            }
         } else {
-            holder.content.setText(commentItem.getContent());
+            if (commentItem.getDeleted()) {
+                holder.content.setText("[deleted]");
+            } else {
+                holder.content.setText(commentItem.getContent());
+            }
         }
         if (commentItem.getEdited()) {
             temp = "Edited " + commentItem.getEditDifference() + " ago";
             holder.edited.setText(temp);
             holder.edited.setVisibility(View.VISIBLE);
         }
-        if (commentItem.getUsername().equals(MainActivity.username)) {
-            holder.settings.setVisibility(View.VISIBLE);
-            holder.createSettingsMenu();
-        }
+
         holder.comment = commentItem;
         addReply(1, holder, commentItem);
         holder.divider.addView(LayoutInflater.from(context).inflate(R.layout.vertical_divider, parent, false));
@@ -77,19 +88,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             v.comment = reply;
             temp = "Posted by u/" + reply.getUsername() + " \t\t " + reply.getDateDifference();
             v.username.setText(temp);
-            if (reply.getDeleted()) {
-                v.content.setText("[deleted]");
+            if (reply.getUsername().equals(MainActivity.username)) {
+                v.settings.setVisibility(View.VISIBLE);
+                v.createSettingsMenu();
+                if (reply.getDeleted()) {
+                    v.content.setText("[deleted]");
+                    v.delete.setTitle("Undelete");
+                } else {
+                    v.content.setText(reply.getContent());
+                }
             } else {
-                v.content.setText(reply.getContent());
+                if (reply.getDeleted()) {
+                    v.content.setText("[deleted]");
+                } else {
+                    v.content.setText(reply.getContent());
+                }
             }
+
+
             if (reply.getEdited()) {
                 temp = "Edited " + reply.getEditDifference() + " ago";
                 v.edited.setText(temp);
                 v.edited.setVisibility(View.VISIBLE);
-            }
-            if (reply.getUsername().equals(MainActivity.username)) {
-                v.settings.setVisibility(View.VISIBLE);
-                v.createSettingsMenu();
             }
             View x4 = LayoutInflater.from(context).inflate(R.layout.horizontal_divider, parent, false);
             ViewGroup.MarginLayoutParams divider = (ViewGroup.MarginLayoutParams) x4.getLayoutParams();
@@ -119,6 +139,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public int position;
         public TextView edited;
         public ImageButton settings;
+        public MenuItem delete;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -147,6 +168,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             final PopupMenu dropDownMenu = new PopupMenu(context, settings);
             final Menu menu = dropDownMenu.getMenu();
             dropDownMenu.getMenuInflater().inflate(R.menu.comment_settings, menu);
+            delete = itemView.findViewById(R.id.delete);
             dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -162,14 +184,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                         return true;
                     } else if (item.getItemId() == R.id.delete) {
                         // have to also send info to server...
-                        if (comment.getDeleted()) {
-                            comment.setDeleted(false);
-                            content.setText(comment.getContent());
-                        } else {
-                            comment.setDeleted(true);
-                            content.setText("[deleted]");
-                            item.setTitle("Undelete");
-                        }
+                        delete = item;
+                        Delete delete = new Delete();
+                        delete.execute();
                         return true;
                     }
                     return false;
@@ -238,6 +255,72 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     int responseCode = con.getResponseCode();
                     System.out.println(responseCode);
                     if (responseCode == 200) {
+                        return true;
+                    }
+                } catch (Exception e) {
+                    Log.e("Exception", "Sad life");
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        }
+
+        class Delete extends AsyncTask<Void, Void, Boolean> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(Boolean s) {
+                super.onPostExecute(s);
+                if (s) {
+                    comment.setDeleted(!comment.getDeleted());
+                    if (comment.getDeleted()) {
+                        content.setText("[deleted]");
+                        delete.setTitle("Undelete");
+                    } else {
+                        content.setText(comment.getContent());
+                        delete.setTitle("Delete");
+                    }
+                }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                try {
+                    System.out.println(MainActivity.loggedIn);
+                    if (!MainActivity.loggedIn) {
+                        return false;
+                    }
+                    URL url = new URL(MainActivity.URL + "/comment");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("DELETE");
+
+                    JSONObject requestBody = new JSONObject();
+                    requestBody.put("username", MainActivity.username);
+                    requestBody.put("token", MainActivity.token);
+                    requestBody.put("p_number", post.getP_number());
+                    requestBody.put("deleted", !comment.getDeleted());
+                    requestBody.put("number", comment.getNumber());
+                    System.out.println(requestBody.getString("username"));
+                    System.out.println(requestBody.getString("token"));
+                    System.out.println(requestBody.getString("p_number"));
+                    System.out.println(requestBody.getString("deleted"));
+                    System.out.println(requestBody.getString("number"));
+
+                    con.setDoOutput(true);
+                    con.setRequestProperty("Content-Type","application/json");
+                    OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+                    writer.write(requestBody.toString());
+                    writer.flush();
+                    con.connect();
+                    con.setConnectTimeout(5000);
+                    con.setReadTimeout(5000);
+                    int responseCode = con.getResponseCode();
+                    System.out.println(responseCode);
+                    if (responseCode == MainActivity.OK) {
                         return true;
                     }
                 } catch (Exception e) {

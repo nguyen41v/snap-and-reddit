@@ -121,7 +121,7 @@ public class Reply extends AppCompatActivity {
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
                 int responseCode = con.getResponseCode();
-                if (responseCode == 200) {
+                if (responseCode == MainActivity.OK) {
                     return true;
                 }
             } catch (Exception e) {

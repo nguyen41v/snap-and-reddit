@@ -62,7 +62,6 @@ public class UserController {
 	    String generatedString = new String(array, Charset.defaultCharset());
 	    System.out.println(generatedString);
 	    return generatedString;
-
     }
 
     public Boolean checkToken(String username, String token) {
@@ -619,13 +618,23 @@ public class UserController {
     public ResponseEntity<String> deleteComment(@RequestBody String body, HttpServletRequest request) {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
+        System.out.println(body);
         try {
+            System.out.println("hello");
             JSONObject temp = new JSONObject(body);
-            int p_number = Integer.parseInt(request.getParameter(UserController.p_number));
-            int number = Integer.parseInt(request.getParameter(UserController.number));
-            Boolean deleted = Boolean.getBoolean(request.getParameter(UserController.deleted)); // let people undelete their comments
+            System.out.println("hello again");
+            int p_number = temp.getInt(UserController.p_number);
+            int number = temp.getInt(UserController.number);
+            Boolean deleted = temp.getBoolean(UserController.deleted); // let people undelete their comments
             String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
+            System.out.println(p_number);
+
+            System.out.println(number);
+            System.out.println(deleted);
+            System.out.println(username);
+            System.out.println(token);
+
             if (!checkToken(username, token)) {
                 return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
             }
@@ -637,7 +646,9 @@ public class UserController {
                 Class.forName(Project.JDBC_DRIVER);
                 conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
                 // add new post
+                System.out.println("sad life");
                 query = "UPDATE Comment SET deleted = ? WHERE p_number = ? AND number = ? AND username = ?";
+                System.out.println(query);
                 ps = conn.prepareStatement(query);
                 ps.setBoolean(1, deleted);
                 ps.setInt(2, p_number);
