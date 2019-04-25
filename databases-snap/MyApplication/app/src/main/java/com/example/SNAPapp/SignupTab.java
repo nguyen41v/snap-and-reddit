@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.SNAPapp;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,8 +21,8 @@ public class SignupTab extends Fragment {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static com.example.myapplication.SignupTab newInstance(int sectionNumber) {
-            com.example.myapplication.SignupTab fragment = new com.example.myapplication.SignupTab();
+        public static com.example.SNAPapp.SignupTab newInstance(int sectionNumber) {
+            com.example.SNAPapp.SignupTab fragment = new com.example.SNAPapp.SignupTab();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);

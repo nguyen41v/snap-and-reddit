@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.SNAPapp;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +24,7 @@ import java.net.URL;
 
 public class Overview extends Navigation {
 
-    public static final String URL = "localhost";
+    public static final String URL = "http://ec2-18-219-159-242.us-east-2.compute.amazonaws.com";
     public static String username = "";
     public static String token = "";
     public static Boolean loggedIn = false;
@@ -38,8 +37,8 @@ public class Overview extends Navigation {
 
     private TextView balance;
     private TextView average;
-    private TextView pastBenefits;
-    private TextView pastSpent;
+    private TextView past_benefits;
+    private TextView past_spent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +71,8 @@ public class Overview extends Navigation {
         }
         balance = findViewById(R.id.balance);
         average = findViewById(R.id.average);
-        pastBenefits = findViewById(R.id.pastBenefits);
-        pastSpent = findViewById(R.id.pastSpent);
+        past_benefits = findViewById(R.id.pastBenefits);
+        past_spent = findViewById(R.id.pastSpent);
         GetData getData = new GetData();
         getData.execute();
     }
@@ -144,16 +143,25 @@ public class Overview extends Navigation {
     private void loadInfo(String s) {
 //        balance = findViewById(R.id.balance);
 //        average = findViewById(R.id.average);
-//        pastBenefits = findViewById(R.id.pastBenefits);
-//        pastSpent = findViewById(R.id.pastSpent);
+//        past_benefits = findViewById(R.id.past_benefits);
+//        past_spent = findViewById(R.id.past_spent);
 //        android:text="You can spend $0.00 per meal until you receive your next benefits on the 5th"
         String temp;
         try {
             JSONObject jsonObject = new JSONObject(s);
-            temp = "$" + Double.toString(jsonObject.getDouble("balance"));
+            temp = "$" + jsonObject.getString("balance");
+            System.out.println(temp);
             balance.setText(temp);
-            temp = "You can spend $0.00 per meal until you receive your next benefits on the 5th";
+            temp = "You can spend $" +  jsonObject.getString("average") +" per meal until you receive your next benefits on the 5th";
+            System.out.println(temp);
             average.setText(temp);
+            temp = "$" + jsonObject.getString("past_benefits");
+            System.out.println(temp);
+            past_benefits.setText(temp);
+            temp = "$" + jsonObject.getString("past_spent");
+            System.out.println(temp);
+            past_spent.setText(temp);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -171,14 +179,20 @@ public class Overview extends Navigation {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (!s.isEmpty()) {
+                loadInfo(s);
+            }
+            // server is down fixme
         }
 
         @Override
         protected String doInBackground(Void... voids) {
             try {
                 System.out.println("start of try");
-                java.net.URL url = new URL(URL + "/overview");
+                System.out.println(URL);
+                URL url = new URL(URL + "/balance?username=bob");
                 System.out.println("made url");
+                System.out.println(url);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 System.out.println("made connection");
                 con.setRequestMethod("GET");
@@ -206,6 +220,7 @@ public class Overview extends Navigation {
 
             } catch (Exception e) {
                 System.out.println("Connection probably failed :3\ngo start the server");
+                e.printStackTrace();
                 return "";
             }
         }

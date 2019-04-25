@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.SNAPapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,32 +7,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonClickListener {
 
@@ -70,6 +48,8 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
                 finish();
             }
         });
+        System.out.println("hello");
+
     }
 
 

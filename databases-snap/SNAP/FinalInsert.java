@@ -43,7 +43,6 @@ public class FinalInsert {
     static private final Attribute condition3 = new Attribute("condition3", isString);
     static private final Attribute condition4 = new Attribute("condition4", isString);
     static private final Attribute condition5 = new Attribute("condition5", isString);
-
     static private final Attribute phone_number = new Attribute("phone_number", isString);
     static private final Attribute street = new Attribute("street", isString);
     static private final Attribute city = new Attribute("city", isString);

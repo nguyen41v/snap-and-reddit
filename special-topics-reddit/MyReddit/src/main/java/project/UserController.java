@@ -773,6 +773,8 @@ public class UserController {
 
 	}
 
+
+
 	@RequestMapping(value = "/message", method = RequestMethod.POST) // <-- setup the endpoint URL at /message with the HTTP POST method
 	public ResponseEntity<String> message(@RequestBody String body, HttpServletRequest request) {
 

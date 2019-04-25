@@ -2,185 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7923cbb-a012-41fa-ae83-c7ea58116a5b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/debug/res/values/google_maps_api.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/ic_launcher-web.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/java/com/example/myapplication/LoginActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/java/com/example/myapplication/Navigation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/java/com/example/myapplication/NearbyStores.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/java/com/example/myapplication/Overview.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/java/com/example/myapplication/TestScrollingActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/green_button_round_bottom_corners.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/green_button_round_bottom_corners_ripple.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_arrow_back_green_24dp.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_menu_camera.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_menu_gallery.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_menu_manage.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_menu_send.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_menu_share.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_menu_slideshow.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/ic_person_green_24dp.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/side_nav_bar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/white_button_round_bottom_corners.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/drawable/white_button_round_bottom_corners_ripple.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/activity_navigation.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/activity_nearby_stores.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/activity_overview.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/activity_test_scrolling.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/app_bar_navigation.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/app_bar_overview.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/content_navigation.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/content_overview.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/content_test_scrolling.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/fragment_test_tabbed.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/login.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/nav_header_navigation.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/signup.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/menu/activity_navigation_drawer.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/menu/menu_overview_navigation.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/menu/menu_test_scrolling.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/menu/menu_test_tabbed.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher_white_bg.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-anydpi-v26/ic_launcher_white_bg_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-hdpi/ic_launcher_white_bg_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-mdpi/ic_launcher_white_bg_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xhdpi/ic_launcher_white_bg_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xxhdpi/ic_launcher_white_bg_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/mipmap-xxxhdpi/ic_launcher_white_bg_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/values-v21/styles.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/values-w820dp/dimens.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/values/white_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/release/res/values/google_maps_api.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/test/java/com/example/myapplication/ExampleUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/androidTest/java/com/example/snap/ExampleInstrumentedTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/java/com/example/snap/MainActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/app/src/test/java/com/example/snap/ExampleUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../SNAPapp/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginSignup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginTab.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/SignupTab.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/login_signup.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/androidTest/java/com/example/reddit/ExampleInstrumentedTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/ic_launcher-web.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/java/com/example/reddit/MainActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/ic_launcher_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/test/java/com/example/reddit/ExampleUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/Overview.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/Overview.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/TestTabbedActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/java/com/example/myapplication/TestTabbedActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/activity_test_tabbed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../SNAPapp/app/app/src/main/res/layout/activity_test_tabbed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/content_overview.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/content_overview.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/fragment_test_tabbed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/fragment_test_tabbed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/nav_header_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/nav_header_navigation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/signup.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/signup.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values-v21/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values-v21/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/androidTest/java/com/example/SNAPapp/ExampleInstrumentedTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/LoginTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/LoginTab.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/Navigation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/Navigation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/NearbyStores.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/NearbyStores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/SignupTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/SignupTab.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/TestScrollingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/SNAPapp/TestScrollingActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_scrolling.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_scrolling.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_tabbed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/main/res/menu/menu_test_tabbed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/test/java/com/example/myapplication/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/app/src/test/java/com/example/SNAPapp/ExampleUnitTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/createdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/createdb.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-run.sql" beforeDir="false" afterPath="$PROJECT_DIR$/test-run.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalInsert.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalInsert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/snap-app-1.0-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/snap-app-1.0-SNAPSHOT.jar.original" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/layout/activity_log_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/layout/activity_log_in.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -273,37 +110,45 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="sql" value="1478" />
+          <entry key="java" value="566" />
+          <entry key="sql" value="1683" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="DBN-SQL" value="1478" />
+          <entry key="DBN-SQL" value="1683" />
+          <entry key="JAVA" value="566" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="csv" value="2" />
+          <entry key="csv" value="7" />
+          <entry key="java" value="2" />
           <entry key="md" value="1" />
+          <entry key="properties" value="1" />
+          <entry key="sql" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSV" value="2" />
+          <entry key="CSV" value="7" />
+          <entry key="DBN-SQL" value="1" />
+          <entry key="JAVA" value="2" />
           <entry key="Markdown" value="1" />
+          <entry key="Properties" value="1" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.86810553">
+    <splitter split-orientation="horizontal" split-proportion="0.10440457">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/FinalInsert.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1326">
-                  <caret line="85" column="64" selection-start-line="85" selection-start-column="64" selection-end-line="85" selection-end-column="64" />
+                <state relative-caret-position="511">
+                  <caret line="96" column="31" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -314,8 +159,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/createdb.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="276">
-                  <caret line="70" column="22" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
+                <state relative-caret-position="108">
+                  <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
                 </state>
               </provider>
             </entry>
@@ -323,45 +168,9 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/BenefitsKey.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-                <state split_layout="SPLIT">
+                <state split_layout="SECOND">
                   <first_editor relative-caret-position="170">
                     <caret line="10" column="17" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="17" />
-                  </first_editor>
-                  <second_editor />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/States.csv">
-              <provider editor-type-id="csv-table-editor">
-                <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-              </provider>
-              <provider selected="true" editor-type-id="csv-text-editor">
-                <state relative-caret-position="544">
-                  <caret line="32" column="35" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="35" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Benefits.csv">
-              <provider editor-type-id="csv-table-editor">
-                <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-              </provider>
-              <provider selected="true" editor-type-id="csv-text-editor">
-                <state relative-caret-position="5627">
-                  <caret line="331" column="2" selection-start-line="331" selection-end-line="331" selection-end-column="2" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/README.md">
-              <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-                <state split_layout="SPLIT">
-                  <first_editor relative-caret-position="663">
-                    <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
                   </first_editor>
                   <second_editor />
                 </state>
@@ -372,11 +181,60 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test-run.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="677">
-                  <caret line="68" selection-start-line="68" selection-end-line="68" />
+                <state relative-caret-position="497">
+                  <caret line="63" column="49" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/States.csv">
+              <provider editor-type-id="csv-table-editor">
+                <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+              </provider>
+              <provider selected="true" editor-type-id="csv-text-editor">
+                <state relative-caret-position="17">
+                  <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Benefits.csv">
+              <provider editor-type-id="csv-table-editor">
+                <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+              </provider>
+              <provider selected="true" editor-type-id="csv-text-editor">
+                <state relative-caret-position="5525">
+                  <caret line="325" column="11" lean-forward="true" selection-start-line="325" selection-start-column="11" selection-end-line="325" selection-end-column="11" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/snap/UserController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="306">
+                  <caret line="262" column="109" selection-start-line="262" selection-start-column="109" selection-end-line="262" selection-end-column="109" />
+                  <folding>
+                    <element signature="method#register#0;class#UserController#0" />
+                    <element signature="method#login#0;class#UserController#0" />
+                    <element signature="method#message#0;class#UserController#0" />
+                    <element signature="method#getMessage#0;class#UserController#0" />
+                    <element signature="method#bytesToHex#0;class#UserController#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/snap/App.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="170">
+                  <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
                 </state>
               </provider>
             </entry>
@@ -416,13 +274,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/snap/App.java" />
         <option value="$PROJECT_DIR$/src/main/java/snap/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/snap/AppConfig.java" />
         <option value="$PROJECT_DIR$/Distribution.csv" />
         <option value="$PROJECT_DIR$/BenefitsKey.md" />
         <option value="$PROJECT_DIR$/../../Advanced topics in comp sci/Homework/MyServer/src/main/java/Project/UserController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/snap/UserController.java" />
         <option value="$PROJECT_DIR$/StoresInsert.java" />
         <option value="$PROJECT_DIR$/States.csv" />
         <option value="$PROJECT_DIR$/Benefits.csv" />
@@ -433,7 +289,9 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/FinalInsert.java" />
         <option value="$PROJECT_DIR$/test-run.sql" />
+        <option value="$PROJECT_DIR$/src/main/java/snap/App.java" />
         <option value="$PROJECT_DIR$/createdb.sql" />
+        <option value="$PROJECT_DIR$/src/main/java/snap/UserController.java" />
       </list>
     </option>
   </component>
@@ -445,10 +303,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-14" />
-    <option name="y" value="72" />
-    <option name="width" value="3030" />
-    <option name="height" value="1952" />
+    <option name="x" value="-10" />
+    <option name="y" value="2" />
+    <option name="width" value="3020" />
+    <option name="height" value="1950" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -469,6 +327,32 @@
               <item name="SNAP" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="SNAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SNAP" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SNAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SNAP" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SNAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SNAP" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="snap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SNAP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SNAP" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -477,7 +361,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556097653881" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556156006620" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
@@ -486,6 +370,7 @@
       <recent name="snap" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Vanessa5\Google Drive\Oxy 2019 Spring\snap-and-reddit\databases-snap\SNAP\target" />
       <recent name="C:\Users\Vanessa5\Google Drive\Oxy 2019 Spring\Databases\Final Project" />
     </key>
   </component>
@@ -515,10 +400,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="494" y="21" width="1515" height="976" extended-state="0" />
+    <frame x="-5" y="1" width="1510" height="975" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19492108" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15495868" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -529,7 +414,7 @@
       <window_info id="Capture Tool" order="8" />
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3298122" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289941" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -563,13 +448,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Advanced topics in comp sci/MyServer/src/main/java/MyServer/MyServer.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/snap/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/snap/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -578,13 +456,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../Advanced topics in comp sci/Homework/MyServer/src/main/java/project/UserController.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/snap/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
-          <caret line="237" column="13" selection-start-line="237" selection-start-column="13" selection-end-line="237" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Stores.csv">
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state relative-caret-position="273">
@@ -623,16 +494,6 @@
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="78" selection-start-line="2" selection-start-column="78" selection-end-line="2" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/state_only_hotlines.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
@@ -675,25 +536,54 @@
     <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithoutClasses.java" />
     <entry file="file://$PROJECT_DIR$/../../../Oxy 2017 Fall/Comp 133/Lab/Lab 5/src/MainWithClasses.java" />
     <entry file="file://$PROJECT_DIR$/src/test/java/snap/HelloControllerTest.java" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="663">
+            <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FinalInsert.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="85" column="64" selection-start-line="85" selection-start-column="64" selection-end-line="85" selection-end-column="64" />
+        <state relative-caret-position="511">
+          <caret line="96" column="31" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Supplemental_Nutrition_Assistance_Program__SNAP__Caseloads_and_Expenditures__Beginning_2002.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/BenefitsKey.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
+        <state split_layout="SECOND">
           <first_editor relative-caret-position="170">
             <caret line="10" column="17" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="17" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/state_only_hotlines.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/application.properties">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/States.csv">
       <provider editor-type-id="csv-table-editor">
@@ -705,8 +595,8 @@
         </state>
       </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="35" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="35" />
+        <state relative-caret-position="17">
+          <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -720,32 +610,43 @@
         </state>
       </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="5627">
-          <caret line="331" column="2" selection-start-line="331" selection-end-line="331" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="663">
-            <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/createdb.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="70" column="22" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
+        <state relative-caret-position="5525">
+          <caret line="325" column="11" lean-forward="true" selection-start-line="325" selection-start-column="11" selection-end-line="325" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test-run.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="677">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        <state relative-caret-position="497">
+          <caret line="63" column="49" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/snap/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/createdb.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/snap/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="262" column="109" selection-start-line="262" selection-start-column="109" selection-end-line="262" selection-end-column="109" />
+          <folding>
+            <element signature="method#register#0;class#UserController#0" />
+            <element signature="method#login#0;class#UserController#0" />
+            <element signature="method#message#0;class#UserController#0" />
+            <element signature="method#getMessage#0;class#UserController#0" />
+            <element signature="method#bytesToHex#0;class#UserController#0" />
+          </folding>
         </state>
       </provider>
     </entry>

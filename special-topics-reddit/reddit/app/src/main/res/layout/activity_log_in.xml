@@ -154,7 +154,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:elevation="3dp"
-        android:text="Log in to SeeIt"
+        android:text="Log in to SeekIt"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"

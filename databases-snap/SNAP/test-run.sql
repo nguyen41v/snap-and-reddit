@@ -59,12 +59,16 @@ FROM Transactions
 WHERE name = "bob" AND MONTH(date) = MONTH(NOW()) - 1 AND spend;
 
 // get average purchases/meal from previous month
-SELECT SUM(amount) / (DAY(LAST_DAY(now() - INTERVAL 1 MONTH)) * average_meals) as average_spent
+SELECT CONVERTROUND(SUM(amount) / (DAY(LAST_DAY(now() - INTERVAL 1 MONTH)) * average_meals),2) as past_spent
 FROM Transactions, (SELECT average_meals FROM Users WHERE name ="bob") as A
 WHERE name = "bob" AND MONTH(date) = MONTH(NOW()) - 1 AND spend;
 
+// get total benefits from last month
+SELECT SUM(amount) as past_benefits
+FROM Transactions
+WHERE name = "bob" AND MONTH(date) = MONTH(NOW()) - 1 AND NOT spend;
 
 // get average $$/meal for remainder of month
-SELECT current_balance, average_meals, ROUND(current_balance/(average_meals * (DAY(LAST_DAY(NOW())) - DAY(NOW()))),2) as money_per_meals_left
+SELECT current_balance as balance, average_meals, ROUND(current_balance/(average_meals * (DAY(LAST_DAY(NOW())) - DAY(NOW()))),2) as average
 FROM Users
 WHERE name = "bob";

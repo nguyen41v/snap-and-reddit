@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static RecyclerView.Adapter adapter;
     private static List<PostItem> postItems;
     private static NavigationView navigationView;
-    public static String filename = "login.txt";
+    public static String PREFS_NAME = "login.txt";
+    public static SharedPreferences pref;
+    public static Editor editor;
     public static String username = "";
     public static String token = "";
     public static File file;
@@ -97,37 +101,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        System.out.println("\n\nclickAction\nahh");
-        file = new File(this.getFilesDir(), filename);
-        System.out.println("clickAction");
-        System.out.println(file.getAbsolutePath());
-        try {
-            // first time installing app
-            if (file.createNewFile()) {
-                BufferedWriter bufferedWriter = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(file)));
-                bufferedWriter.write("{\"username\":\"\",\"token\":\"\"}");
-                bufferedWriter.close();
-                System.out.println("a file was made");
-            // try to get login info
-            } else {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-                JSONObject info = new JSONObject(bufferedReader.readLine());
-                System.out.println(info.toString());
-                username = info.getString("username");
-                token = info.getString("token");
-                System.out.println(username + " " + token);
-                System.out.println("a file was read");
-                bufferedReader.close();
-                if (!username.isEmpty() && !token.isEmpty()) {
-                    ValidateToken validateToken = new ValidateToken();
-                    validateToken.execute();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        pref = getApplicationContext().getSharedPreferences(PREFS_NAME, 0); // 0 - for private mode
+//        editor = pref.edit(); //fixme move to somewhere
+
+        username = pref.getString("username", "");
+        token = pref.getString("token", "");
+
+
+//
+//        System.out.println("\n\nclickAction\nahh");
+//        file = new File(this.getFilesDir(), PREFS_NAME);
+//        System.out.println("clickAction");
+//        System.out.println(file.getAbsolutePath());
+//        try {
+//            // first time installing app
+//            if (file.createNewFile()) {
+//                BufferedWriter bufferedWriter = new BufferedWriter( new OutputStreamWriter(new FileOutputStream(file)));
+//                bufferedWriter.write("{\"username\":\"\",\"token\":\"\"}");
+//                bufferedWriter.close();
+//                System.out.println("a file was made");
+//            // try to get login info
+//            } else {
+//                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+//                JSONObject info = new JSONObject(bufferedReader.readLine());
+//                bufferedReader.close();
+//                System.out.println(info.toString());
+//                username = info.getString("username");
+//                token = info.getString("token");
+//                System.out.println(username + " " + token);
+//                System.out.println("a file was read");
+//                if (!username.isEmpty() && !token.isEmpty()) {
+//                    ValidateToken validateToken = new ValidateToken();
+//                    validateToken.execute();
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(
@@ -222,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false)));
                 bufferedWriter.write("{\"username\":\"\",\"token\":\"\"}");
+                bufferedWriter.close();
 
             } catch (Exception e) {
                 e.printStackTrace();

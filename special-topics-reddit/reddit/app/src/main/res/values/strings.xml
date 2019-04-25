@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestRun</string>
+    <string name="app_name">SeekIt</string>
     <string name="search">Search SeeIt</string>
     <string name="search_button">Search</string>
     <string name="back_button">Back Button</string>

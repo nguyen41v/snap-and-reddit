@@ -71,7 +71,7 @@ CREATE TABLE Users (
     email VARCHAR(50),
     current_balance DECIMAL(10, 2) DEFAULT 0,
     last_two_ssn CHAR(2),
-    average_meals SMALLINT,
+    average_meals SMALLINT DEFAULT 1,
     case_number VARCHAR(10),
     first_name VARCHAR(20),
     middle_initial CHAR(1),

@@ -1,10 +1,8 @@
-package com.example.myapplication;
+package com.example.SNAPapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 import androidx.fragment.app.Fragment;
-
-import static android.app.Activity.RESULT_OK;
 
 public class LoginTab extends Fragment{
 

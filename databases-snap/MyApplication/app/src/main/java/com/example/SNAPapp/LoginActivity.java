@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.SNAPapp;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
