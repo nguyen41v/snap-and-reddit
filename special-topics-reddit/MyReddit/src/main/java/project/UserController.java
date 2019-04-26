@@ -155,9 +155,17 @@ public class UserController {
 				ps.setString(3, hashedKey);
 
 				System.out.println(ps); // debugging
+                String newToken = generateRandomString(10);
+                System.out.println(newToken);
+                User user = new User(username, newToken);
+                if (Project.tokensArrayList.size() == 100) {
+                    Project.tokens.remove(Project.tokensArrayList.remove(99).username); // look at this again fixme
+                }
+                Project.tokensArrayList.add(0, user);
+                Project.tokens.put(username, user);
 				ps.executeUpdate();
 				close(ps, conn);
-				return new ResponseEntity("{\"message\": \"successfully registered\"}", responseHeaders, HttpStatus.OK);
+				return new ResponseEntity("{\"message\": \"successfully registered\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return new ResponseEntity("{\"message\": \"error occurred\"}", responseHeaders, HttpStatus.BAD_REQUEST);
@@ -206,6 +214,9 @@ public class UserController {
 				    String newToken = generateRandomString(10);
 				    System.out.println(newToken);
 				    User user = new User(username, newToken);
+                    if (Project.tokensArrayList.size() == 100) {
+                        Project.tokens.remove(Project.tokensArrayList.remove(99).username); // look at this again fixme
+                    }
 				    Project.tokensArrayList.add(0, user);
 				    Project.tokens.put(username, user);
 					return new ResponseEntity("{\"message\":\"user logged in\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
