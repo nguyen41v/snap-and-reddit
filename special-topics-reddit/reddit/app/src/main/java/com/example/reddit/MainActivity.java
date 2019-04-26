@@ -93,12 +93,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // get shared preferences: username, token
         pref = getApplicationContext().getSharedPreferences(PREFS_NAME, 0); // 0 - for private mode
-        editor = pref.edit(); //fixme move to somewhere
-
         username = pref.getString("username", "");
         token = pref.getString("token", "");
         System.out.println(username + " " + token);
         System.out.println("got shared preferences");
+        editor = pref.edit();
 
         if (!username.isEmpty() && !token.isEmpty()) {
             ValidateToken validateToken = new ValidateToken();
@@ -291,10 +290,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             name = (Button) findViewById(R.id.username);
             signUpMessage = findViewById(R.id.SignUpMessage);
             if (s) {
-                String temp = "u\\" + username;
-                name.setText(temp);
                 name.setVisibility(View.VISIBLE);
                 signUpMessage.setVisibility(View.GONE);
+                String temp = "u\\" + username;
+                name.setText(temp);
                 signUp.setVisible(false);
                 profile.setVisible(true);
                 logout.setVisible(true);

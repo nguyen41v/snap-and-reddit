@@ -47,7 +47,7 @@ public class ViewPost extends AppCompatActivity {
     public static Boolean card = false; // true if clicked on a card object,
                                         // false if clicked on button -> enableclick of item clicked
     public static Boolean recreate = false; // true if went to reply; clear commentItem for future purposes
-    public static Boolean postMade = false; // true if post made -> update page
+    public static Boolean changed = false; // true if change occurred (post, delete, edit) -> update page
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,7 @@ public class ViewPost extends AppCompatActivity {
         System.out.println("resuming");
         System.out.println(card);
         System.out.println(recreate);
-        System.out.println(postMade);
+        System.out.println(changed);
 
         if (card) {
             reply.setEnabled(true);
@@ -119,7 +119,7 @@ public class ViewPost extends AppCompatActivity {
         }
         if (recreate) {
             commentItem = null;
-            if (postMade) {
+            if (changed) {
                 update();
             }
         }

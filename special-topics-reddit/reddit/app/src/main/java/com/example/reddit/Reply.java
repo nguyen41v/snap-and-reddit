@@ -7,14 +7,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -90,7 +87,7 @@ public class Reply extends AppCompatActivity {
             post.setEnabled(true);
             progressBar.setVisibility(View.GONE);
             if (s) {
-                ViewPost.postMade = true;
+                ViewPost.changed = true;
                 finish();
             } else {
             Toast.makeText(getApplicationContext(), "Could not post comment to the server\nPlease try again", Toast.LENGTH_LONG).show();

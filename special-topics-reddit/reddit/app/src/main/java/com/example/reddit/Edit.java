@@ -77,7 +77,8 @@ public class Edit extends AppCompatActivity {
             save.setEnabled(true);
             progressBar.setVisibility(View.GONE);
             if (s) {
-                ViewPost.postMade = true;
+                ViewPost.changed = true;
+                ViewPost.recreate = true;
                 finish();
             } else if (!s) {
                 Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_LONG).show();

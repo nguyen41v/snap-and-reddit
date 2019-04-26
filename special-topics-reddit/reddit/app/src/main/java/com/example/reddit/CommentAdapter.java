@@ -177,12 +177,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             final PopupMenu dropDownMenu = new PopupMenu(context, settings);
             final Menu menu = dropDownMenu.getMenu();
             dropDownMenu.getMenuInflater().inflate(R.menu.comment_settings, menu);
-
             if (comment.getDeleted()) {
                 content.setText("[deleted]");
                 for (int menuItemIndex = 0; menuItemIndex < menu.size(); menuItemIndex++) {
                     MenuItem menuItem = menu.getItem(menuItemIndex);
                     if (menuItem.getItemId() == R.id.delete) {
+                        delete = menuItem;
                         menuItem.setTitle("Undelete");
                     }
                 }
@@ -296,6 +296,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             protected void onPostExecute(Boolean s) {
                 super.onPostExecute(s);
                 if (s) {
+                    ViewPost.changed = true;
+                    ViewPost.recreate = true;
                     comment.setDeleted(!comment.getDeleted());
                     if (comment.getDeleted()) {
                         content.setText("[deleted]");
@@ -342,12 +344,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     System.out.println(responseCode);
                     if (responseCode == MainActivity.OK) {
                         return true;
+                    } else if (responseCode == MainActivity.UNAUTHORIZED) {
+                        Intent intent = new Intent(context, LogIn.class);
+                        context.startActivity(intent);
                     }
                 } catch (Exception e) {
                     Log.e("Exception", "Sad life");
                     e.printStackTrace();
                 }
-                return false;
+                return null;
             }
         }
     }
