@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7923cbb-a012-41fa-ae83-c7ea58116a5b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../MyApplication/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MyApplication/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/src/main/java/project/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/target/myreddit-0.1.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/MyReddit/target/myreddit-0.1.0.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/java/com/example/reddit/CommentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../special-topics-reddit/reddit/app/src/main/java/com/example/reddit/CommentAdapter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -93,8 +91,8 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.12" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -112,7 +110,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="csv" value="7" />
-          <entry key="java" value="2" />
+          <entry key="java" value="3" />
           <entry key="md" value="1" />
           <entry key="properties" value="1" />
           <entry key="sql" value="1" />
@@ -122,7 +120,7 @@
         <counts>
           <entry key="CSV" value="7" />
           <entry key="DBN-SQL" value="1" />
-          <entry key="JAVA" value="2" />
+          <entry key="JAVA" value="3" />
           <entry key="Markdown" value="1" />
           <entry key="Properties" value="1" />
         </counts>
@@ -136,7 +134,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/FinalInsert.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="511">
+                <state relative-caret-position="1513">
                   <caret line="96" column="31" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -145,11 +143,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/createdb.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="108">
-                  <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+                <state relative-caret-position="142">
+                  <caret line="99" column="44" lean-forward="true" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
                 </state>
               </provider>
             </entry>
@@ -166,15 +164,31 @@
               </provider>
             </entry>
           </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/snap/UserController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="102">
+                  <caret line="250" column="55" selection-start-line="250" selection-start-column="55" selection-end-line="250" selection-end-column="55" />
+                  <folding>
+                    <element signature="method#register#0;class#UserController#0" />
+                    <element signature="method#login#0;class#UserController#0" />
+                    <element signature="method#message#0;class#UserController#0" />
+                    <element signature="method#getMessage#0;class#UserController#0" />
+                    <element signature="method#bytesToHex#0;class#UserController#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
         </leaf>
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test-run.sql">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="497">
-                  <caret line="63" column="49" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+                <state relative-caret-position="684">
+                  <caret line="74" lean-forward="true" selection-start-line="74" selection-end-line="74" />
                 </state>
               </provider>
             </entry>
@@ -198,23 +212,7 @@
               </provider>
               <provider selected="true" editor-type-id="csv-text-editor">
                 <state relative-caret-position="5525">
-                  <caret line="325" column="11" lean-forward="true" selection-start-line="325" selection-start-column="11" selection-end-line="325" selection-end-column="11" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/snap/UserController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="306">
-                  <caret line="262" column="109" selection-start-line="262" selection-start-column="109" selection-end-line="262" selection-end-column="109" />
-                  <folding>
-                    <element signature="method#register#0;class#UserController#0" />
-                    <element signature="method#login#0;class#UserController#0" />
-                    <element signature="method#message#0;class#UserController#0" />
-                    <element signature="method#getMessage#0;class#UserController#0" />
-                    <element signature="method#bytesToHex#0;class#UserController#0" />
-                  </folding>
+                  <caret line="325" column="11" selection-start-line="325" selection-start-column="11" selection-end-line="325" selection-end-column="11" />
                 </state>
               </provider>
             </entry>
@@ -291,7 +289,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
     <option name="y" value="2" />
     <option name="width" value="3020" />
@@ -303,7 +301,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -346,6 +343,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -389,10 +387,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1513" height="983" extended-state="7" />
+    <frame x="-6" y="-6" width="1513" height="983" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15463917" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.15601374" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -535,31 +533,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FinalInsert.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="96" column="31" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Supplemental_Nutrition_Assistance_Program__SNAP__Caseloads_and_Expenditures__Beginning_2002.csv">
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
       <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BenefitsKey.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SECOND">
-          <first_editor relative-caret-position="170">
-            <caret line="10" column="17" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="17" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/state_only_hotlines.csv">
       <provider editor-type-id="csv-table-editor">
@@ -573,6 +551,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/target/application.properties">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FinalInsert.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1513">
+          <caret line="96" column="31" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BenefitsKey.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SECOND">
+          <first_editor relative-caret-position="170">
+            <caret line="10" column="17" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="17" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/States.csv">
       <provider editor-type-id="csv-table-editor">
@@ -600,14 +598,7 @@
       </provider>
       <provider selected="true" editor-type-id="csv-text-editor">
         <state relative-caret-position="5525">
-          <caret line="325" column="11" lean-forward="true" selection-start-line="325" selection-start-column="11" selection-end-line="325" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test-run.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="63" column="49" selection-start-line="63" selection-start-column="49" selection-end-line="63" selection-end-column="49" />
+          <caret line="325" column="11" selection-start-line="325" selection-start-column="11" selection-end-line="325" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -620,15 +611,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/createdb.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+        <state relative-caret-position="142">
+          <caret line="99" column="44" lean-forward="true" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/snap/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="262" column="109" selection-start-line="262" selection-start-column="109" selection-end-line="262" selection-end-column="109" />
+        <state relative-caret-position="102">
+          <caret line="250" column="55" selection-start-line="250" selection-start-column="55" selection-end-line="250" selection-end-column="55" />
           <folding>
             <element signature="method#register#0;class#UserController#0" />
             <element signature="method#login#0;class#UserController#0" />
@@ -636,6 +627,13 @@
             <element signature="method#getMessage#0;class#UserController#0" />
             <element signature="method#bytesToHex#0;class#UserController#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-run.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="74" lean-forward="true" selection-start-line="74" selection-end-line="74" />
         </state>
       </provider>
     </entry>
