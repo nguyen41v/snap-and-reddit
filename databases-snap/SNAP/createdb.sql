@@ -1,9 +1,9 @@
 DROP TABLE Transactions;
 DROP TABLE Users;
 DROP TABLE Benefits;
-DROP TABLE Counties;
 DROP TABLE Stores;
 DROP TABLE State_specific;
+DROP TABLE Counties;
 DROP TABLE States;
 
 
@@ -39,13 +39,14 @@ CREATE TABLE Benefits(
 );
 
 CREATE TABLE Counties (
-    phone_number CHAR(16) NOT NULL UNIQUE,
+    phone_number CHAR(16) NOT NULL,
     street VARCHAR(50) NOT NULL,
     city VARCHAR(40) NOT NULL,
     state CHAR(2) NOT NULL,
     zip_code CHAR(5) NOT NULL,
     county VARCHAR(30) NOT NULL,
-    PRIMARY KEY (county),
+    PRIMARY KEY (phone_number),
+    UNIQUE KEY (county, state),
     FOREIGN KEY (state) REFERENCES States(state)
 );
 
@@ -138,6 +139,7 @@ CREATE TRIGGER update_balance1 BEFORE UPDATE ON Transactions FOR EACH ROW
             UPDATE Users
             SET current_balance = Users.current_balance + new.amount - old.amount
             WHERE Users.name = new.name;
+        END IF;
     END IF;
 END$$
 DELIMITER ;
