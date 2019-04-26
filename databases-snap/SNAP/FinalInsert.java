@@ -12,7 +12,7 @@ public class FinalInsert {
 
     // establish connections to the database says Celia
     static private final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static private final String DATABASE = "final"; // name of database
+    static private final String DATABASE = "snap"; // name of database
     static private final String DB_URL = "jdbc:mysql://localhost/" + DATABASE + "?useSSL=NO";
 
     // can also save login inform in a dbparam.txt and parse into program
@@ -71,7 +71,7 @@ public class FinalInsert {
         }
     }
 
-    static final HashMap<String, ArrayList<Attribute>> tables = new HashMap<>(){
+    static final HashMap<String, ArrayList<Attribute>> tables = new HashMap<String, ArrayList<Attribute>>(){
         {
             put("States", new ArrayList<>(Arrays.asList(state, name, state_hotline, eligibility, type, uniform, first_day, last_day)));
             put("State_specific", new ArrayList<>(Arrays.asList(state, state_only_hotline)));
