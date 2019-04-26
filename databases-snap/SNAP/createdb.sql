@@ -1,8 +1,9 @@
 DROP TABLE Transactions;
-DROP TABLE Benefits;
-DROP TABLE Local_offices;
-DROP TABLE Stores;
 DROP TABLE Users;
+DROP TABLE Benefits;
+DROP TABLE Counties;
+DROP TABLE Stores;
+DROP TABLE State_specific;
 DROP TABLE States;
 
 
@@ -11,7 +12,7 @@ CREATE TABLE States (
     name VARCHAR(30) NOT NULL,
     state_hotline CHAR(12) NOT NULL,
     eligibility BOOLEAN NOT NULL,
-    type VARCHAR(10) NOT NULL,
+    type CHAR(1) NOT NULL,
     uniform BOOLEAN NOT NULL,
     first_day INT NOT NULL,
     last_day INT NOT NULL,
@@ -43,7 +44,7 @@ CREATE TABLE Counties (
     city VARCHAR(40) NOT NULL,
     state CHAR(2) NOT NULL,
     zip_code CHAR(5) NOT NULL,
-    county VARCHAR(20) NOT NULL,
+    county VARCHAR(30) NOT NULL,
     PRIMARY KEY (county),
     FOREIGN KEY (state) REFERENCES States(state)
 );
@@ -60,7 +61,7 @@ CREATE TABLE Stores (
     zip4 CHAR(4),
     county VARCHAR(30) NOT NULL,
     PRIMARY KEY (name, longitude, latitude),
-    FOREIGN KEY (state) REFERENCES States(state)
+    FOREIGN KEY (state) REFERENCES States(state),
     FOREIGN KEY (county) REFERENCES Counties(county)
 );
 
