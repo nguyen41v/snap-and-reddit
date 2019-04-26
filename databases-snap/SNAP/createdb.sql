@@ -77,6 +77,7 @@ CREATE TABLE Users (
     first_name VARCHAR(20),
     middle_initial CHAR(1),
     last_name VARCHAR(30),
+    birthday DATE,
     state CHAR(2),
     county VARCHAR(20),
     num_transactions INT DEFAULT 0,
@@ -97,6 +98,7 @@ CREATE TABLE Transactions (
 );
 
 
+
 DELIMITER $$
 CREATE TRIGGER update_balance BEFORE INSERT ON Transactions FOR EACH ROW
     BEGIN
@@ -110,6 +112,33 @@ CREATE TRIGGER update_balance BEFORE INSERT ON Transactions FOR EACH ROW
         WHERE Users.name = new.name;
     END IF;
 
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE TRIGGER update_balance1 BEFORE UPDATE ON Transactions FOR EACH ROW
+    BEGIN
+    IF new.spend THEN
+        IF old.spend THEN
+            UPDATE Users
+            SET current_balance = Users.current_balance - new.amount + old.amount
+            WHERE Users.name = new.name;
+        ELSE
+            UPDATE Users
+            SET current_balance = Users.current_balance - new.amount - old.amount
+            WHERE Users.name = new.name;
+        END IF;
+    ELSE
+        IF old.spend THEN
+            UPDATE Users
+            SET current_balance = Users.current_balance + new.amount + old.amount
+            WHERE Users.name = new.name;
+        ELSE
+            UPDATE Users
+            SET current_balance = Users.current_balance + new.amount - old.amount
+            WHERE Users.name = new.name;
+    END IF;
 END$$
 DELIMITER ;
 
