@@ -8,9 +8,9 @@ c = case_number
     else compare (either convert to int or compare as string;
         not sure how comparing numbers as string will work)
         ** special case for if number end in 0 or 9!
-ms = multiple ssns to compate to
+mc = multiple case_numbers to compate to
     
-    compare last digits of ssn to all ssn
+    compare last digits of case number to all case number
     
 n = none
 

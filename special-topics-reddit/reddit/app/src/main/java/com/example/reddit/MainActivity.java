@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static RecyclerView.Adapter adapter;
     private static List<PostItem> postItems;
     private static NavigationView navigationView;
-    public static String PREFS_NAME = "login.txt";
+    public static final String PREFS_NAME = "login.txt";
     public static SharedPreferences pref;
     public static Editor editor;
     public static String username;
@@ -140,12 +140,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     private void update() {
         GetData getData = new GetData();
         getData.execute();
 
     }
+
     private void loadIntoRecyclerView(String json) {
         postItems = new ArrayList<>();
         System.out.println("loading into recylcer view");
@@ -249,13 +249,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 System.out.println("made connection");
                 con.setRequestMethod("GET");
                 System.out.println("set GET");
-                con.connect();
-                System.out.println("connected");
-                System.out.println("clickAction");
-
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
-
+                con.connect();
+                System.out.println("connected");
                 StringBuilder sb = new StringBuilder();
                 int responseCode = con.getResponseCode();
                 System.out.println(responseCode);
@@ -310,9 +307,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 URL url = new URL(URL + "/validate?username=" + username + "&token=" + URLEncoder.encode(token, "UTF-8"));
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
-                con.connect();
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
+                con.connect();
                 int responseCode = con.getResponseCode();
                 if (responseCode == 200) {
                     return true;

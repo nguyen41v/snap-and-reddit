@@ -21,6 +21,7 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
      * androidx.fragment.app.FragmentStatePagerAdapter.
+     * # using a pre-made activity
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -62,7 +63,7 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds state_names to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_test_tabbed, menu);
         return true;
     }
@@ -70,7 +71,7 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the Launcher/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -108,5 +109,6 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
             return 2;
         }
     }
+
 //
 }

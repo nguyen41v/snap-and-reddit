@@ -290,6 +290,8 @@ public class ViewPost extends AppCompatActivity {
                 System.out.println("made connection");
                 con.setRequestMethod("GET");
                 System.out.println("set GET");
+                con.setConnectTimeout(5000);
+                con.setReadTimeout(5000);
                 con.connect();
                 System.out.println("connected");
 

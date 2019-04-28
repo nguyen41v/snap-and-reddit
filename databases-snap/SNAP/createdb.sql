@@ -12,10 +12,12 @@ CREATE TABLE States (
     name VARCHAR(30) NOT NULL,
     state_hotline CHAR(12) NOT NULL,
     eligibility BOOLEAN NOT NULL,
-    type CHAR(1) NOT NULL,
+    type VARCHAR(2) NOT NULL,
     uniform BOOLEAN NOT NULL,
     first_day INT NOT NULL,
     last_day INT NOT NULL,
+    application VARCHAR(100) NOT NULL,
+    UNIQUE (name),
     PRIMARY KEY (state)
 );
 
@@ -62,12 +64,11 @@ CREATE TABLE Stores (
     zip4 CHAR(4),
     county VARCHAR(30) NOT NULL,
     PRIMARY KEY (name, longitude, latitude),
-    FOREIGN KEY (state) REFERENCES States(state),
-    FOREIGN KEY (county) REFERENCES Counties(county)
+    FOREIGN KEY (state) REFERENCES States(state)
 );
 
 CREATE TABLE Users (
-    name VARCHAR(16) NOT NULL,
+    username VARCHAR(16) NOT NULL,
     password VARCHAR(50) NOT NULL,
     phone_number CHAR(12) NOT NULL,
     email VARCHAR(50),
@@ -82,20 +83,20 @@ CREATE TABLE Users (
     state CHAR(2),
     county VARCHAR(20),
     num_transactions INT DEFAULT 0,
-    PRIMARY KEY (name),
+    PRIMARY KEY (username),
     UNIQUE KEY (phone_number),
     FOREIGN KEY (state) REFERENCES States(state),
     FOREIGN KEY (county) REFERENCES Counties(county)
 );
 
 CREATE TABLE Transactions (
-    name VARCHAR(16) NOT NULL,
+    username VARCHAR(16) NOT NULL,
     number INT NOT NULL,
     spend BOOLEAN NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
+    amount DECIMAL(10, 2) UNSIGNED NOT NULL,
     date DATETIME DEFAULT NOW(),
-    PRIMARY KEY (name, number),
-    FOREIGN KEY (name) REFERENCES Users(name)
+    PRIMARY KEY (username, number),
+    FOREIGN KEY (username) REFERENCES Users(username)
 );
 
 
@@ -124,40 +125,40 @@ CREATE TRIGGER update_balance1 BEFORE UPDATE ON Transactions FOR EACH ROW
         IF old.spend THEN
             UPDATE Users
             SET current_balance = Users.current_balance - new.amount + old.amount
-            WHERE Users.name = new.name;
+            WHERE Users.username = new.username;
         ELSE
             UPDATE Users
             SET current_balance = Users.current_balance - new.amount - old.amount
-            WHERE Users.name = new.name;
+            WHERE Users.username = new.username;
         END IF;
     ELSE
         IF old.spend THEN
             UPDATE Users
             SET current_balance = Users.current_balance + new.amount + old.amount
-            WHERE Users.name = new.name;
+            WHERE Users.username = new.username;
         ELSE
             UPDATE Users
             SET current_balance = Users.current_balance + new.amount - old.amount
-            WHERE Users.name = new.name;
+            WHERE Users.username = new.username;
         END IF;
     END IF;
 END$$
 DELIMITER ;
 
-drop table transactions; drop table users;
+drop table Transactions; drop table Users;
 
 
 
 
-INSERT INTO Users (name, password, phone_number, current_balance, average_meals)
+INSERT INTO Users (username, password, phone_number, current_balance, average_meals)
 VALUES ("bob", "hrfb", "123-890-3456", 21.50, 3);
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 1, FALSE, 70.00,  "2019-03-02");
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 1, TRUE, 2.00,  "2019-03-17");
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 2, TRUE, 21.00,  "2019-03-17");
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 3, TRUE, 32.00,  "2019-03-17");
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 4, TRUE, 2.00,  "2019-03-17");
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 5, TRUE, 2.00,  "2019-03-17");
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 6, TRUE, 2.00,  "2019-03-17");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 1, FALSE, 70.00,  "2019-03-02");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 1, TRUE, 2.00,  "2019-03-17");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 2, TRUE, 21.00,  "2019-03-17");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 3, TRUE, 32.00,  "2019-03-17");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 4, TRUE, 2.00,  "2019-03-17");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 5, TRUE, 2.00,  "2019-03-17");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 6, TRUE, 2.00,  "2019-03-17");
 
 
-INSERT INTO Transactions (name, number, spend, amount, date) VALUES ("bob", 7, FALSE, 42.00,  "2019-04-17");
+INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 7, FALSE, 42.00,  "2019-04-17");

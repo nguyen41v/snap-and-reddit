@@ -269,9 +269,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     URL url = new URL(MainActivity.URL + "/validate?username=" + MainActivity.username + "&token=" + URLEncoder.encode(MainActivity.token, "UTF-8"));
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
-                    con.connect();
                     con.setConnectTimeout(5000);
                     con.setReadTimeout(5000);
+                    con.connect();
                     int responseCode = con.getResponseCode();
                     System.out.println(responseCode);
                     if (responseCode == 200) {

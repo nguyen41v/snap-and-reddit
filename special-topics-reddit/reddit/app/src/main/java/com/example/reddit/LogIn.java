@@ -61,8 +61,22 @@ public class LogIn extends AppCompatActivity {
                 password = pass.getText().toString();
                 System.out.println(username);
                 System.out.println(password);
-                ValidateLogin validateLogin = new ValidateLogin();
-                validateLogin.execute();
+                if (username.length() == 0) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "You must have a username", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,64);
+                    toast.show();
+                } else if (password.length() == 0) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "You must have a password", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,64);
+                    toast.show();
+                } else if (username.length() > 16) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "A username is 16 characters or less", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,64);
+                    toast.show();
+                } else {
+                    ValidateLogin validateLogin = new ValidateLogin();
+                    validateLogin.execute();
+                }
             }
         });
     }
@@ -93,20 +107,18 @@ public class LogIn extends AppCompatActivity {
                 toast.show();
                 try {
                     JSONObject json = new JSONObject(s);
-                    for (int i = 0; i < json.length(); i++) {
-                        String tokenInfo = json.getString("token");
-                        MainActivity.username = username;
-                        MainActivity.token = tokenInfo;
-                        System.out.println(tokenInfo);
-                        MainActivity.editor.putString("username", username);
-                        MainActivity.editor.putString("token", tokenInfo);
-                        MainActivity.editor.apply();
-                        MainActivity.loggedIn = true;
-                        MainActivity.recreate = true;
-                        System.out.println(MainActivity.loggedIn);
-                        setResult(RESULT_OK,getIntent());
-                        finish();
-                    }
+                    String tokenInfo = json.getString("token");
+                    MainActivity.username = username;
+                    MainActivity.token = tokenInfo;
+                    System.out.println(tokenInfo);
+                    MainActivity.editor.putString("username", username);
+                    MainActivity.editor.putString("token", tokenInfo);
+                    MainActivity.editor.apply();
+                    MainActivity.loggedIn = true;
+                    MainActivity.recreate = true;
+                    System.out.println(MainActivity.loggedIn);
+                    setResult(RESULT_OK,getIntent());
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -125,10 +137,9 @@ public class LogIn extends AppCompatActivity {
 
                 con.setRequestMethod("GET");
                 System.out.println("uuhhh");
-
-                con.connect();
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
+                con.connect();
                 int responseCode = con.getResponseCode();
                 System.out.println(responseCode);
                 if (responseCode == MainActivity.OK) {

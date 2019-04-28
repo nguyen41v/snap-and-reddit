@@ -114,9 +114,9 @@ public class Reply extends AppCompatActivity {
                 OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
                 writer.write(requestBody.toString());
                 writer.flush();
-                con.connect();
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
+                con.connect();
                 int responseCode = con.getResponseCode();
                 if (responseCode == MainActivity.OK) {
                     return true;

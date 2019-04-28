@@ -95,7 +95,7 @@ public class UserController {
         System.out.println(token);
         System.out.println(username);
         if (!checkToken(username, token)) {
-            return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity("{\"message\": \"valid token\"}", responseHeaders, HttpStatus.OK);
     }
@@ -139,11 +139,11 @@ public class UserController {
 				if (resultSet.next()) {
 					if (resultSet.getString(email).equals(email)) {
 						System.out.println("email"); // debugging
-						return new ResponseEntity("{\"message\":\"email already registered\"}", responseHeaders,
+						return new ResponseEntity("{\"message\":\"Email already registered\"}", responseHeaders,
 								HttpStatus.BAD_REQUEST);
 					} else {
 						System.out.println("user");	// debugging
-						return new ResponseEntity("{\"message\":\"username taken\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+						return new ResponseEntity("{\"message\":\"Username taken\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 					}
 				}
 
@@ -168,10 +168,8 @@ public class UserController {
 				return new ResponseEntity("{\"message\": \"successfully registered\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
 			} catch (SQLException e) {
 				e.printStackTrace();
-				return new ResponseEntity("{\"message\": \"error occurred\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
-				return new ResponseEntity("{\"message\": \"error occurred\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -181,7 +179,9 @@ public class UserController {
 							+ "\"}",
 					responseHeaders, HttpStatus.BAD_REQUEST);
 		}
-	}
+        return new ResponseEntity("{\"message\": \"An error occurred, please try again later\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+
+    }
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET) // <-- setup the endpoint URL at /login with the HTTP GET method
 	public ResponseEntity<String> login(HttpServletRequest request) {
@@ -249,7 +249,7 @@ public class UserController {
             String content = temp.getString(UserController.content);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
             Connection conn = null;
             PreparedStatement ps = null;
@@ -368,7 +368,7 @@ public class UserController {
             String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
             Connection conn = null;
             PreparedStatement ps = null;
@@ -414,7 +414,7 @@ public class UserController {
             String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -466,7 +466,7 @@ public class UserController {
             String content = temp.getString(UserController.content);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -540,7 +540,7 @@ public class UserController {
             int c_number = temp.getInt(UserController.c_number);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
 
@@ -586,7 +586,7 @@ public class UserController {
             String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -647,7 +647,7 @@ public class UserController {
             System.out.println(token);
 
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -809,7 +809,7 @@ public class UserController {
 			String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 			Connection conn = null;
 			PreparedStatement ps = null;

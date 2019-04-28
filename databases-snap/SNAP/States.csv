@@ -1,54 +1,54 @@
-AL,Alabama,334-242-1700,TRUE,c,1,4,23
-AK,Alaska,907-465-3347,FALSE,n,1,1,1
-AZ,Arizona,800-352-8401,TRUE,l,1,1,13
-AR,Arkansas,800-482-8988,FALSE,s,0,4,13
-CA,California,877-847-3663,TRUE,c,1,1,10
-CO,Colorado,800-536-5298,TRUE,s,1,1,10
-CT,Connecticut,855-626-6632,TRUE,l,1,1,3
-DE,Delaware,800-372-2022,TRUE,l,1,2,23
-DC,District of Columbia,202-724-5506,TRUE,l,1,1,10
-FL,Florida,866-762-2237,TRUE,e,1,1,28
-GA,Georgia,877-423-4746,TRUE,c,0,5,23
-GU,Guam,671-735-7245,TRUE,s,1,1,10
-HI,Hawaii,855-643-1643,TRUE,l,0,1,5
-ID,Idaho,877-456-1233,TRUE,s,1,1,10
-IL,Illinois,800-843-6154,TRUE,c,0,1,20
-IN,Indiana,800-403-0864,FALSE,l,0,5,23
-IA,Iowa,877-347-5678,TRUE,l,1,1,10
-KS,Kansas,888-369-4777,FALSE,l,1,1,10
-KY,Kentucky,855-306-8959,TRUE,c,0,1,19
-LA,Louisiana,888-524-3578,FALSE,s,1,1,14
-ME,Maine,800-442-6003,TRUE,d,1,10,14
-MD,Maryland,800-332-6347,TRUE,l,1,4,23
-MA,Massachusetts,877-382-2363,TRUE,l,0,1,14
-MI,Michigan,855-275-6424,TRUE,c,0,3,21
-MN,Minnesota,800-657-3698,TRUE,c,1,4,13
-MS,Mississippi,800-948-3050,TRUE,c,1,4,21
-MO,Missouri,855-373-4636,FALSE,j,1,1,22
-MT,Montana,888-706-1535,TRUE,c,1,2,6
-NE,Nebraska,800-383-4278,TRUE,s,1,1,5
-NV,Nevada,800-992-0900,TRUE,n,1,1,1
-NH,New Hampshire,603-271-9700,TRUE,n,1,5,5
-NJ,New Jersey,800-792-9773,TRUE,c,1,1,5
-NM,New Mexico,855-309-3766,TRUE,ms,1,1,20
-NY,New York,800-342-3009,TRUE,c,1,1,9
-NC,North Carolina,866-719-0141,TRUE,s,0,3,21
-ND,North Dakota,701-328-2328,TRUE,n,1,1,1
-OH,Ohio,866-244-0071,TRUE,c,0,2,20
-OK,Oklahoma,877-653-4798,TRUE,c,0,1,10
-OR,Oregon,800-723-3638,TRUE,s,1,1,9
-PA,Pennsylvania,800-692-7462,TRUE,c,0,4,17
-PR,Puerto Rice,787-289-7600,FALSE,s,0,4,22
-RI,Rhode Island,401-462-5300,TRUE,n,1,1,1
-SC,South Carolina,800-616-1309,TRUE,c,0,1,19
-SD,South Dakota,877-999-5612,FALSE,n,1,10,10
-TN,Tennessee,866-311-4287,FALSE,s,1,1,20
-TX,Texas,877-541-7905,TRUE,c,0,1,15
-UT,Utah,866-526-3663,FALSE,l,0,5,15
-VT,Vermont,800-479-6151,TRUE,n,1,1,1
-VA,Virginia,340-774-2399,FALSE,c,0,1,9
-VI,Virgin Islands,800-552-3431,TRUE,n,1,1,1
-WA,Washington,877-501-2233,TRUE,c,1,1,10
-WV,West Virginia,800-642-8589,TRUE,ml,1,1,9
-WI,Wisconsin,800-362-3002,TRUE,s,0,2,15
-WY,Wyoming,307-777-5846,FALSE,l,1,1,4
+AL,Alabama,334-242-1700,TRUE,mc,1,4,23,https://www.myalabama.gov/Default.aspx
+AK,Alaska,907-465-3347,FALSE,n,1,1,1,https://www.myalabama.gov/Default.aspx
+AZ,Arizona,800-352-8401,TRUE,l,1,1,13,https://www.myalabama.gov/Default.aspx
+AR,Arkansas,800-482-8988,FALSE,s,0,4,13,https://www.myalabama.gov/Default.aspx
+CA,California,877-847-3663,TRUE,c,1,1,10,https://www.myalabama.gov/Default.aspx
+CO,Colorado,800-536-5298,TRUE,s,1,1,10,https://www.myalabama.gov/Default.aspx
+CT,Connecticut,855-626-6632,TRUE,l,1,1,3,https://www.myalabama.gov/Default.aspx
+DE,Delaware,800-372-2022,TRUE,l,1,2,23,https://www.myalabama.gov/Default.aspx
+DC,District of Columbia,202-724-5506,TRUE,l,1,1,10,https://www.myalabama.gov/Default.aspx
+FL,Florida,866-762-2237,TRUE,e,1,1,28,https://www.myalabama.gov/Default.aspx
+GA,Georgia,877-423-4746,TRUE,mc,0,5,23,https://www.myalabama.gov/Default.aspx
+GU,Guam,671-735-7245,TRUE,s,1,1,10,https://www.myalabama.gov/Default.aspx
+HI,Hawaii,855-643-1643,TRUE,l,0,1,5,https://www.myalabama.gov/Default.aspx
+ID,Idaho,877-456-1233,TRUE,y,1,1,10,https://www.myalabama.gov/Default.aspx
+IL,Illinois,800-843-6154,TRUE,c,0,1,20,https://www.myalabama.gov/Default.aspx
+IN,Indiana,800-403-0864,FALSE,l,0,5,23,https://www.myalabama.gov/Default.aspx
+IA,Iowa,877-347-5678,TRUE,l,1,1,10,https://www.myalabama.gov/Default.aspx
+KS,Kansas,888-369-4777,FALSE,l,1,1,10,https://www.myalabama.gov/Default.aspx
+KY,Kentucky,855-306-8959,TRUE,c,0,1,19,https://www.myalabama.gov/Default.aspx
+LA,Louisiana,888-524-3578,FALSE,s,1,1,14,https://www.myalabama.gov/Default.aspx
+ME,Maine,800-442-6003,TRUE,d,1,10,14,https://www.myalabama.gov/Default.aspx
+MD,Maryland,800-332-6347,TRUE,l,1,4,23,https://www.myalabama.gov/Default.aspx
+MA,Massachusetts,877-382-2363,TRUE,l,0,1,14,https://www.myalabama.gov/Default.aspx
+MI,Michigan,855-275-6424,TRUE,c,0,3,21,https://www.myalabama.gov/Default.aspx
+MN,Minnesota,800-657-3698,TRUE,c,1,4,13,https://www.myalabama.gov/Default.aspx
+MS,Mississippi,800-948-3050,TRUE,mc,1,4,21,https://www.myalabama.gov/Default.aspx
+MO,Missouri,855-373-4636,FALSE,j,1,1,22,https://www.myalabama.gov/Default.aspx
+MT,Montana,888-706-1535,TRUE,c,1,2,6,https://www.myalabama.gov/Default.aspx
+NE,Nebraska,800-383-4278,TRUE,s,1,1,5,https://www.myalabama.gov/Default.aspx
+NV,Nevada,800-992-0900,TRUE,n,1,1,1,https://www.myalabama.gov/Default.aspx
+NH,New Hampshire,603-271-9700,TRUE,n,1,5,5,https://www.myalabama.gov/Default.aspx
+NJ,New Jersey,800-792-9773,TRUE,c,1,1,5,https://www.myalabama.gov/Default.aspx
+NM,New Mexico,855-309-3766,TRUE,ms,1,1,20,https://www.myalabama.gov/Default.aspx
+NY,New York,800-342-3009,TRUE,c,1,1,9,https://www.myalabama.gov/Default.aspx
+NC,North Carolina,866-719-0141,TRUE,s,0,3,21,https://www.myalabama.gov/Default.aspx
+ND,North Dakota,701-328-2328,TRUE,n,1,1,1,https://www.myalabama.gov/Default.aspx
+OH,Ohio,866-244-0071,TRUE,c,0,2,20,https://www.myalabama.gov/Default.aspx
+OK,Oklahoma,877-653-4798,TRUE,c,0,1,10,https://www.myalabama.gov/Default.aspx
+OR,Oregon,800-723-3638,TRUE,s,1,1,9,https://www.myalabama.gov/Default.aspx
+PA,Pennsylvania,800-692-7462,TRUE,c,0,4,17,https://www.myalabama.gov/Default.aspx
+PR,Puerto Rice,787-289-7600,FALSE,s,0,4,22,https://www.myalabama.gov/Default.aspx
+RI,Rhode Island,401-462-5300,TRUE,n,1,1,1,https://www.myalabama.gov/Default.aspx
+SC,South Carolina,800-616-1309,TRUE,c,0,1,19,https://www.myalabama.gov/Default.aspx
+SD,South Dakota,877-999-5612,FALSE,n,1,10,10,https://www.myalabama.gov/Default.aspx
+TN,Tennessee,866-311-4287,FALSE,ms,1,1,20,https://www.myalabama.gov/Default.aspx
+TX,Texas,877-541-7905,TRUE,c,0,1,15,https://www.myalabama.gov/Default.aspx
+UT,Utah,866-526-3663,FALSE,l,0,5,15,https://www.myalabama.gov/Default.aspx
+VT,Vermont,800-479-6151,TRUE,n,1,1,1,https://www.myalabama.gov/Default.aspx
+VA,Virginia,340-774-2399,FALSE,c,0,1,9,https://www.myalabama.gov/Default.aspx
+VI,Virgin Islands,800-552-3431,TRUE,n,1,1,1,https://www.myalabama.gov/Default.aspx
+WA,Washington,877-501-2233,TRUE,c,1,1,10,https://www.myalabama.gov/Default.aspx
+WV,West Virginia,800-642-8589,TRUE,ml,1,1,9,https://www.myalabama.gov/Default.aspx
+WI,Wisconsin,800-362-3002,TRUE,s,0,2,15,https://www.myalabama.gov/Default.aspx
+WY,Wyoming,307-777-5846,FALSE,l,1,1,,https://www.myalabama.gov/Default.aspx

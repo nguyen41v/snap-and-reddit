@@ -190,11 +190,11 @@ public class UserController {
                 if (resultSet.next()) {
                     if (resultSet.getString(phone_number).equals(phone_number)) {
                         System.out.println("email"); // debugging
-                        return new ResponseEntity("{\"message\":\"phone number already registered\"}", responseHeaders,
+                        return new ResponseEntity("{\"message\":\"Phone number already registered\"}", responseHeaders,
                                 HttpStatus.BAD_REQUEST);
                     } else {
                         System.out.println("user");	// debugging
-                        return new ResponseEntity("{\"message\":\"username taken\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                        return new ResponseEntity("{\"message\":\"Username taken\"}", responseHeaders, HttpStatus.BAD_REQUEST);
                     }
                 }
 
@@ -220,10 +220,8 @@ public class UserController {
                 return new ResponseEntity("{\"message\": \"successfully registered\",\"token\":" + newToken +"\"}", responseHeaders, HttpStatus.OK);
             } catch (SQLException e) {
                 e.printStackTrace();
-                return new ResponseEntity("{\"message\": \"error occurred\"}", responseHeaders, HttpStatus.BAD_REQUEST);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-                return new ResponseEntity("{\"message\": \"error occurred\"}", responseHeaders, HttpStatus.BAD_REQUEST);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -233,6 +231,7 @@ public class UserController {
                             + "\"}",
                     responseHeaders, HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity("{\"message\": \"An error occurred, please try again later\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET) // <-- setup the endpoint URL at /login with the HTTP GET method
@@ -291,6 +290,10 @@ public class UserController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
         String username = request.getParameter(UserController.username);
+        String token = request.getParameter(UserController.token);
+        if (!checkToken(username, token)) {
+            return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+        }
 
         JSONObject balanceInfo = new JSONObject();
 
@@ -477,11 +480,11 @@ public class UserController {
             resultSet.next();
             state_info.put(UserController.name, resultSet.getString(UserController.name));
             state_info.put(UserController.state_hotline, resultSet.getString(UserController.state_hotline));
-            state_info.put(UserController.eligibility, resultSet.getString(UserController.eligibility));
+            state_info.put(UserController.eligibility, resultSet.getBoolean(UserController.eligibility));
             state_info.put(UserController.type, resultSet.getString(UserController.type));
-            state_info.put(UserController.uniform, resultSet.getString(UserController.uniform));
-            state_info.put(UserController.first_day, resultSet.getString(UserController.first_day));
-            state_info.put(UserController.last_day, resultSet.getString(UserController.last_day));
+            state_info.put(UserController.uniform, resultSet.getBoolean(UserController.uniform));
+            state_info.put(UserController.first_day, resultSet.getInt(UserController.first_day));
+            state_info.put(UserController.last_day, resultSet.getInt(UserController.last_day));
 
             query = "SELECT state_only_hotline\n" +
                     "FROM State_specific\n" +
@@ -548,7 +551,7 @@ public class UserController {
                     "WHERE state=? AND county=?;");
             ps = conn.prepareStatement(query);
             ps.setString(1, state);
-            ps.setString(2, county);2
+            ps.setString(2, county);
             System.out.print(ps);
             resultSet = ps.executeQuery();
             resultSet.next();

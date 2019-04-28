@@ -1,5 +1,14 @@
 
-SELECT s.state, name, s.type, day, condition1, condition2, condition3, condition4, condition5
+SELECT type, uniform, first_day, last_day
+FROM States
+WHERE state="AZ";
+
+SELECT day, condition1, condition2, condition3, condition4, condition5
+FROM Benefits
+WHERE state="AZ";
+
+
+SELECT S.state, name, S.type, day, condition1, condition2, condition3, condition4, condition5
 FROM (SELECT * FROM States WHERE state="AZ") as S
 LEFT JOIN (Benefits as B)
 ON B.state=S.state;
@@ -22,7 +31,15 @@ FROM (SELECT * FROM States WHERE state="CA") as S
 LEFT JOIN (Benefits as B)
 ON B.state=S.state;
 
+// get state hotline
+SELECT state_hotline
+FROM States
+WHERE state="AZ";
 
+// get state_only_hotline
+SELECT state_only_hotline
+FROM State_specific
+WHERE state="NY";
 
 // get state and hotlines + state only hotlines (may not exist)
 SELECT name, state_hotline, state_only_hotline
@@ -39,7 +56,7 @@ SELECT name, phone_number, street, city, state, zip_code, county
 FROM (SELECT * FROM Local_offices WHERE state="AZ") as L NATURAL JOIN States
 
 // get stores in a 5 mile radius
-SELECT * FROM Stores WHERE 5 > (5 * SQRT(POW(longitude - -118.211904, 2) + POW(latitude - 34.126813, 2)));
+SELECT * FROM Stores WHERE 5 > (57 * SQRT(POW(longitude - -118.211904, 2) + POW(latitude - 34.126813, 2)));
 
 // get number of stores in a 5 mile radius
 SELECT COUNT(*) FROM Stores WHERE 5 > (57 * SQRT(POW(longitude - -118.211904, 2) + POW(latitude - 34.126813, 2)));

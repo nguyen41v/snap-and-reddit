@@ -8,7 +8,8 @@
         android:title="Sign Up/Log In" />
     <item
         android:title="Your account"
-        android:id="@+id/account">
+        android:id="@+id/account"
+        android:visible="false">
         <item
             android:id="@+id/overview"
             android:title="Overview" />
@@ -16,33 +17,25 @@
             android:id="@+id/recent_transactions"
             android:title="Recent Transactions" />
     </item>
-
     <item
         android:id="@+id/home"
         android:title="Home" />
     <item
         android:id="@+id/nearby"
         android:title="Nearby Stores" />
-
-    <item
-        android:title="Communicate"
-        android:id="@+id/communicate">
-        <menu>
-            <item
-                android:id="@+id/message"
-                android:title="Message" />
-            <item
-                android:id="@+id/forum"
-                android:title="Forum" />
-        </menu>
-    </item>
-
     <item
         android:id="@+id/faq"
         android:title="FAQ" />
-
+    <item
+        android:id="@+id/message"
+        android:title="Message"
+        android:visible="false"/>
+    <item
+        android:id="@+id/forum"
+        android:title="Forum" />
     <item
         android:id="@+id/logout"
-        android:title="Logout" />
+        android:title="Logout"
+        android:visible="false"/>
 
 </menu>

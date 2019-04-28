@@ -15,7 +15,7 @@ DROP TABLE User;
 
 
 CREATE TABLE User (
-    username VARCHAR(30) NOT NULL,
+    username VARCHAR(16) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     nickname VARCHAR(15),
