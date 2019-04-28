@@ -69,7 +69,7 @@ CREATE TABLE Stores (
 
 CREATE TABLE Users (
     username VARCHAR(16) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     phone_number CHAR(12) NOT NULL,
     email VARCHAR(50),
     current_balance DECIMAL(10, 2) DEFAULT 0,

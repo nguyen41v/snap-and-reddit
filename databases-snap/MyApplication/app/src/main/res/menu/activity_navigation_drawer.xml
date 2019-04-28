@@ -7,16 +7,11 @@
         android:id="@+id/sign_up"
         android:title="Sign Up/Log In" />
     <item
-        android:title="Your account"
-        android:id="@+id/account"
-        android:visible="false">
-        <item
-            android:id="@+id/overview"
-            android:title="Overview" />
-        <item
-            android:id="@+id/recent_transactions"
-            android:title="Recent Transactions" />
-    </item>
+        android:id="@+id/overview"
+        android:title="Overview" />
+    <item
+        android:id="@+id/recent_transactions"
+        android:title="Recent Transactions" />
     <item
         android:id="@+id/home"
         android:title="Home" />

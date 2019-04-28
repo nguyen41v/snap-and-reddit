@@ -46,6 +46,13 @@ public class DistributionDayForm extends AppCompatActivity {
         info = findViewById(R.id.dis_info);
         String temp;
         switch (Launcher.benefitsType) {
+            case "n":
+                temp = "Your state distributes to everyone on the " + Launcher.benefitsDay;
+                benefits.setText(temp);
+                temp = "Your distribution day is the " + Launcher.benefitsDay;
+                info.setVisibility(View.VISIBLE);
+                info.setText(temp);
+                break;
             case "c":
                 temp = "Your state distributes benefits based off of the last digit " +
                         "of your case number, so please provide the last digit of your case number";
@@ -138,6 +145,7 @@ public class DistributionDayForm extends AppCompatActivity {
             public void onClick(View v) {
                 application.setEnabled(false);
                 startActivity(new Intent(getApplicationContext(), OnlineApplication.class));
+                application.setEnabled(true);
             }
         });
         final Button makeAccount = findViewById(R.id.make_account);
@@ -145,7 +153,10 @@ public class DistributionDayForm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 makeAccount.setEnabled(false);
-                startActivity(new Intent(getApplicationContext(), LoginSignup.class));
+                Intent intent = new Intent(getApplicationContext(), LoginSignup.class);
+                intent.putExtra("type", "signup");
+                startActivity(intent);
+                makeAccount.setEnabled(true);
             }
         });
 
@@ -169,6 +180,7 @@ public class DistributionDayForm extends AppCompatActivity {
             // I'm gonna do this later cause it's too much typing ............ fixme
             @Override
             public void onClick(View v) {
+                disDay.setEnabled(false);
                 String temp;
                 int some_num;
                 String day = "";
@@ -182,7 +194,7 @@ public class DistributionDayForm extends AppCompatActivity {
                             toast.show();
                         } else {
                             try {
-                                some_num = Integer.parseInt(temp.substring(temp.length() - 1));
+                                Integer.parseInt(temp.substring(temp.length() - 1)); // see if NumberFormatException arises
                                 ArrayList<String> conditions;
                                 for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
                                     conditions = entry.getValue();
@@ -208,6 +220,7 @@ public class DistributionDayForm extends AppCompatActivity {
                                                 day += "th";
                                         }
                                         temp = "Your distribution day is the " + day;
+                                        info.setVisibility(View.VISIBLE);
                                         info.setText(temp);
                                         break;
                                     }
@@ -296,6 +309,7 @@ public class DistributionDayForm extends AppCompatActivity {
                         ssn_num.setHint("##");
                         break;
                 }
+                disDay.setEnabled(true);
             }
         });
     }

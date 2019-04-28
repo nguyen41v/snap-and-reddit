@@ -20,18 +20,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 import androidx.cardview.widget.CardView;
 
 public class StateInfo extends Navigation {
 
-    private MenuItem signUp;
-    private MenuItem account;
-    private MenuItem logout;
-    private MenuItem message;
-    public static Boolean recreate = false;
-    public String state;
-    private Button name;
     private CardView messageCard;
     private TextView messageText;
     private ProgressBar progressBar;
@@ -43,17 +37,42 @@ public class StateInfo extends Navigation {
         setContentView(R.layout.activity_state_info);
         makeMenu();
         activity = "StateInfo";
-        state = Launcher.pref.getString("State", "");
-        System.out.println(state);
         messageCard = findViewById(R.id.cardView);
         messageText = findViewById(R.id.loading_message);
         progressBar = findViewById(R.id.progressBar);
         viewDis = findViewById(R.id.getUserDistribution);
-        if (state.isEmpty()) {
+        viewDis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewDis.setEnabled(false);
+                startActivity(new Intent(getApplicationContext(), DistributionDayForm.class));
+                viewDis.setEnabled(true);
+            }
+        });
+        if (Launcher.state.isEmpty()) {
             System.out.println("new activity, initial state");
             startActivity(new Intent(this, InitialState.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         } else {
-            update();
+            // i just want the users to see a super plain loading screen :3
+            Thread timer= new Thread()
+            {
+                public void run()
+                {
+                    try
+                    {
+                        sleep(1000);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    finally
+                    {
+                        update();
+                    }
+                }
+            };
+            timer.start();
         }
     }
 
@@ -63,35 +82,39 @@ public class StateInfo extends Navigation {
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (recreate) {
-            recreate();
-            recreate = false;
-        }
-    }
+
 
     private void loadInfo(String s) {
-//        balance = findViewById(R.id.balance);
-//        average = findViewById(R.id.average);
-//        past_benefits = findViewById(R.id.past_benefits);
-//        past_spent = findViewById(R.id.past_spent);
-//        android:text="You can spend $0.00 per meal until you receive your next benefits on the 5th"
         try {
             JSONObject jsonObject = new JSONObject(s);
             System.out.println(jsonObject);
             String temp;
             String extra;
 
+            Launcher.applicationURL = jsonObject.getString("application");
+            Launcher.write();
+            Launcher.editor.putString("applicationURL", Launcher.applicationURL);
+            Launcher.editor.apply();
+
+            // set state name
             temp = jsonObject.getString("name");
             TextView anotherTemp = findViewById(R.id.state_text);
             anotherTemp.setText(temp);
 
+            // set hotlines
             temp = jsonObject.getString("state_hotline");
             anotherTemp = findViewById(R.id.number);
             anotherTemp.setText(temp);
+            anotherTemp = findViewById(R.id.sonly_number);
+            JSONArray so_hotlines = jsonObject.getJSONArray("state_only_hotline");
+            if (so_hotlines.length() == 0) {
+                temp = "No state-only hotlines in this state.";
+            } else {
+                temp = so_hotlines.join("/n");
+            }
+            anotherTemp.setText(temp);
 
+            // set eligbility text
             Boolean btemp = jsonObject.getBoolean("eligibility");
             anotherTemp = findViewById(R.id.eligibility_text);
             if (btemp) {
@@ -100,9 +123,11 @@ public class StateInfo extends Navigation {
                 anotherTemp.setText("This state does not have a policy to allow households that qualify for TANF or MOE to be eligible for SNAP. All households have to apply.");
             }
 
+            // set distribution uniformity and days
             temp = jsonObject.getString("type");
             Launcher.benefitsType = temp;
-            Launcher.editor.putString("benefits_type", temp);
+            Launcher.write();
+            Launcher.editor.putString("benefitsType", temp);
             Launcher.editor.apply();
             anotherTemp = findViewById(R.id.type_text);
             int first_day = jsonObject.getInt("first_day");
@@ -121,8 +146,15 @@ public class StateInfo extends Navigation {
                     f_day += "th";
             }
             if (temp.equals("n")) {
+                Launcher.benefitsDay = f_day;
+                Launcher.write();
+                Launcher.editor.putString("benefitsDay", f_day);
+                Launcher.editor.apply();
                 temp = "Distribution occurs on the " + f_day + " for everyone.";
                 anotherTemp.setText(temp);
+                TextView disDaysText = findViewById(R.id.distribution_days);
+                temp = "Distribution day:";
+                disDaysText.setText(temp);
             } else {
                 btemp = jsonObject.getBoolean("uniform");
                 if (btemp) {
@@ -148,15 +180,6 @@ public class StateInfo extends Navigation {
                 temp = "Distribution is determined by the " + Launcher.benefitsKey.get(temp) + ", and occurs " + extra + " from the " + f_day + " to the " + l_day + ".";
                 anotherTemp.setText(temp);
             }
-            anotherTemp = findViewById(R.id.sonly_number);
-            JSONArray so_hotlines = jsonObject.getJSONArray("state_only_hotline");
-            if (so_hotlines.length() == 0) {
-                temp = "No state-only hotlines in this state.";
-            } else {
-                temp = so_hotlines.join("/n");
-            }
-            anotherTemp.setText(temp);
-
             anotherTemp = findViewById(R.id.disDays);
             JSONObject objectTemp = jsonObject.getJSONObject("benefits");
             ArrayList<Integer> days = new ArrayList<>();
@@ -214,7 +237,7 @@ public class StateInfo extends Navigation {
             try {
                 System.out.println("start of try");
                 System.out.println(Launcher.URL);
-                URL url = new URL(Launcher.URL + "/stateInfo?state=" + state);
+                URL url = new URL(Launcher.URL + "/stateInfo?state=" + Launcher.state);
                 System.out.println("made url");
                 System.out.println(url);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();

@@ -1,5 +1,6 @@
 package com.example.SNAPapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -132,13 +133,16 @@ public class SignupTab extends Fragment {
                         Launcher.username = username;
                         Launcher.token = tokenInfo;
                         System.out.println(tokenInfo);
+                        Launcher.write();
                         Launcher.editor.putString("username", username);
                         Launcher.editor.putString("token", tokenInfo);
                         Launcher.editor.apply();
                         Launcher.loggedIn = true;
-                        Launcher.recreate = true;
+                        Overview.recreate = true;
                         System.out.println(Launcher.loggedIn);
                         getActivity().setResult(RESULT_OK, getActivity().getIntent());
+                        Intent intent = new Intent(getContext(), Overview.class);
+                        startActivity(intent);
                         getActivity().finish();
                     } else {
                         String message = json.getString("message");
@@ -168,6 +172,7 @@ public class SignupTab extends Fragment {
                 requestBody.put("username", username);
                 requestBody.put("password", password);
                 requestBody.put("phone_number", phone_number);
+                System.out.println(requestBody);
                 con.setDoOutput(true);
                 con.setRequestProperty("Content-Type","application/json");
                 OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());

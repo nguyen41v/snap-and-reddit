@@ -9,9 +9,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:elevation">0dp</item>
-
     </style>
-
     <style name="AppTheme.Light">
         <item name="android:elevation">0dp</item>
         <item name="android:windowLightStatusBar">true</item>

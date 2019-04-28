@@ -58,6 +58,7 @@ public class FinalInsert {
     static private final Attribute average_meals = new Attribute("average_meals", isInt);
     static private final Attribute address_line2 = new Attribute("address_line2", isString);
     static private final Attribute zip4 = new Attribute("zip4", isString);
+    static private final Attribute application = new Attribute("application", isString);
 
 
 
@@ -73,7 +74,7 @@ public class FinalInsert {
 
     static final HashMap<String, ArrayList<Attribute>> tables = new HashMap<String, ArrayList<Attribute>>(){
         {
-            put("States", new ArrayList<>(Arrays.asList(state, name, state_hotline, eligibility, type, uniform, first_day, last_day)));
+            put("States", new ArrayList<>(Arrays.asList(state, name, state_hotline, eligibility, type, uniform, first_day, last_day, application)));
             put("State_specific", new ArrayList<>(Arrays.asList(state, state_only_hotline)));
             put("Benefits", new ArrayList<>(Arrays.asList(state, day, condition1, condition2, condition3, condition4, condition5)));
             put("Local_offices", new ArrayList<>(Arrays.asList(phone_number, street, city, state, zip_code, county)));

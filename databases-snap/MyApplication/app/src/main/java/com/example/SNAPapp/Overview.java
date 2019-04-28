@@ -2,7 +2,13 @@ package com.example.SNAPapp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +17,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 public class Overview extends Navigation {
 
@@ -21,7 +32,6 @@ public class Overview extends Navigation {
     private TextView average;
     private TextView past_benefits;
     private TextView past_spent;
-    public Boolean recreate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +63,6 @@ public class Overview extends Navigation {
     }
 
     private void loadInfo(String s) {
-//        balance = findViewById(R.id.balance);
-//        average = findViewById(R.id.average);
-//        past_benefits = findViewById(R.id.past_benefits);
-//        past_spent = findViewById(R.id.past_spent);
-//        android:text="You can spend $0.00 per meal until you receive your next benefits on the 5th"
         String temp;
         try {
             JSONObject jsonObject = new JSONObject(s);
@@ -102,7 +107,7 @@ public class Overview extends Navigation {
             try {
                 System.out.println("start of try");
                 System.out.println(Launcher.URL);
-                URL url = new URL(Launcher.URL + "/balance?username=" + Launcher.username);
+                URL url = new URL(Launcher.URL + "/balance?username=" + Launcher.username + "&token=" + URLEncoder.encode(Launcher.token, "UTF-8"));
                 System.out.println("made url");
                 System.out.println(url);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();

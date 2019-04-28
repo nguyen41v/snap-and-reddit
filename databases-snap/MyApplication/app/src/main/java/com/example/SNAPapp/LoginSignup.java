@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
      * # using a pre-made activity
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private String type;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -34,6 +36,8 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_signup);
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -42,6 +46,11 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        if (type != null) {
+            if (type.equals("signup")) {
+                mViewPager.setCurrentItem(1);
+            }
+        }
 
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override

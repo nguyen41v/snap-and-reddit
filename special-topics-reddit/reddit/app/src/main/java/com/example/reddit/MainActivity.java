@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar.setNavigationIcon(R.drawable.ic_person_purple_24dp);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        name = header.findViewById(R.id.username);
+        signUpMessage = header.findViewById(R.id.SignUpMessage);
 
 
         // temporary adapter for recycler view
@@ -284,8 +287,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
-            name = (Button) findViewById(R.id.username);
-            signUpMessage = findViewById(R.id.SignUpMessage);
             if (s) {
                 name.setVisibility(View.VISIBLE);
                 signUpMessage.setVisibility(View.GONE);

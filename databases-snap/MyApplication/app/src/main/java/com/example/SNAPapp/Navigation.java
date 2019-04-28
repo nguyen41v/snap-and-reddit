@@ -24,9 +24,11 @@ public class Navigation extends AppCompatActivity
     public View signUpMessage;
     public String activity = "NA";
 
+    public static Boolean recreate = false;
 
     public MenuItem signUp;
-    public MenuItem account;
+    public MenuItem overview;
+    public MenuItem recentTransactions;
     public MenuItem logout;
     public MenuItem message;
 
@@ -38,6 +40,7 @@ public class Navigation extends AppCompatActivity
     }
 
     public void makeMenu() {
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -50,29 +53,42 @@ public class Navigation extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        name = findViewById(R.id.username);
-        signUpMessage = findViewById(R.id.SignUpMessage);
 
         Menu menu = navigationView.getMenu();
         for (int menuItemIndex = 0; menuItemIndex < menu.size(); menuItemIndex++) {
             MenuItem menuItem= menu.getItem(menuItemIndex);
             if(menuItem.getItemId() == R.id.sign_up){
                 signUp = menuItem;
-            } else if (menuItem.getItemId() == R.id.account) {
-                account = menuItem;
             } else if (menuItem.getItemId() == R.id.message) {
                 message = menuItem;
             } else if (menuItem.getItemId() == R.id.logout) {
                 logout = menuItem;
+            } else if (menuItem.getItemId() == R.id.overview) {
+                overview = menuItem;
+            } else if (menuItem.getItemId() == R.id.recent_transactions) {
+                recentTransactions = menuItem;
             }
         }
+        View header = navigationView.getHeaderView(0);
+        System.out.print(header != null);
+        name = header.findViewById(R.id.username);
+        signUpMessage = header.findViewById(R.id.SignUpMessage);
+        System.out.println("logging in?");
+        System.out.println(Launcher.loggedIn);
         if (Launcher.loggedIn) {
-            name.setVisibility(View.VISIBLE);
-            signUpMessage.setVisibility(View.GONE);
-            String temp = "u\\" + Launcher.username;
-            name.setText(temp);
+            System.out.println("name");
+            if (name != null) {
+                String temp = "User: " + Launcher.username;
+                name.setVisibility(View.VISIBLE);
+                name.setText(temp);
+            }
+            System.out.println("signup");
+            if (signUpMessage != null) {
+                signUpMessage.setVisibility(View.GONE);
+            }
             signUp.setVisible(false);
-            account.setVisible(true);
+            overview.setVisible(true);
+            recentTransactions.setVisible(true);
             logout.setVisible(true);
             message.setVisible(true);
             System.out.println("changing drawer");
@@ -86,6 +102,15 @@ public class Navigation extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (recreate) {
+            recreate();
+            recreate = false;
         }
     }
 
@@ -130,7 +155,7 @@ public class Navigation extends AppCompatActivity
         } else if (id == R.id.message && !activity.equals("Message")) {
 
         } else if (id == R.id.forum && !activity.equals("Forum")) {
-
+            startActivity(new Intent(this, Launcher.class));
         } else if (id == R.id.faq && !activity.equals("FAQ")) {
 
         } else if (id == R.id.logout) {

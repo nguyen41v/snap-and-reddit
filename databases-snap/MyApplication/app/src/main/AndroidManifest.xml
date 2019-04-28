@@ -32,12 +32,10 @@
             android:label="InitialState" />
         <activity
             android:name=".LoginSignup"
-            android:label="@string/title_activity_test_tabbed"
-            android:theme="@style/AppTheme.Light" />
+            android:label="@string/title_activity_test_tabbed" />
         <activity
             android:name=".TestScrollingActivity"
-            android:label="@string/title_activity_test_scrolling"
-            android:theme="@style/AppTheme.Light" />
+            android:label="@string/title_activity_test_scrolling"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -55,8 +53,7 @@
             android:label="@string/title_activity_nearby_stores" />
         <activity
             android:name=".Navigation"
-            android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.Light" />
+            android:label="@string/title_activity_navigation" />
         <activity android:name=".Overview" />
         <activity android:name=".Launcher">
             <intent-filter>
@@ -64,6 +61,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

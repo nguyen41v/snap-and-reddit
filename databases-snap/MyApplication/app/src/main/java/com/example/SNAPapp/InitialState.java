@@ -147,8 +147,11 @@ public class InitialState extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 continueButton.setEnabled(false);
+                System.out.println("I've been clicked!");
                 if (position != 0) {
+                    System.out.println("hello!");
                     Launcher.state =  states[position - 1];
+                    Launcher.write();
                     Launcher.editor.putString("State", states[position - 1]);
                     Launcher.editor.apply();
                     StateInfo.recreate = true;

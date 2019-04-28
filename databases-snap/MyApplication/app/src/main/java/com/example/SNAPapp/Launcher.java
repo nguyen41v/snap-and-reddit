@@ -1,6 +1,7 @@
 package com.example.SNAPapp;
 
 import android.app.Activity;
+import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -16,19 +17,22 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
-public class Launcher extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
 
-    public static final String URL = "http://ec2-3-17-154-119.us-east-2.compute.amazonaws.com";
+public class Launcher extends AppCompatActivity {
+
+    public static final String URL = "http://192.168.1.238";
     public static String username = "";
     public static String token = "";
     public static String benefitsType;
     public static String state;
     public static String benefitsDay;
+    public static String applicationURL;
     public static Boolean loggedIn = false;
-    public static Boolean recreate = false;
     public static final int UNAUTHORIZED = 401;
-    public static int BAD_REQUEST = 400;
+    public static final int BAD_REQUEST = 400;
     public static final int OK = 200;
     public static final String PREFS_NAME = "login.txt";
     public static SharedPreferences pref;
@@ -54,6 +58,7 @@ public class Launcher extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+        System.out.println("new activity, launcher");
 
         // get shared preferences: username, token
         pref = getApplicationContext().getSharedPreferences(PREFS_NAME, 0); // 0 - for private mode
@@ -62,23 +67,53 @@ public class Launcher extends Activity {
         state = pref.getString("state", "");
         benefitsType = pref.getString("benefitsType", "");
         benefitsDay = pref.getString("benefitsDay", "");
-
+        applicationURL = pref.getString("applicationURL", "");
         System.out.println(username + " " + token);
+        System.out.println(state + " " + benefitsType);
+
+        System.out.println(applicationURL + " " + benefitsDay);
+
         System.out.println("got shared preferences");
         editor = pref.edit();
-
-        if (!username.isEmpty() && !token.isEmpty()) { // fixme
+        System.out.println("hello, launcher");
+        // I wanted the launcher to show for a bit :3 # google and stackoverflow
+        Thread timer= new Thread()
+        {
+            public void run()
+            {
+                try
+                {
+                    sleep(1000);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        };
+        timer.start();
+        if (!username.isEmpty() && !token.isEmpty()) {
             ValidateToken validateToken = new ValidateToken();
             validateToken.execute();
         } else {
             System.out.println("new activity, state info");
-            startActivity(new Intent(this, StateInfo.class));
+            startActivity(new Intent(getApplicationContext(), StateInfo.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
             finish();
         }
     }
 
+    public static void write() {
+        editor.clear();
+        editor.putString("username", username);
+        editor.putString("token", token);
+        editor.putString("state", state);
+        editor.putString("benefitsType", benefitsType);
+        editor.putString("benefitsDay", benefitsDay);
+        editor.putString("applicationURL", applicationURL);
+    }
     private void update(Boolean b) {
         if (b) {
+            Launcher.loggedIn = true;
             startActivity(new Intent(this, Overview.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         } else if (!b) {
             startActivity(new Intent(this, LoginSignup.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -86,15 +121,6 @@ public class Launcher extends Activity {
             startActivity(new Intent(this, StateInfo.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
         finish();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (recreate) {
-            recreate();
-            recreate = false;
-        }
     }
 
 
@@ -108,8 +134,7 @@ public class Launcher extends Activity {
         @Override
         protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
-            if (s) {
-            } else if (!s){
+            if (!s){
                 Toast toast = Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER,0,64);
                 toast.show();
@@ -127,9 +152,9 @@ public class Launcher extends Activity {
                 URL url = new URL(URL + "/validate?username=" + username + "&token=" + URLEncoder.encode(token, "UTF-8"));
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
-                con.connect();
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
+                con.connect();
                 int responseCode = con.getResponseCode();
                 if (responseCode == 200) {
                     return true;

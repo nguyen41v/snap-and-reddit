@@ -2,6 +2,7 @@ package com.example.SNAPapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -72,7 +73,6 @@ public class LoginTab extends Fragment{
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mOnButtonClickListener.onButtonClicked(v);
             }
         });
@@ -154,13 +154,16 @@ public class LoginTab extends Fragment{
                     Launcher.username = username;
                     Launcher.token = tokenInfo;
                     System.out.println(tokenInfo);
+                    Launcher.write();
                     Launcher.editor.putString("username", username);
                     Launcher.editor.putString("token", tokenInfo);
                     Launcher.editor.apply();
                     Launcher.loggedIn = true;
-                    Launcher.recreate = true;
+                    Overview.recreate = true;
                     System.out.println(Launcher.loggedIn);
                     getActivity().setResult(RESULT_OK, getActivity().getIntent());
+                    Intent intent = new Intent(getContext(), Overview.class);
+                    startActivity(intent);
                     getActivity().finish();
                 } catch (JSONException e) {
                     e.printStackTrace();

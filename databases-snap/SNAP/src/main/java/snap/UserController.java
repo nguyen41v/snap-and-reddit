@@ -82,7 +82,7 @@ public class UserController {
     static private final String day = "day";
     static private final String benefits = "benefits";
     static private final String miles = "miles";
-//    static private final String last_day14 = "last_day14";
+    static private final String application = "application";
 //    static private final String last_day15 = "last_day15";
 //    static private final String last_day16 = "last_day16";
 //    static private final String last_day17 = "last_day17";
@@ -180,7 +180,6 @@ public class UserController {
             try {
                 Class.forName(App.JDBC_DRIVER);
                 conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASSWORD);
-                ps.execute();
                 // check if username or email have already been registered
                 query = ("SELECT * FROM Users WHERE username = ? UNION SELECT * FROM Users WHERE phone_number = ?;");
                 ps = conn.prepareStatement(query);
@@ -306,7 +305,7 @@ public class UserController {
             conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASSWORD);
             query = ("SELECT current_balance as balance, ROUND(current_balance/(average_meals * (DAY(LAST_DAY(NOW())) - DAY(NOW()))),2) as average\n" +
                     "FROM Users\n" +
-                    "WHERE name = ?;");
+                    "WHERE username = ?;");
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
             System.out.print(ps);
@@ -317,24 +316,31 @@ public class UserController {
 
             query = "SELECT SUM(amount) as past_benefits\n" +
                     "FROM Transactions\n" +
-                    "WHERE name = ? AND MONTH(date) = MONTH(NOW()) - 1 AND NOT spend;";
+                    "WHERE username = ? AND MONTH(date) = MONTH(NOW()) - 1 AND NOT spend;";
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
             System.out.print(ps);
             resultSet = ps.executeQuery();
-            resultSet.next();
-            balanceInfo.put(UserController.past_benefits, resultSet.getBigDecimal(UserController.past_benefits).toString()); // 0 if null
+            if (resultSet.next()) {
+                balanceInfo.put(UserController.past_benefits, resultSet.getBigDecimal(UserController.past_benefits).toString());
+            } else {
+                balanceInfo.put(UserController.past_benefits, "0.00");
+            }
 
             query = ("SELECT ROUND(SUM(amount) / (DAY(LAST_DAY(now() - INTERVAL 1 MONTH)) * average_meals),2) as past_spent\n" +
                     "FROM Transactions, (SELECT average_meals FROM Users WHERE name = ?) as A\n" +
-                    "WHERE name = ? AND MONTH(date) = MONTH(NOW()) - 1 AND spend;");
+                    "WHERE username = ? AND MONTH(date) = MONTH(NOW()) - 1 AND spend;");
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
             ps.setString(2, username);
             System.out.print(ps);
             resultSet = ps.executeQuery();
-            resultSet.next();
-            balanceInfo.put(UserController.past_spent, resultSet.getBigDecimal(UserController.past_spent).toString());
+            if (resultSet.next()){
+                balanceInfo.put(UserController.past_spent, resultSet.getBigDecimal(UserController.past_spent).toString());
+            } else {
+                balanceInfo.put(UserController.past_spent, "0.00");
+            }
+            System.out.println(balanceInfo);
             ps.close();
             conn.close();
 
@@ -368,7 +374,7 @@ public class UserController {
             ResultSet resultSet;
             Class.forName(App.JDBC_DRIVER);
             conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASSWORD);
-            query = ("SELECT * FROM Transactions WHERE name = ?;");
+            query = ("SELECT * FROM Transactions WHERE username = ?;");
             ps = conn.prepareStatement(query);
             System.out.print(ps);
             resultSet = ps.executeQuery();
@@ -485,6 +491,7 @@ public class UserController {
             state_info.put(UserController.uniform, resultSet.getBoolean(UserController.uniform));
             state_info.put(UserController.first_day, resultSet.getInt(UserController.first_day));
             state_info.put(UserController.last_day, resultSet.getInt(UserController.last_day));
+            state_info.put(UserController.application, resultSet.getString(UserController.application));
 
             query = "SELECT state_only_hotline\n" +
                     "FROM State_specific\n" +
