@@ -88,7 +88,7 @@
                     android:id="@+id/case_number_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
 
                         <EditText
                             android:id="@+id/scase_entry"
-                            android:layout_width="wrap_content"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:background="@color/white"
@@ -146,7 +146,7 @@
 
                         <EditText
                             android:id="@+id/birthday_entry"
-                            android:layout_width="0dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:background="@color/white"
@@ -183,7 +183,7 @@
 
                         <EditText
                             android:id="@+id/sssn_entry"
-                            android:layout_width="0dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:background="@color/white"
@@ -220,7 +220,7 @@
 
                         <EditText
                             android:id="@+id/last_name_entry"
-                            android:layout_width="0dp"
+                            android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:background="@color/white"

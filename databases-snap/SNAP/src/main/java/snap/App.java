@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class App {
     // variables for establishing connections to the database
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/snap?useSSL=NO";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/snap";
     static final String USER = "root";
     static final String PASSWORD = null;
     public static HashMap<String, User> tokens = new HashMap<String, User>();

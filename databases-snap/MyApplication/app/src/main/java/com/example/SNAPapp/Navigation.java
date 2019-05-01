@@ -70,7 +70,6 @@ public class Navigation extends AppCompatActivity
             }
         }
         View header = navigationView.getHeaderView(0);
-        System.out.print(header != null);
         name = header.findViewById(R.id.username);
         signUpMessage = header.findViewById(R.id.SignUpMessage);
         System.out.println("logging in?");
@@ -148,8 +147,8 @@ public class Navigation extends AppCompatActivity
             startActivity(new Intent(this, Overview.class));
         } else if (id == R.id.recent_transactions && !activity.equals("RecentTransactions")) {
             startActivity(new Intent(this, RecentTransactions.class));
-        } else if (id == R.id.home && !activity.equals("Launcher")) {
-            startActivity(new Intent(this, Launcher.class));
+        } else if (id == R.id.home && !activity.equals("StateInfo")) {
+            startActivity(new Intent(this, StateInfo.class));
         } else if (id == R.id.nearby && !activity.equals("NearbyStores")) {
             startActivity(new Intent(this, NearbyStores.class));
         } else if (id == R.id.message && !activity.equals("Message")) {

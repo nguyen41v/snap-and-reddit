@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Launcher extends AppCompatActivity {
 
-    public static final String URL = "http://192.168.1.238";
+    public static final String URL = "http://ec2-3-18-191-129.us-east-2.compute.amazonaws.com";
     public static String username = "";
     public static String token = "";
     public static String benefitsType;
@@ -112,13 +112,13 @@ public class Launcher extends AppCompatActivity {
         editor.putString("applicationURL", applicationURL);
     }
     private void update(Boolean b) {
-        if (b) {
+        if (b == null) {
+            startActivity(new Intent(this, StateInfo.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+        } else if (b) {
             Launcher.loggedIn = true;
             startActivity(new Intent(this, Overview.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-        } else if (!b) {
-            startActivity(new Intent(this, LoginSignup.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         } else {
-            startActivity(new Intent(this, StateInfo.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+            startActivity(new Intent(this, LoginSignup.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
         finish();
     }
@@ -134,12 +134,12 @@ public class Launcher extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
-            if (!s){
-                Toast toast = Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT);
+            if (s == null) {
+                Toast toast = Toast.makeText(getApplicationContext(), noConnection, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER,0,64);
                 toast.show();
-            } else {
-                Toast toast = Toast.makeText(getApplicationContext(), noConnection, Toast.LENGTH_SHORT);
+            } else if (!s){
+                Toast toast = Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER,0,64);
                 toast.show();
             }

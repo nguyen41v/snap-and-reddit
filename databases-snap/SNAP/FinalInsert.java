@@ -13,7 +13,7 @@ public class FinalInsert {
     // establish connections to the database says Celia
     static private final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static private final String DATABASE = "snap"; // name of database
-    static private final String DB_URL = "jdbc:mysql://localhost/" + DATABASE + "?useSSL=NO";
+    static private final String DB_URL = "jdbc:mysql://localhost:3306/" + DATABASE;
 
     // can also save login inform in a dbparam.txt and parse into program
     static private final String USER = "root";

@@ -98,9 +98,6 @@ public class ViewPost extends AppCompatActivity {
             }
         });
 
-        GetData getData = new GetData();
-        getData.execute();
-
 
     }
 

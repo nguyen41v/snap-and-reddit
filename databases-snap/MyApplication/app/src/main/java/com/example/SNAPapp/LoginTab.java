@@ -197,7 +197,9 @@ public class LoginTab extends Fragment{
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json + "\n");
                     }
-                    return sb.toString().trim();
+                    String temp = sb.toString().trim();
+                    System.out.print(temp);
+                    return temp;
                 } else if (responseCode == Launcher.UNAUTHORIZED) {
                     return "0";
                 }

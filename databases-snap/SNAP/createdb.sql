@@ -94,6 +94,7 @@ CREATE TABLE Transactions (
     number INT NOT NULL,
     spend BOOLEAN NOT NULL,
     amount DECIMAL(10, 2) UNSIGNED NOT NULL,
+    description VARCHAR(30) NOT NULL,
     date DATETIME DEFAULT NOW(),
     PRIMARY KEY (username, number),
     FOREIGN KEY (username) REFERENCES Users(username)
