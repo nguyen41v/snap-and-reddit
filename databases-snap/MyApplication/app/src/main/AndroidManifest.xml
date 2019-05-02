@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_white_bg_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OnlineApplication"></activity>
+        <activity android:name=".RecordTransaction"></activity>
+        <activity android:name=".OnlineApplication" />
         <activity android:name=".DistributionDayForm" />
         <activity
             android:name=".RecentTransactions"
@@ -35,7 +36,7 @@
             android:label="@string/title_activity_test_tabbed" />
         <activity
             android:name=".TestScrollingActivity"
-            android:label="@string/title_activity_test_scrolling"/>
+            android:label="@string/title_activity_test_scrolling" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,7 +62,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

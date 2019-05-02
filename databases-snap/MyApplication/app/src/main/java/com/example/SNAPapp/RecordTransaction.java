@@ -4,16 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
 
-public class OnlineApplication extends AppCompatActivity {
+public class RecordTransaction extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_online_application);
-        WebView myWebView = findViewById(R.id.webview);
-        myWebView.loadUrl(Launcher.applicationURL);
+        setContentView(R.layout.activity_record_transaction);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
