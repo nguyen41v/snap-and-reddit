@@ -73,13 +73,7 @@ CREATE TABLE Users (
     phone_number CHAR(12) NOT NULL,
     email VARCHAR(50),
     current_balance DECIMAL(10, 2) DEFAULT 0,
-    last_two_ssn CHAR(2),
     average_meals SMALLINT DEFAULT 1,
-    case_number VARCHAR(10),
-    first_name VARCHAR(20),
-    middle_initial CHAR(1),
-    last_name VARCHAR(30),
-    birthday DATE,
     state CHAR(2),
     county VARCHAR(20),
     num_transactions INT DEFAULT 0,
@@ -94,7 +88,7 @@ CREATE TABLE Transactions (
     number INT NOT NULL,
     spend BOOLEAN NOT NULL,
     amount DECIMAL(10, 2) UNSIGNED NOT NULL,
-    description VARCHAR(30) NOT NULL,
+    description VARCHAR(45) NOT NULL,
     date DATETIME DEFAULT NOW(),
     PRIMARY KEY (username, number),
     FOREIGN KEY (username) REFERENCES Users(username)
@@ -108,11 +102,11 @@ CREATE TRIGGER update_balance BEFORE INSERT ON Transactions FOR EACH ROW
     IF new.spend THEN
         UPDATE Users
         SET current_balance = Users.current_balance - new.amount, num_transactions = Users.num_transactions + 1
-        WHERE Users.name = new.name;
+        WHERE Users.username = new.username;
     ELSE
         UPDATE Users
         SET current_balance = Users.current_balance + new.amount, num_transactions = Users.num_transactions + 1
-        WHERE Users.name = new.name;
+        WHERE Users.username = new.username;
     END IF;
 
 END$$
@@ -145,21 +139,3 @@ CREATE TRIGGER update_balance1 BEFORE UPDATE ON Transactions FOR EACH ROW
     END IF;
 END$$
 DELIMITER ;
-
-drop table Transactions; drop table Users;
-
-
-
-
-INSERT INTO Users (username, password, phone_number, current_balance, average_meals)
-VALUES ("bob", "hrfb", "123-890-3456", 21.50, 3);
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 1, FALSE, 70.00,  "2019-03-02");
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 1, TRUE, 2.00,  "2019-03-17");
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 2, TRUE, 21.00,  "2019-03-17");
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 3, TRUE, 32.00,  "2019-03-17");
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 4, TRUE, 2.00,  "2019-03-17");
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 5, TRUE, 2.00,  "2019-03-17");
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 6, TRUE, 2.00,  "2019-03-17");
-
-
-INSERT INTO Transactions (username, number, spend, amount, date) VALUES ("bob", 7, FALSE, 42.00,  "2019-04-17");

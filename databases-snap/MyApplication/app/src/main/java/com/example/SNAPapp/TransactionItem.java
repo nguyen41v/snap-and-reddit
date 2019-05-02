@@ -17,7 +17,7 @@ public class TransactionItem {
     }
 
     TransactionItem(String date, Boolean spend, BigDecimal amount, String description) {
-        sdate = date;
+        sdate = date.substring(0, date.length() - 9);
         SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         serverFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {

@@ -12,6 +12,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder>  {
@@ -50,7 +51,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             } else {
                 temp = "$" + individualTransaction.amount.toString();
                 textView.setText(temp);
-                textView.setTextColor(Color.GREEN);
+                textView.setTextColor(ContextCompat.getColor(context, R.color.green));
             }
             holder.linearLayout.addView(v);
         }

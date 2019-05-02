@@ -123,9 +123,7 @@ public class UserController {
             User stored = App.tokens.get(username);
             System.out.println(stored.token);
             if (stored.token.equals(token)) {
-                if (App.tokensArrayList.size() >= 100) {
-                    App.tokens.remove(App.tokensArrayList.remove(99).username);
-                }
+                App.tokensArrayList.remove(stored);
                 App.tokensArrayList.add(0, stored);
                 System.out.println("token validated");
                 return true;
@@ -155,6 +153,7 @@ public class UserController {
         System.out.println(body); // debugging
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
+        JSONObject response = new JSONObject();
         try {
             JSONObject temp = new JSONObject(body);
             // Grabbing username, password, and email from request body
@@ -185,13 +184,15 @@ public class UserController {
                 ps.setString(2, phone_number);
                 ResultSet resultSet = ps.executeQuery();
                 if (resultSet.next()) {
-                    if (resultSet.getString(phone_number).equals(phone_number)) {
+                    if (resultSet.getString(UserController.phone_number).equals(phone_number)) {
                         System.out.println("email"); // debugging
-                        return new ResponseEntity("{\"message\":\"Phone number already registered\"}", responseHeaders,
+                        response.put("message", "Phone number already registered");
+                        return new ResponseEntity(response.toString(), responseHeaders,
                                 HttpStatus.BAD_REQUEST);
                     } else {
                         System.out.println("user");	// debugging
-                        return new ResponseEntity("{\"message\":\"Username taken\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                        response.put("message", "Username already taken");
+                        return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.BAD_REQUEST);
                     }
                 }
 
@@ -205,7 +206,7 @@ public class UserController {
                 System.out.println(newToken);
                 User user = new User(username, newToken);
                 if (App.tokensArrayList.size() == 100) {
-                    App.tokens.remove(App.tokensArrayList.remove(99).username); // look at this again fixme
+                    App.tokens.remove(App.tokensArrayList.remove(99).username);
                 }
                 App.tokensArrayList.add(0, user);
                 App.tokens.put(username, user);
@@ -214,7 +215,10 @@ public class UserController {
                 ps.executeUpdate();
                 ps.close();
                 conn.close();
-                return new ResponseEntity("{\"message\": \"successfully registered\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
+                response.put("message", "Successfully registered");
+                response.put("token", newToken);
+
+                return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.OK);
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -223,12 +227,9 @@ public class UserController {
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("not JSON");
-            return new ResponseEntity(
-                    "{\"message\":\"response body was not in a proper JSON format\", \"original message\": \"" + body
-                            + "\"}",
-                    responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("{\"message\": \"An error occurred, please try again later\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        response.put("message", "An error occurred, please try again later");
+        return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET) // <-- setup the endpoint URL at /login with the HTTP GET method
@@ -427,7 +428,10 @@ public class UserController {
             } else {
                 return new ResponseEntity("{\"message\": \"something went wrong\"}", responseHeaders, HttpStatus.BAD_REQUEST);
             }
-            if (temp.has(UserController.date)) {
+            // idk I had this if else statement at first, but I decided to keep it cause it should be okay for people
+            // to post transactions if they don't have a date in the object
+            // (my front end makes sure that date is there either empty or real so it always exist anyway)
+            if (temp.has(UserController.date) && !temp.getString(UserController.date).isEmpty()) {
                 query = ("INSERT INTO Transactions (username, number, spend, amount, date, description) " +
                         "VALUES (?, ?, ?, ?, ?, ?);");
                 ps = conn.prepareStatement(query);

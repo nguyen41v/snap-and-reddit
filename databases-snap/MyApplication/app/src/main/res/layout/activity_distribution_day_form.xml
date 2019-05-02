@@ -203,7 +203,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/getUserDistribution"
+                android:id="@+id/sendTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_button_round_bottom_corners"

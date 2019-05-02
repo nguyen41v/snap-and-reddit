@@ -34,7 +34,7 @@ public class RecentTransactions extends Navigation {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     public static DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
-
+    public static Boolean recreate;
 
 
     @Override
@@ -42,7 +42,7 @@ public class RecentTransactions extends Navigation {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recent_transactions);
         makeMenu();
-
+        recreate = false;
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TransactionAdapter(new ArrayList<TransactionItem>(), this));
@@ -55,6 +55,15 @@ public class RecentTransactions extends Navigation {
             }
         });
         update();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (recreate) {
+            update();
+            recreate = false;
+        }
     }
 
     public void update() {
@@ -70,15 +79,20 @@ public class RecentTransactions extends Navigation {
             TransactionItem prevTransaction = new TransactionItem();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject singleTransaction = jsonArray.getJSONObject(i);
-                if (!prevDate.equals(singleTransaction.getString("date"))) {
+                System.out.println(prevDate);
+                System.out.println(singleTransaction.getString("date"));
+                String tempDate = singleTransaction.getString("date");
+                if (!prevDate.equals(tempDate = tempDate.substring(0, tempDate.length() - 9))) {
+                    System.out.println("different date!");
                     TransactionItem transaction = new TransactionItem(singleTransaction.getString("date"),
                             singleTransaction.getBoolean("spend"),
                             new BigDecimal(singleTransaction.getString("amount")),
                             singleTransaction.getString("description"));
-                    prevDate = transaction.getSdate();
+                    prevDate = tempDate;
                     prevTransaction = transaction;
                     transactions.add(transaction);
                 } else {
+                    System.out.println("same date!");
                     prevTransaction.addTransaction(singleTransaction.getBoolean("spend"),
                             new BigDecimal(singleTransaction.getString("amount")),
                             singleTransaction.getString("description"));

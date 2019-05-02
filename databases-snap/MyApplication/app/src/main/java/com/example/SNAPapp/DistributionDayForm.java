@@ -176,7 +176,7 @@ public class DistributionDayForm extends AppCompatActivity {
             put("ms", "last two digits of ssn");
         }};
          */
-        final Button disDay = findViewById(R.id.getUserDistribution);
+        final Button disDay = findViewById(R.id.sendTransaction);
         disDay.setOnClickListener(new View.OnClickListener() {
             // I'm gonna do this later cause it's too much typing ............ fixme
             @Override

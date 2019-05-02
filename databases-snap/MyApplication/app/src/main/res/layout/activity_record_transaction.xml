@@ -34,64 +34,42 @@
                 android:paddingBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/benefits_info">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/case_number_card"
+                <EditText
+                    android:id="@+id/description_entry"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/white"
+                    android:ems="10"
+                    android:hint="Short description of transaction"
+                    android:inputType="text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <EditText
-                            android:id="@+id/scase_entry"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/white"
-                            android:ems="10"
-                            android:hint="Short description of transaction"
-                            android:inputType="text"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/birthday_card"
+                <EditText
+                    android:id="@+id/amount_entry"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <EditText
-                            android:id="@+id/birthday_entry"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@color/white"
-                            android:ems="10"
-                            android:hint="Amount in dollars eg. 12.34"
-                            android:inputType="date"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/white"
+                    android:ems="10"
+                    android:hint="Amount in dollars eg. 12.34"
+                    android:inputType="date"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/ssn_card"
+                    android:id="@+id/spendCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -114,6 +92,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <RadioGroup
+                            android:id="@+id/radioGroup"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -130,6 +109,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:checked="true"
                                 android:text="Spending" />
 
                             <RadioButton
@@ -144,7 +124,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/last_name_card"
+                    android:id="@+id/dateCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -167,7 +147,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <EditText
-                            android:id="@+id/last_name_entry"
+                            android:id="@+id/date_entry"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -188,7 +168,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/getUserDistribution"
+                android:id="@+id/sendTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_button_round_bottom_corners"

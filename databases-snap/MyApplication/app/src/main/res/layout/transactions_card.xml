@@ -7,7 +7,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:cardCornerRadius="@dimen/corner_radius"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
 
     <LinearLayout
         android:id="@+id/linear"

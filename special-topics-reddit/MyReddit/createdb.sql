@@ -64,7 +64,7 @@ CREATE TABLE Comment (
 DELIMITER $$
 CREATE TRIGGER edit_comment BEFORE UPDATE ON Comment FOR EACH ROW
   BEGIN IF new.edited IS TRUE THEN
-    SET new.edit_date := NOW(6);
+    SET new.edit_date = NOW(6);
   END IF;
 END$$
 DELIMITER ;
@@ -72,7 +72,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER default_comment BEFORE INSERT ON Comment FOR EACH ROW
   BEGIN IF new.c_number IS NULL THEN
-    SET new.c_number := new.number;
+    SET new.c_number = new.number;
   END IF;
     UPDATE Post
     SET num_of_comments = Post.num_of_comments + 1
@@ -83,7 +83,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER edit_post BEFORE UPDATE ON Post FOR EACH ROW
   BEGIN IF new.edited IS TRUE THEN
-    SET new.edit_date := NOW(6);
+    SET new.edit_date = NOW(6);
   END IF;
 END$$
 DELIMITER ;

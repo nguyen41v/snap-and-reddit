@@ -3,7 +3,6 @@ package com.example.SNAPapp;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -20,7 +19,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 import androidx.cardview.widget.CardView;
 
@@ -36,7 +34,7 @@ public class StateInfo extends Navigation {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String login = intent.getStringExtra("login");
-        if (login.equals("yes")) {
+        if (login != null) {
             startActivity(new Intent(this, LoginSignup.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
         setContentView(R.layout.activity_state_info);
@@ -45,7 +43,7 @@ public class StateInfo extends Navigation {
         messageCard = findViewById(R.id.cardView);
         messageText = findViewById(R.id.loading_message);
         progressBar = findViewById(R.id.progressBar);
-        viewDis = findViewById(R.id.getUserDistribution);
+        viewDis = findViewById(R.id.sendTransaction);
         viewDis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
