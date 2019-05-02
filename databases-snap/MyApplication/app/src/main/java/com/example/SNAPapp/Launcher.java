@@ -118,7 +118,9 @@ public class Launcher extends AppCompatActivity {
             Launcher.loggedIn = true;
             startActivity(new Intent(this, Overview.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         } else {
-            startActivity(new Intent(this, LoginSignup.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+            Intent intent = new Intent(this, StateInfo.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.putExtra("login", "yes");
+            startActivity(intent);
         }
         finish();
     }

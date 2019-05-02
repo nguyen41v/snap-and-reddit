@@ -94,30 +94,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/case_num"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/scase_entry"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="Case number:"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <EditText
-                            android:id="@+id/scase_entry"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:ems="10"
-                            android:hint="#"
+                            android:hint="Last digit of your case number"
                             android:inputType="text"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/case_num" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -131,30 +123,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/birthday_entry"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="Birthdate:"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <EditText
-                            android:id="@+id/birthday_entry"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:ems="10"
-                            android:hint="YYYY-MM-DD"
+                            android:hint="Birth month"
                             android:inputType="date"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/textView6" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -168,30 +152,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/sssn_entry"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="SSN:"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <EditText
-                            android:id="@+id/sssn_entry"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:ems="10"
-                            android:hint="#"
+                            android:hint="Last digit of your SSN"
                             android:inputType="text"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/textView3" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -205,30 +181,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/last_name_entry"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="Last name:"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <EditText
-                            android:id="@+id/last_name_entry"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"
                             android:background="@color/white"
                             android:ems="10"
-                            android:hint="Abcdefg"
+                            android:hint="Last name"
                             android:inputType="textPersonName"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/textView4" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 

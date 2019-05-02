@@ -34,6 +34,11 @@ public class StateInfo extends Navigation {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String login = intent.getStringExtra("login");
+        if (login.equals("yes")) {
+            startActivity(new Intent(this, LoginSignup.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+        }
         setContentView(R.layout.activity_state_info);
         makeMenu();
         activity = "StateInfo";

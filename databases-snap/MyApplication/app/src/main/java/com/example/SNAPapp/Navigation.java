@@ -158,7 +158,11 @@ public class Navigation extends AppCompatActivity
         } else if (id == R.id.faq && !activity.equals("FAQ")) {
 
         } else if (id == R.id.logout) {
-
+            Launcher.write();
+            Launcher.editor.putString("username", "");
+            Launcher.editor.putString("token", "");
+            Launcher.loggedIn = false;
+            startActivity(new Intent(this, StateInfo.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

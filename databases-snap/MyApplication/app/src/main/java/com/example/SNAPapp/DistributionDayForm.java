@@ -64,71 +64,72 @@ public class DistributionDayForm extends AppCompatActivity {
                         "of your case number, so please provide the last two digits of your case number";
                 benefits.setText(temp);
                 case_card.setVisibility(View.VISIBLE);
-                case_num.setHint("##");
+                case_num.setHint("Last two digits of case number");
                 break;
             case "e":
                 temp = "Your state distributes benefits based off of the 8th and 9th digits " +
                         "of your case number, so please provide the 8th and 9th digits of your case number";
                 benefits.setText(temp);
                 case_card.setVisibility(View.VISIBLE);
-                case_num.setHint("##");
+                case_num.setHint("8th and 9th digits of case number");
                 break;
             case "v":
                 temp = "Your state distributes benefits based off of the 7th digit " +
                         "of your case number, so please provide the 7th digit of your case number";
                 benefits.setText(temp);
                 case_card.setVisibility(View.VISIBLE);
+                case_num.setHint("7th digit of case number");
                 break;
             case "d":
                 temp = "Your state distributes benefits based off of " +
                         "of your birth day, so please provide the last digit of your birth day (Ex. 0 for 10, 20, or 30)";
                 benefits.setText(temp);
                 birthday_card.setVisibility(View.VISIBLE);
-                birthday.setHint("#");
+                birthday.setHint("Last digit of birth day");
                 break;
             case "j":
                 temp = "Your state distributes benefits based off of " +
                         "your birth month and last name, so please provide your birth month and the first letter of your last name";
                 benefits.setText(temp);
                 birthday.setVisibility(View.VISIBLE);
-                birthday.setHint("##");
+                birthday.setHint("Birth month");
                 lname_card.setVisibility(View.VISIBLE);
-                lname.setHint("*");
+                lname.setHint("First letter of last name");
                 break;
             case "y":
                 temp = "Your state distributes benefits based off of " +
                         "your birth year, so please provide the last digit of your birth year (Ex. 0 for 2000, 1990, 1980)";
                 benefits.setText(temp);
                 birthday.setVisibility(View.VISIBLE);
-                birthday.setHint("#");
+                birthday.setHint("Last digit of birth year");
                 break;
             case "l":
                 temp = "Your state distributes benefits based off of " +
                         "your last name, so please provide your last name";
                 benefits.setText(temp);
                 lname_card.setVisibility(View.VISIBLE);
-                lname.setHint("Mylastname");
+//                lname.setHint("Mylastname");
                 break;
             case "ml":
                 temp = "Your state distributes benefits based off of " +
                         "your last name, so please provide your last name";
                 benefits.setText(temp);
                 lname_card.setVisibility(View.VISIBLE);
-                lname.setHint("Mylastname");
+//                lname.setHint("Last");
                 break;
             case "s":
                 temp = "Your state distributes benefits based off of " +
                         "of the last digit of your SSN, so please provide the last digit of your SSN";
                 benefits.setText(temp);
                 ssn_card.setVisibility(View.VISIBLE);
-                ssn_num.setHint("#");
+                ssn_num.setHint("Last digit of SSN");
                 break;
             case "ms":
                 temp = "Your state distributes benefits based off of " +
                         "of the last two digits of your SSN, so please provide the last two digits of your SSN";
                 benefits.setText(temp);
                 ssn_card.setVisibility(View.VISIBLE);
-                ssn_num.setHint("##");
+                ssn_num.setHint("Last two digits of SSN");
                 break;
         }
         final ImageButton back = findViewById(R.id.back);
