@@ -105,6 +105,7 @@ public class UserController {
 		System.out.println(body); // debugging
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Content-Type", "application/json");
+		JSONObject response = new JSONObject();
 		try {
 			JSONObject temp = new JSONObject(body);
 			// Grabbing username, password, and email from request body
@@ -139,11 +140,13 @@ public class UserController {
 				if (resultSet.next()) {
 					if (resultSet.getString(email).equals(email)) {
 						System.out.println("email"); // debugging
-						return new ResponseEntity("{\"message\":\"Email already registered\"}", responseHeaders,
+                        response.put("message", "Email already registered");
+						return new ResponseEntity(response.toString(), responseHeaders,
 								HttpStatus.BAD_REQUEST);
 					} else {
 						System.out.println("user");	// debugging
-						return new ResponseEntity("{\"message\":\"Username taken\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                        response.put("message", "Username already taken");
+                        return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.BAD_REQUEST);
 					}
 				}
 
@@ -165,7 +168,9 @@ public class UserController {
                 Project.tokens.put(username, user);
 				ps.executeUpdate();
 				close(ps, conn);
-				return new ResponseEntity("{\"message\": \"successfully registered\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
+                response.put("message", "Successfully registered");
+                response.put("token", newToken);
+                return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.OK);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -174,12 +179,9 @@ public class UserController {
 		} catch (JSONException e) {
 			e.printStackTrace();
 			System.out.println("not JSON");
-			return new ResponseEntity(
-					"{\"message\":\"response body was not in a proper JSON format\", \"original message\": \"" + body
-							+ "\"}",
-					responseHeaders, HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity("{\"message\": \"An error occurred, please try again later\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        response.put("message", "An error occurred, please try again later");
+        return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.BAD_REQUEST);
 
     }
 

@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -36,8 +37,7 @@ public class SignupTab extends Fragment {
     private static EditText pass;
     private static EditText phone;
     private static ProgressBar progressBar;
-    private static final String valid = "Successfully logged in";
-    private static final String invalid = "Username already ";
+    private static final String valid = "Successfully registered in";
     private static final String noConnection = "Could not connect to the server at this moment";
 
 
@@ -126,7 +126,7 @@ public class SignupTab extends Fragment {
                 try {
                     JSONObject json = new JSONObject(s);
                     if (json.has("token")) {
-                        Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL,0,64);
                         toast.show();
                         String tokenInfo = json.getString("token");
@@ -172,6 +172,8 @@ public class SignupTab extends Fragment {
                 requestBody.put("username", username);
                 requestBody.put("password", password);
                 requestBody.put("phone_number", phone_number);
+                requestBody.put("state", Launcher.state);
+                requestBody.put("benefits_day", Launcher.benefitsDay);
                 System.out.println(requestBody);
                 con.setDoOutput(true);
                 con.setRequestProperty("Content-Type","application/json");
@@ -185,7 +187,13 @@ public class SignupTab extends Fragment {
                 int responseCode = con.getResponseCode();
                 System.out.println(responseCode);
                 StringBuilder sb = new StringBuilder();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                InputStream in;
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    in = con.getInputStream();
+                } else {
+                    in = con.getErrorStream();
+                }
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
                 String json;
                 System.out.println("got data");
                 while ((json = bufferedReader.readLine()) != null) {
@@ -193,6 +201,7 @@ public class SignupTab extends Fragment {
                 }
                 return sb.toString().trim();
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Connection probably failed :3\ngo start the server");
                 return "-1";
             }

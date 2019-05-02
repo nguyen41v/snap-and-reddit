@@ -145,7 +145,7 @@ public class LoginTab extends Fragment{
                 toast.show();
             }
             else {
-                Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL,0,64);
                 toast.show();
                 try {
