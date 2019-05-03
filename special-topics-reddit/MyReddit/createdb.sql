@@ -128,6 +128,24 @@ CREATE TABLE Message (
     FOREIGN KEY (username) REFERENCES User(username)
 );
 
+CREATE TABLE PReaction (
+    p_number INT UNSIGNED NOT NULL,
+    reaction ENUM('s','c','a') NOT NULL,
+    username VARCHAR(16) NOT NULL,
+    PRIMARY KEY (p_number),
+    FOREIGN KEY (p_number) REFERENCES Post(p_number),
+    FOREIGN KEY (username) REFERENCES User(username)
+);
+
+CREATE TABLE CReaction (
+    p_number INT UNSIGNED NOT NULL,
+    number INT UNSIGNED NOT NULL,
+    reaction ENUM('s','c','a') NOT NULL,
+    username VARCHAR(16) NOT NULL,
+    PRIMARY KEY (p_number, number),
+    FOREIGN KEY (p_number, number) REFERENCES Comment(p_number, number),
+    FOREIGN KEY (username) REFERENCES User(username)
+);
 
 CREATE TABLE MReaction (
     name VARCHAR(30) NOT NULL,
