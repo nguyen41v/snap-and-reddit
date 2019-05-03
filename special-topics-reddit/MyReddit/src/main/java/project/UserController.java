@@ -42,6 +42,10 @@ public class UserController {
     static private final String reaction = "reaction";
     static private final String amount = "amount";
     static private final String reactions = "reactions";
+    static private final String r_sparkle = "r_sparkle";
+    static private final String r_cry = "r_cry";
+    static private final String r_angry = "r_angry";
+
     static private final String deleted = "deleted";
     static private final String token = "token";
 
@@ -302,27 +306,6 @@ public class UserController {
             Class.forName(Project.JDBC_DRIVER);
             conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
 
-            // get reactions of post
-            query = "SELECT * FROM PReaction WHERE sub_name = ?;";
-            ps = conn.prepareStatement(query);
-            ps.setString(1, sub);
-            System.out.println(ps);
-            resultSet = ps.executeQuery();
-            HashMap<Integer, HashMap<Integer, Integer>> preactions = new HashMap<Integer, HashMap<Integer, Integer>>();
-            int reaction, amount, p_number;
-            while (resultSet.next()) {
-                p_number = resultSet.getInt(UserController.p_number);
-                reaction = resultSet.getInt(UserController.reaction);
-                amount = resultSet.getInt(UserController.amount);
-                if (preactions.containsKey(p_number)) {
-                    preactions.get(p_number).put(reaction, amount);
-                } else {
-                    HashMap<Integer, Integer> temp = new HashMap<>();
-                    temp.put(reaction, amount);
-                    preactions.put(p_number, temp);
-                }
-            }
-
             // get post content
             query = "SELECT * FROM Post WHERE sub_name = ? ORDER BY date DESC;";
             ps = conn.prepareStatement(query);
@@ -337,6 +320,9 @@ public class UserController {
                 postContent.put(UserController.date, resultSet.getString(UserController.date));
                 postContent.put(UserController.username, resultSet.getString(UserController.username));
                 postContent.put(UserController.content, resultSet.getString(UserController.content));
+                postContent.put(UserController.r_sparkle, resultSet.getInt(UserController.r_sparkle));
+                postContent.put(UserController.r_cry, resultSet.getInt(UserController.r_cry));
+                postContent.put(UserController.r_angry, resultSet.getInt(UserController.r_angry));
                 if (resultSet.getBoolean(UserController.edited)) {
                     postContent.put(UserController.edited, true);
                     postContent.put(UserController.edit_date, resultSet.getString(UserController.edit_date));
@@ -713,30 +699,11 @@ public class UserController {
                 content.put(UserController.edited, resultSet.getBoolean(UserController.edited));
                 content.put(UserController.edit_date, resultSet.getString(UserController.edit_date)); // is null if not there
                 content.put(UserController.num_of_comments, resultSet.getInt(UserController.num_of_comments));
+                content.put(UserController.r_sparkle, resultSet.getInt(UserController.r_sparkle));
+                content.put(UserController.r_cry, resultSet.getInt(UserController.r_cry));
+                content.put(UserController.r_angry, resultSet.getInt(UserController.r_angry));
                 comments.put(content);
             }
-
-			// get reactions of comments and store into a hashmap
-			query = "SELECT * FROM CReaction WHERE p_number = ?;";
-			ps = conn.prepareStatement(query);
-			ps.setInt(1, p_number);
-			resultSet = ps.executeQuery();
-			HashMap<Integer, HashMap<Integer, Integer>> reactions = new HashMap<Integer, HashMap<Integer, Integer>>();
-			int number, reaction, amount;
-
-			while (resultSet.next()) {
-				number = resultSet.getInt(UserController.c_number);
-				reaction = resultSet.getInt(UserController.reaction);
-				amount = resultSet.getInt(UserController.amount);
-				if (reactions.containsKey(number)) {
-					reactions.get(number).put(reaction, amount);
-				} else {
-					HashMap<Integer, Integer> temp = new HashMap<>();
-					temp.put(reaction, amount);
-					reactions.put(number, temp);
-				}
-			}
-
 			// get comment content
 			query = "SELECT * FROM Comment WHERE p_number = ?;";
 			ps = conn.prepareStatement(query);
@@ -745,6 +712,7 @@ public class UserController {
 			resultSet = ps.executeQuery();
 			JSONArray tempy = new JSONArray();
 			String replies = "replies";
+			int number;
 			while (resultSet.next()) {
 				content = new JSONObject();
 				number = resultSet.getInt(UserController.number);
@@ -755,16 +723,14 @@ public class UserController {
 				content.put(UserController.content, resultSet.getString(UserController.content));
                 content.put(UserController.deleted, resultSet.getBoolean(UserController.deleted));
                 content.put(replies, new JSONArray());
+                content.put(UserController.r_sparkle, resultSet.getInt(UserController.r_sparkle));
+                content.put(UserController.r_cry, resultSet.getInt(UserController.r_cry));
+                content.put(UserController.r_angry, resultSet.getInt(UserController.r_angry));
 				if (resultSet.getBoolean(UserController.edited)) {
 					content.put(UserController.edited, true);
 					content.put(UserController.edit_date, resultSet.getString(UserController.edit_date));
 				} else {
 					content.put(UserController.edited, false);
-				}
-				if (reactions.containsKey(number)) {
-					content.put(UserController.reactions, reactions.get(number));
-				} else {
-					content.put(UserController.reactions, new HashMap<>());
 				}
 				tempy.put(content);
 			}
