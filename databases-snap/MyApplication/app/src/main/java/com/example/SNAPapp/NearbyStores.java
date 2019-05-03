@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,12 +23,15 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.android.libraries.places.compat.*;
 
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -43,6 +47,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 // o3o I took most of this from the Google tutorial and another website
@@ -63,6 +69,7 @@ public class NearbyStores extends Navigation implements OnMapReadyCallback {
     private LatLng pastPosition;
     private ArrayList<Marker> markers;
     private Boolean markerClicked = false;
+    private Polyline line;
 
 
 
@@ -559,14 +566,13 @@ public class NearbyStores extends Navigation implements OnMapReadyCallback {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s.contentEquals("0")) {
+
             } else if (s.contentEquals("-1")) {
             }
             else {
-                try {
-                    JSONObject json = new JSONObject(s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                ParserTask parserTask = new ParserTask();
+                // Invokes the thread for parsing the JSON data
+                parserTask.execute(s);
             }
         }
 
@@ -599,9 +605,7 @@ public class NearbyStores extends Navigation implements OnMapReadyCallback {
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json + "\n");
                     }
-                    String temp = sb.toString().trim();
-                    System.out.print(temp);
-                    return temp;
+                    return sb.toString().trim();
                 } else if (responseCode == Launcher.UNAUTHORIZED) {
                     return "0";
                 }
@@ -610,6 +614,69 @@ public class NearbyStores extends Navigation implements OnMapReadyCallback {
                 return "-1";
             }
             return "-1";
+        }
+
+
+        /** A class to parse the Google Places in JSON format */
+        private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
+
+            // Parsing the data in non-ui thread
+            @Override
+            protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+                JSONObject jObject;
+                List<List<HashMap<String, String>>> routes = null;
+
+                try{
+                    jObject = new JSONObject(jsonData[0]);
+                    DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                    // Starts parsing data
+                    routes = parser.parse(jObject);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                return routes;
+            }
+
+            // Executes in UI thread, after the parsing process
+            @Override
+            protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+                ArrayList<LatLng> points = null;
+                PolylineOptions lineOptions = null;
+                MarkerOptions markerOptions = new MarkerOptions();
+                if (line != null) {
+                    line.remove();
+                }
+
+                // Traversing through all the routes
+                for(int i=0;i<result.size();i++){
+                    points = new ArrayList<LatLng>();
+                    lineOptions = new PolylineOptions();
+
+                    // Fetching i-th route
+                    List<HashMap<String, String>> path = result.get(i);
+
+                    // Fetching all the points in i-th route
+                    for(int j=0;j<path.size();j++){
+                        HashMap<String,String> point = path.get(j);
+
+                        double lat = Double.parseDouble(point.get("lat"));
+                        double lng = Double.parseDouble(point.get("lng"));
+                        LatLng position = new LatLng(lat, lng);
+
+                        points.add(position);
+                    }
+
+                    // Adding all the points in the route to LineOptions
+                    lineOptions.addAll(points);
+                    lineOptions.width(2);
+                    lineOptions.color(Color.RED);
+                }
+
+                // Drawing polyline in the Google Map for the i-th route
+                line = mMap.addPolyline(lineOptions);
+            }
         }
     }
 }
