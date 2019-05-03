@@ -143,9 +143,9 @@ public class UserController {
         String username = request.getParameter(UserController.username);
         String token = request.getParameter(UserController.token);
         if (!checkToken(username, token)) {
-            return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity("{\"message\": \"valid token\"}", responseHeaders, HttpStatus.OK);
+        return new ResponseEntity("{\"message\": \"Valid token\"}", responseHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST) // <-- setup the endpoint URL at /register with the HTTP POST method
@@ -269,9 +269,9 @@ public class UserController {
                     App.tokensArrayList.add(0, user);
                     App.tokens.put(username, user);
                     System.out.println(App.tokens.get(username).token);
-                    return new ResponseEntity("{\"message\":\"user logged in\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
+                    return new ResponseEntity("{\"message\":\"Successfully logged in\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
                 } else {
-                    return new ResponseEntity("{\"message\":\"username/password combination is incorrect\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity("{\"message\":\"Username/password combination is incorrect\"}", responseHeaders, HttpStatus.BAD_REQUEST);
                 }
             }
             ps.close();
@@ -281,7 +281,7 @@ public class UserController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity("{\"message\":\"username not registered\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\":\"Username not registered\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET) // <-- setup the endpoint URL at /balance with the HTTP GET method
@@ -291,7 +291,7 @@ public class UserController {
         String username = request.getParameter(UserController.username);
         String token = request.getParameter(UserController.token);
         if (!checkToken(username, token)) {
-            return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
         }
 
         JSONObject balanceInfo = new JSONObject();
@@ -324,7 +324,9 @@ public class UserController {
                 balanceInfo.put(UserController.past_benefits, "0.00");
             }
 
-            query = ("SELECT ROUND(SUM(amount) / (DAY(LAST_DAY(now() - INTERVAL 1 MONTH)) * average_meals),2) as past_spent FROM Transactions, (SELECT average_meals FROM Users WHERE username = ?) as A WHERE username = ? AND MONTH(date) = MONTH(NOW()) - 1 AND spend;");
+            query = ("SELECT ROUND(SUM(amount) / (DAY(LAST_DAY(now() - INTERVAL 1 MONTH)) * average_meals),2) as past_spent " +
+                    "FROM Transactions, (SELECT average_meals FROM Users WHERE username = ?) as A " +
+                    "WHERE username = ? AND MONTH(date) = MONTH(NOW()) - 1 AND spend;");
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
             ps.setString(2, username);
@@ -580,10 +582,10 @@ public class UserController {
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
-        JSONObject stores = new JSONObject();
+        JSONArray stores = new JSONArray();
         BigDecimal longitude = new BigDecimal(request.getParameter(UserController.longitude));
         BigDecimal latitude = new BigDecimal(request.getParameter(UserController.latitude));
-        int miles = Integer.parseInt(request.getParameter(UserController.miles));
+        BigDecimal miles = new BigDecimal(request.getParameter(UserController.miles));
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -593,16 +595,35 @@ public class UserController {
             conn = DriverManager.getConnection(App.DB_URL, App.USER, App.PASSWORD);
             query = ("SELECT * FROM Stores WHERE ? >= (57 * SQRT(POW(longitude - ?, 2) + POW(latitude - ?, 2)));");
             ps = conn.prepareStatement(query);
-            ps.setInt(1, miles);
+            ps.setBigDecimal(1, miles);
             ps.setBigDecimal(2, longitude);
-            ps.setBigDecimal(2, latitude);
+            ps.setBigDecimal(3, latitude);
             System.out.println(ps);
             resultSet = ps.executeQuery();
-            while (resultSet.next()){
-                stores.put(UserController.phone_number, resultSet.getString(UserController.phone_number));
-                stores.put(UserController.street, resultSet.getString(UserController.street));
-                stores.put(UserController.city, resultSet.getString(UserController.city));
-                stores.put(UserController.zip_code, resultSet.getString(UserController.zip_code));
+            JSONObject store;
+            StringBuilder address;
+            int i = 0;
+            // limit size of array cause phone memory
+            while (resultSet.next() && i < 4444){
+                store = new JSONObject();
+                store.put(UserController.latitude, resultSet.getString(UserController.latitude));
+                store.put(UserController.longitude, resultSet.getString(UserController.longitude));
+                store.put(UserController.name, resultSet.getString(UserController.name));
+                address = new StringBuilder();
+                address.append(resultSet.getString(UserController.street));
+                if (resultSet.getString(UserController.address_line2) != null && !resultSet.getString(UserController.address_line2).isEmpty()) {
+                    address.append(" ");
+                    address.append(resultSet.getString(UserController.address_line2));
+                }
+                address.append(", ");
+                address.append(resultSet.getString(UserController.city));
+                address.append(", ");
+                address.append(resultSet.getString(UserController.state));
+                address.append(" ");
+                address.append(resultSet.getString(UserController.zip_code));
+                store.put("address", address.toString());
+                stores.put(store);
+                i ++;
             }
             ps.close();
             conn.close();

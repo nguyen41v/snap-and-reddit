@@ -151,7 +151,6 @@ public class FinalInsert {
                         }
                     }
                 }
-                System.out.println(ps);
                 try {
                     ps.executeUpdate();
                 } catch (SQLIntegrityConstraintViolationException e){
