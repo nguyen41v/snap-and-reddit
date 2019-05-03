@@ -31,7 +31,8 @@ CREATE TABLE Subforum (
 
 CREATE TABLE Post (
     p_number INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    sub_name VARCHAR(30) NOT NULL,
+    type ENUM('u','s') NOT NULL,
+    sub_name VARCHAR(30),
     title TEXT NOT NULL,
     date DATETIME(6) NOT NULL DEFAULT NOW(6),
     username VARCHAR(30) NOT NULL,
@@ -40,10 +41,21 @@ CREATE TABLE Post (
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
     edit_date DATETIME(6),
     num_of_comments INT UNSIGNED DEFAULT 0,
+    r_sparkle INT UNSIGNED DEFAULT 1,
+    r_cry INT UNSIGNED DEFAULT 0,
+    r_angry INT UNSIGNED DEFAULT 0,
     PRIMARY KEY (p_number),
     FOREIGN KEY (sub_name) REFERENCES Subforum(sub_name),
     FOREIGN KEY (username) REFERENCES User(username)
 );
+
+DELIMITER $$
+CREATE TRIGGER user_sub BEFORE INSERT ON Post FOR EACH ROW
+  BEGIN IF new.sub_name IS NULL THEN
+    SET new.sub_name = new.username;
+  END IF;
+END$$
+DELIMITER ;
 
 CREATE TABLE Comment (
     p_number INT UNSIGNED NOT NULL,
@@ -55,6 +67,9 @@ CREATE TABLE Comment (
     content BLOB NOT NULL,
     edited BOOLEAN NOT NULL DEFAULT FALSE,
     deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    r_sparkle INT UNSIGNED DEFAULT 1,
+    r_cry INT UNSIGNED DEFAULT 0,
+    r_angry INT UNSIGNED DEFAULT 0,
     PRIMARY KEY (p_number, number),
     FOREIGN KEY (p_number) REFERENCES Post(p_number),
     FOREIGN KEY (p_number, c_number) REFERENCES Comment(p_number, number),
@@ -113,24 +128,6 @@ CREATE TABLE Message (
     FOREIGN KEY (username) REFERENCES User(username)
 );
 
-CREATE TABLE PReaction (
-    sub_name VARCHAR(30) NOT NULL,
-    p_number INT UNSIGNED NOT NULL,
-    reaction SMALLINT NOT NULL,
-    amount SMALLINT NOT NULL DEFAULT 1,
-    PRIMARY KEY (p_number, reaction),
-    FOREIGN KEY (p_number) REFERENCES Post(p_number),
-    FOREIGN KEY (sub_name) REFERENCES Subforum(sub_name)
-);
-
-CREATE TABLE CReaction (
-    p_number INT UNSIGNED NOT NULL, 
-    c_number INT UNSIGNED NOT NULL,
-    reaction SMALLINT NOT NULL, 
-    amount SMALLINT NOT NULL DEFAULT 1,
-    PRIMARY KEY (p_number, c_number, reaction),
-    FOREIGN KEY (p_number, c_number) REFERENCES Comment(p_number, number)
-);
 
 CREATE TABLE MReaction (
     name VARCHAR(30) NOT NULL,
