@@ -13,14 +13,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Chat"></activity>
-        <activity android:name=".SubsScreen" />
+        <activity
+            android:name=".Chat"
+            android:theme="@style/AppTheme.Light"></activity>
+        <activity
+            android:name=".SubsScreen"
+            android:theme="@style/AppTheme.Light"/>
         <activity android:name=".ViewSub" />
-        <activity android:name=".SearchResults" />
-        <activity android:name=".ChooseSub" />
-        <activity android:name=".MakePost" />
-        <activity android:name=".MakeSub" />
-        <activity android:name=".Edit" />
+        <activity
+            android:name=".SearchResults"
+            android:theme="@style/AppTheme.Light"/>
+        <activity
+            android:name=".ChooseSub"
+            android:theme="@style/AppTheme.Light"/>
+        <activity
+            android:name=".MakePost"
+            android:theme="@style/AppTheme.Light"/>
+        <activity
+            android:name=".MakeSub"
+            android:theme="@style/AppTheme.Light"/>
+        <activity
+            android:name=".Edit"
+            android:theme="@style/AppTheme.Light"/>
         <activity android:name=".ViewProfile" />
         <activity
             android:name=".LogIn"
@@ -42,7 +56,10 @@
             android:name=".ViewPost"
             android:label="ViewPost"
             android:theme="@style/AppTheme" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

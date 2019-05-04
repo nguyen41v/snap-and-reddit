@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +52,14 @@ public class LogIn extends AppCompatActivity implements LoginTab.OnButtonClickLi
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        Intent intent = getIntent();
+        String type = intent.getStringExtra("type");
+        if (type != null) {
+            if (type.equals("signup")) {
+                mViewPager.setCurrentItem(1);
+            }
+        }
     }
 
 

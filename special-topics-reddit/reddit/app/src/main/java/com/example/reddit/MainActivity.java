@@ -1,42 +1,32 @@
 package com.example.reddit;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayout.Tab;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,6 +55,7 @@ public class MainActivity extends Navigation {
     public static int UNAUTHORIZED = 401;
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +71,62 @@ public class MainActivity extends Navigation {
         System.out.println("got shared preferences");
         editor = pref.edit();
         makeMenu();
+        tabLayout = findViewById(R.id.tab_layout);
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(sectionsPagerAdapter);
+        /**
+         * on swiping the viewpager make respective tab selected
+         * */
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                // on changing the page
+                // make respected tab selected
+                Tab tab = tabLayout.getTabAt(position);
+                tab.select();
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabReselected(Tab tab) {
+            }
+
+            @Override
+            public void onTabSelected(Tab tab) {
+                // on tab selected
+                // show respected fragment view
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(Tab tab) {
+            }
+        });
+        switchTab();
+    }
+
+    private void switchTab() {
+        System.out.println(loggedIn);
+        if (!loggedIn) {
+            tabLayout.getTabAt(1).select();
+            viewPager.setCurrentItem(1);
+        } else {
+            tabLayout.getTabAt(0).select();
+            viewPager.setCurrentItem(0);
+        }
     }
 
     private void setBotBarClickListeners() {
@@ -131,10 +174,35 @@ public class MainActivity extends Navigation {
         super.onResume();
         if (recreate) {
             recreate();
+            switchTab();
             recreate = false;
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        if (id == R.id.Sign_up) {
+            Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        } else if (id == R.id.profile) {
+            Intent intent = new Intent(this, ViewProfile.class);
+            startActivity(intent);
+        } else if (id == R.id.logout) {
+            setContentView(R.layout.activity_navigation);
+            MainActivity.loggedIn = false;
+            MainActivity.editor.clear();
+            MainActivity.editor.apply();
+            System.out.println("hellloooooooooooooooooooooooooooo");
+            recreate();
+            switchTab();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -192,13 +260,25 @@ public class MainActivity extends Navigation {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(new PostAdapter(new ArrayList<PostItem>(), getActivity()));
             postItems = new ArrayList<>();
+            rootView.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getActivity(), LogIn.class));
+                }
+            });
+            rootView.findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getActivity(), LogIn.class).putExtra("type", "signup"));
+                }
+            });
 
             swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
             swipeRefreshLayout.setOnRefreshListener(
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            update();
+                            home_update();
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     }
@@ -210,23 +290,25 @@ public class MainActivity extends Navigation {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(true);
                     }
-                    update();
+                    home_update();
                 }
             });
-
-
             return rootView;
         }
 
-        private void loadIntoRecyclerView(String json) {
+        private void homeLoadIntoRecyclerView(String json) {
             System.out.println(json);
             postItems = new ArrayList<>();
             System.out.println("loading into recylcer view");
             System.out.println(json);
             if (json.isEmpty()) {
-                System.out.println("hello");
                 noConnection.setVisibility(View.VISIBLE);
                 endOfPosts.setVisibility(View.INVISIBLE);
+                return;
+            }
+            if (json.equals("0")) {
+                System.out.print("hello");
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 return;
             }
             try {
@@ -243,6 +325,7 @@ public class MainActivity extends Navigation {
                     postItems.add(postItem);
                 }
                 System.out.println("done getting data");
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
                 noConnection.setVisibility(View.INVISIBLE);
                 endOfPosts.setVisibility(View.VISIBLE);
             } catch (JSONException e) {
@@ -255,18 +338,18 @@ public class MainActivity extends Navigation {
         }
 
 
-        private void update() {
+        private void home_update() {
             if (!MainActivity.username.isEmpty() && !MainActivity.token.isEmpty()) {
-                GetData getData = new GetData();
-                getData.execute();
+                GetHomeData getHomeData = new GetHomeData();
+                getHomeData.execute();
             } else {
-                System.out.println("sign up!");
-                // show view telling user to sign up
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
         }
 
-        class GetData extends AsyncTask<Void, Void, String> {
+        class GetHomeData extends AsyncTask<Void, Void, String> {
 
             @Override
             protected void onPreExecute() {
@@ -276,7 +359,7 @@ public class MainActivity extends Navigation {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                loadIntoRecyclerView(s);
+                homeLoadIntoRecyclerView(s);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -307,7 +390,7 @@ public class MainActivity extends Navigation {
                         }
                         return sb.toString().trim();
                     }
-                    return "";
+                    return "0";
 
                 } catch (Exception e) {
                     System.out.println("Connection probably failed :3\ngo start the server");
@@ -345,15 +428,14 @@ public class MainActivity extends Navigation {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.main_page_post, container, false);
-            endOfPosts = rootView.findViewById(R.id.endCard);
+            View rootView = inflater.inflate(R.layout.popular, container, false);
+            endOfPosts = rootView.findViewById(R.id.pendCard);
             // temporary adapter for recycler view
-            recyclerView = rootView.findViewById(R.id.recyclerView);
+            recyclerView = rootView.findViewById(R.id.precyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(new PostAdapter(new ArrayList<PostItem>(), getActivity()));
             postItems = new ArrayList<>();
-
-            swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout = rootView.findViewById(R.id.pswipeRefreshLayout);
             swipeRefreshLayout.setOnRefreshListener(
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
@@ -381,7 +463,7 @@ public class MainActivity extends Navigation {
         private void loadIntoRecyclerView(String json) {
             System.out.println(json);
             postItems = new ArrayList<>();
-            System.out.println("loading into recylcer view");
+            System.out.println("loading into precylcer view");
             System.out.println(json);
             if (json.isEmpty()) {
                 System.out.println("hello");
@@ -402,16 +484,16 @@ public class MainActivity extends Navigation {
                             post.getInt("p_number"));
                     postItems.add(postItem);
                 }
-                System.out.println("done getting data");
+                System.out.println("pdone getting data");
                 noConnection.setVisibility(View.INVISIBLE);
                 endOfPosts.setVisibility(View.VISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             adapter = new PostAdapter(postItems, getActivity());
-            System.out.println("done making adapter");
+            System.out.println("pdone making adapter");
             recyclerView.setAdapter(adapter);
-            System.out.println("set adapted");
+            System.out.println("pset adapted");
         }
 
 
@@ -438,25 +520,19 @@ public class MainActivity extends Navigation {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    System.out.println("start of try");
                     URL url = new URL(URL + "/popular?username=" + MainActivity.username + "&token=" + URLEncoder.encode(MainActivity.token, "UTF-8"));
                     System.out.println(url);
-                    System.out.println("made url");
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    System.out.println("made connection");
                     con.setRequestMethod("GET");
-                    System.out.println("set GET");
                     con.setConnectTimeout(5000);
                     con.setReadTimeout(5000);
                     con.connect();
-                    System.out.println("connected");
                     StringBuilder sb = new StringBuilder();
                     int responseCode = con.getResponseCode();
                     System.out.println(responseCode);
                     if (responseCode == OK) {
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                         String json;
-                        System.out.println("got data");
                         while ((json = bufferedReader.readLine()) != null) {
                             sb.append(json + "\n");
                         }
