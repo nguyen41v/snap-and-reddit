@@ -23,7 +23,7 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/content"
+            android:id="@+id/sub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="3dp"

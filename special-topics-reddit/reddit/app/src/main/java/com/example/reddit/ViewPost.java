@@ -179,7 +179,7 @@ public class ViewPost extends AppCompatActivity {
         user.setText(temp);
         TextView title = findViewById(R.id.title);
         title.setText(post.getTitle());
-        content = findViewById(R.id.content);
+        content = findViewById(R.id.sub);
         content.setText(post.getContent());
         numC = findViewById(R.id.reactionsAndComments);
         numC.setText(Integer.toString(post.getNum_comments()));

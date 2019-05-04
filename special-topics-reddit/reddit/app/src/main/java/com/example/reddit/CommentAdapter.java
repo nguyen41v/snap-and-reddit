@@ -135,7 +135,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
             this.reactions = itemView.findViewById(R.id.reactions);
             this.username = itemView.findViewById(R.id.user);
-            this.content = itemView.findViewById(R.id.content);
+            this.content = itemView.findViewById(R.id.sub);
             this.vertical = itemView.findViewById(R.id.vertical);
             this.horizontal = itemView.findViewById(R.id.horizontal);
             this.divider = itemView.findViewById(R.id.dividers);

@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:theme="@style/AppTheme.Light"
     android:windowLightStatusBar="true"
-    tools:context=".Reply">
+    tools:context=".MakeSub">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/topbar"
@@ -50,7 +50,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="TextView"
+                android:text="Make a new sub"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="SAVE"
+                android:text="CREATE"
                 android:textColor="@color/colorSecondary"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,12 +81,37 @@
         android:layout_marginEnd="16dp"
         android:background="@color/white"
         android:ems="10"
-        android:hint="reply"
+        android:hint="An interesting subname"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topbar" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/subname"
+        tools:layout_editor_absoluteX="7dp" />
+
+    <EditText
+        android:id="@+id/sub_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:hint="Description of sub (optional)"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
     <ProgressBar
         android:id="@+id/progressBar"

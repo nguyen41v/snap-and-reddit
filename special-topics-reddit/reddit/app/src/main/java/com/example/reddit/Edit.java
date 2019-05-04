@@ -37,7 +37,7 @@ public class Edit extends AppCompatActivity {
         number = intent.getIntExtra("number", 0);
         String content = intent.getStringExtra("content");
         progressBar = findViewById(R.id.progressBar);
-        edit = findViewById(R.id.editText);
+        edit = findViewById(R.id.subname);
         final TextView response = (TextView) findViewById(R.id.response);
         edit.setText(content);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
@@ -81,10 +81,10 @@ public class Edit extends AppCompatActivity {
                 ViewPost.recreate = true;
                 finish();
             } else if (!s) {
-                Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT).show();
             }
             else {
-            Toast.makeText(getApplicationContext(), "Could not save to the server\nPlease try again", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Could not save to the server\nPlease try again", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -112,7 +112,7 @@ public class Edit extends AppCompatActivity {
                 if (responseCode == MainActivity.OK) {
                     return true;
                 } else if (responseCode == MainActivity.UNAUTHORIZED) {
-                    startActivity(new Intent(Edit.this, LogIn.class));
+                    startActivity(new Intent(getApplicationContext(), LogIn.class));
                     return false;
                 }
             } catch (Exception e) {

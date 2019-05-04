@@ -14,6 +14,7 @@ import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -45,6 +46,7 @@ public class UserController {
     static private final String r_sparkle = "r_sparkle";
     static private final String r_cry = "r_cry";
     static private final String r_angry = "r_angry";
+    static private final String search = "search";
 
     static private final String deleted = "deleted";
     static private final String token = "token";
@@ -99,9 +101,9 @@ public class UserController {
         System.out.println(token);
         System.out.println(username);
         if (!checkToken(username, token)) {
-            return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity("{\"message\": \"valid token\"}", responseHeaders, HttpStatus.OK);
+        return new ResponseEntity("{\"message\": \"Login validated\"}", responseHeaders, HttpStatus.OK);
     }
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST) // <-- setup the endpoint URL at /register with the HTTP POST method
@@ -146,11 +148,11 @@ public class UserController {
 						System.out.println("email"); // debugging
                         response.put("message", "Email already registered");
 						return new ResponseEntity(response.toString(), responseHeaders,
-								HttpStatus.BAD_REQUEST);
+								HttpStatus.FORBIDDEN);
 					} else {
 						System.out.println("user");	// debugging
                         response.put("message", "Username already taken");
-                        return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.BAD_REQUEST);
+                        return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.FORBIDDEN);
 					}
 				}
 
@@ -241,6 +243,426 @@ public class UserController {
 	}
 
 
+    @RequestMapping(value = "/home", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
+    public ResponseEntity<String> getUsersContents(HttpServletRequest request) {
+        String username = request.getParameter(UserController.username);
+        String token = request.getParameter(UserController.token);
+
+        // fixme get type too
+        JSONArray posts = new JSONArray();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        if (!checkToken(username, token)) {
+            return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+        }
+        String query;
+        JSONObject postContent;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        try {
+            Class.forName(Project.JDBC_DRIVER);
+            conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+
+            // get reactions of user to posts that will show on their home page
+            // for front end to color stuff so user knows that they've reacted to something
+            // users can react multiple things to one post
+            // if users could only react one thing to a post, that would be easier o3o
+            query = "SELECT R.p_number, R.reaction " +
+                    "FROM " +
+                        "(SELECT P.p_number, P.sub_name, P.title, P.date, P.username, P.content, P.edited, " +
+                        "P.deleted, P.edit_date, P.num_of_comments, P.r_sparkle, P.r_cry, P.r_angry " +
+                            "FROM ((SELECT * FROM User WHERE username = ?) as U NATURAL JOIN Follow), Post as P " +
+                            "WHERE ((P.sub_name = name AND item = 's') OR (P.username = name AND item = 'u'))) as Pi " +
+                    "JOIN (SELECT * FROM PReaction WHERE username = ?) as R " +
+                    "ON Pi.p_number = R.p_number;";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, username);
+            System.out.println(ps);
+            resultSet = ps.executeQuery();
+            HashMap<Integer, ArrayList<String>> preactions = new HashMap<Integer, ArrayList<String>>();
+            String reaction;
+            int p_number;
+            while (resultSet.next()) {
+                p_number = resultSet.getInt(UserController.p_number);
+                reaction = resultSet.getString(UserController.reaction);
+                if (preactions.containsKey(p_number)) {
+                    preactions.get(p_number).add(reaction);
+                } else {
+                    ArrayList<String> temp = new ArrayList<>();
+                    temp.add(reaction);
+                    preactions.put(p_number, temp);
+                }
+            }
+            // get posts from subs the user follows or from users the user follow
+            query = "SELECT P.p_number, P.sub_name, P.title, P.date, P.username, P.content, P.edited, " +
+                    "P.deleted, P.edit_date, P.num_of_comments, P.r_sparkle, P.r_cry, P.r_angry " +
+                    "FROM ((SELECT * FROM User WHERE username = ?) as U NATURAL JOIN Follow), Post as P " +
+                    "WHERE ((P.sub_name = name AND item = 's') OR (P.username = name AND item = 'u')) " +
+                    "ORDER BY date DESC";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            System.out.println(ps);
+            resultSet = ps.executeQuery();
+            int number;
+            while (resultSet.next()) {
+                postContent = new JSONObject();
+                number = resultSet.getInt(UserController.p_number);
+                postContent.put(UserController.p_number, number);
+                postContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
+                postContent.put(UserController.title, resultSet.getString(UserController.title));
+                postContent.put(UserController.date, resultSet.getString(UserController.date));
+                postContent.put(UserController.username, resultSet.getString(UserController.username));
+                postContent.put(UserController.content, resultSet.getString(UserController.content));
+                postContent.put(UserController.r_sparkle, resultSet.getInt(UserController.r_sparkle));
+                postContent.put(UserController.r_cry, resultSet.getInt(UserController.r_cry));
+                postContent.put(UserController.r_angry, resultSet.getInt(UserController.r_angry));
+                if (resultSet.getBoolean(UserController.edited)) {
+                    postContent.put(UserController.edited, true);
+                    postContent.put(UserController.edit_date, resultSet.getString(UserController.edit_date));
+                } else {
+                    postContent.put(UserController.edited, false);
+                }
+                if (preactions.containsKey(number)) {
+                    postContent.put(UserController.reactions, preactions.get(number));
+                } else {
+                    postContent.put(UserController.reactions, new ArrayList<>());
+                }
+                postContent.put(UserController.num_of_comments, resultSet.getInt(UserController.num_of_comments));
+                posts.put(postContent);
+            }
+            close(ps, conn);
+            return new ResponseEntity(posts.toString(), responseHeaders, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity("{\"message\":\"could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+
+    }
+
+
+    @RequestMapping(value = "/popular", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
+    public ResponseEntity<String> getPopularContent(HttpServletRequest request) {
+        String username = request.getParameter(UserController.username);
+        JSONArray posts = new JSONArray();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        String query;
+        JSONObject postContent;
+        try {
+            Class.forName(Project.JDBC_DRIVER);
+            conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+
+            HashMap<Integer, ArrayList<String>> preactions = new HashMap<Integer, ArrayList<String>>();
+            // if user is logged in, get their reactions
+            if (!username.isEmpty()) {
+                query = "SELECT * FROM PReaction WHERE username = ?;";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, username);
+                System.out.println(ps);
+                resultSet = ps.executeQuery();
+                String reaction;
+                int p_number;
+                while (resultSet.next()) {
+                    p_number = resultSet.getInt(UserController.p_number);
+                    reaction = resultSet.getString(UserController.reaction);
+                    if (preactions.containsKey(p_number)) {
+                        preactions.get(p_number).add(reaction);
+                    } else {
+                        ArrayList<String> temp = new ArrayList<>();
+                        temp.add(reaction);
+                        preactions.put(p_number, temp);
+                    }
+                }
+            }
+
+            // my popularity formula . . .
+            query = "SELECT *, r_sparkle + r_cry + r_angry + UNIX_TIMESTAMP(date) as popularity FROM Post ORDER BY popularity;";
+            ps = conn.prepareStatement(query);
+            System.out.println(ps);
+            resultSet = ps.executeQuery();
+            int number;
+            while (resultSet.next()) {
+                postContent = new JSONObject();
+                number = resultSet.getInt(UserController.p_number);
+                postContent.put(UserController.p_number, number);
+                postContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
+                postContent.put(UserController.title, resultSet.getString(UserController.title));
+                postContent.put(UserController.date, resultSet.getString(UserController.date));
+                postContent.put(UserController.username, resultSet.getString(UserController.username));
+                postContent.put(UserController.content, resultSet.getString(UserController.content));
+                postContent.put(UserController.r_sparkle, resultSet.getInt(UserController.r_sparkle));
+                postContent.put(UserController.r_cry, resultSet.getInt(UserController.r_cry));
+                postContent.put(UserController.r_angry, resultSet.getInt(UserController.r_angry));
+                if (resultSet.getBoolean(UserController.edited)) {
+                    postContent.put(UserController.edited, true);
+                    postContent.put(UserController.edit_date, resultSet.getString(UserController.edit_date));
+                } else {
+                    postContent.put(UserController.edited, false);
+                }
+                if (preactions.containsKey(number)) {
+                    postContent.put(UserController.reactions, preactions.get(number));
+                } else {
+                    postContent.put(UserController.reactions, new ArrayList<>());
+                }
+                postContent.put(UserController.num_of_comments, resultSet.getInt(UserController.num_of_comments));
+                posts.put(postContent);
+            }
+            close(ps, conn);
+            return new ResponseEntity(posts.toString(), responseHeaders, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity("{\"message\":\"Could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+
+    }
+
+
+    @RequestMapping(value = "/searchSubs", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
+    public ResponseEntity<String> searchSubs(HttpServletRequest request) {
+        String search = request.getParameter(UserController.search);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        try {
+            Class.forName(Project.JDBC_DRIVER);
+            conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+
+            JSONArray queryContents;
+            JSONObject queryContent;
+            String query;
+
+            String[] searchStrings = search.split(" ");
+            String searchQuery = "sub_name LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%";
+            query = "SELECT * FROM Subforum WHERE " + searchQuery + ";";
+            ps = conn.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            queryContents = new JSONArray();
+            while (resultSet.next()) {
+                queryContent = new JSONObject();
+                queryContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
+                queryContents.put(queryContent);
+            }
+            ps.close();
+            conn.close();
+            return new ResponseEntity(queryContents.toString(), responseHeaders, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity("{\"message\":\"Could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+
+    }
+
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
+    public ResponseEntity<String> search(HttpServletRequest request) {
+        String username = request.getParameter(UserController.username);
+        String search = request.getParameter(UserController.search);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        try {
+            Class.forName(Project.JDBC_DRIVER);
+            conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+
+            JSONObject searchResults = new JSONObject();
+            JSONArray queryContents;
+            JSONObject queryContent;
+            String query;
+            HashMap<Integer, ArrayList<String>> preactions = new HashMap<Integer, ArrayList<String>>();
+            // if user is logged in, get their reactions
+            if (!username.isEmpty()) {
+                query = "SELECT * FROM PReaction WHERE username = ?;";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, username);
+                System.out.println(ps);
+                resultSet = ps.executeQuery();
+                String reaction;
+                int p_number;
+                while (resultSet.next()) {
+                    p_number = resultSet.getInt(UserController.p_number);
+                    reaction = resultSet.getString(UserController.reaction);
+                    if (preactions.containsKey(p_number)) {
+                        preactions.get(p_number).add(reaction);
+                    } else {
+                        ArrayList<String> temp = new ArrayList<>();
+                        temp.add(reaction);
+                        preactions.put(p_number, temp);
+                    }
+                }
+            }
+            int number;
+            String[] searchStrings = search.split(" ");
+            // if user is searching within a sub
+            if (searchStrings.length > 1 && searchStrings[0].matches("^r\\/.+")) {
+                String sub = searchStrings[0].substring(searchStrings[0].indexOf("\\"));
+                String searchQuery = "(content LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
+                query = "SELECT * FROM Post WHERE sub_name = ? AND " + searchQuery + " ORDER BY date DESC;";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, sub);
+                System.out.println(ps);
+                resultSet = ps.executeQuery();
+                queryContents = new JSONArray();
+                while (resultSet.next()) {
+                    queryContent = new JSONObject();
+                    number = resultSet.getInt(UserController.p_number);
+                    queryContent.put(UserController.p_number, number);
+                    queryContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
+                    queryContent.put(UserController.title, resultSet.getString(UserController.title));
+                    queryContent.put(UserController.date, resultSet.getString(UserController.date));
+                    queryContent.put(UserController.username, resultSet.getString(UserController.username));
+                    queryContent.put(UserController.content, resultSet.getString(UserController.content));
+                    queryContent.put(UserController.r_sparkle, resultSet.getInt(UserController.r_sparkle));
+                    queryContent.put(UserController.r_cry, resultSet.getInt(UserController.r_cry));
+                    queryContent.put(UserController.r_angry, resultSet.getInt(UserController.r_angry));
+                    if (resultSet.getBoolean(UserController.edited)) {
+                        queryContent.put(UserController.edited, true);
+                        queryContent.put(UserController.edit_date, resultSet.getString(UserController.edit_date));
+                    } else {
+                        queryContent.put(UserController.edited, false);
+                    }
+                    if (preactions.containsKey(number)) {
+                        queryContent.put(UserController.reactions, preactions.get(number));
+                    } else {
+                        queryContent.put(UserController.reactions, new ArrayList<>());
+                    }
+                    queryContent.put(UserController.num_of_comments, resultSet.getInt(UserController.num_of_comments));
+                    queryContents.put(queryContent);
+                }
+                searchResults.put("posts", queryContents);
+                ps.close();
+                conn.close();
+                return new ResponseEntity(searchResults.toString(), responseHeaders, HttpStatus.OK);
+            }
+
+            String searchQuery = "(content LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
+            query = "SELECT * FROM Post WHERE " + searchQuery + " ORDER BY date DESC;";
+            ps = conn.prepareStatement(query);
+            System.out.println(ps);
+            resultSet = ps.executeQuery();
+            queryContents = new JSONArray();
+            while (resultSet.next()) {
+                queryContent = new JSONObject();
+                number = resultSet.getInt(UserController.p_number);
+                queryContent.put(UserController.p_number, number);
+                queryContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
+                queryContent.put(UserController.title, resultSet.getString(UserController.title));
+                queryContent.put(UserController.date, resultSet.getString(UserController.date));
+                queryContent.put(UserController.username, resultSet.getString(UserController.username));
+                queryContent.put(UserController.content, resultSet.getString(UserController.content));
+                queryContent.put(UserController.r_sparkle, resultSet.getInt(UserController.r_sparkle));
+                queryContent.put(UserController.r_cry, resultSet.getInt(UserController.r_cry));
+                queryContent.put(UserController.r_angry, resultSet.getInt(UserController.r_angry));
+                if (resultSet.getBoolean(UserController.edited)) {
+                    queryContent.put(UserController.edited, true);
+                    queryContent.put(UserController.edit_date, resultSet.getString(UserController.edit_date));
+                } else {
+                    queryContent.put(UserController.edited, false);
+                }
+                if (preactions.containsKey(number)) {
+                    queryContent.put(UserController.reactions, preactions.get(number));
+                } else {
+                    queryContent.put(UserController.reactions, new ArrayList<>());
+                }
+                queryContent.put(UserController.num_of_comments, resultSet.getInt(UserController.num_of_comments));
+                queryContents.put(queryContent);
+            }
+            searchResults.put("posts", queryContents);
+
+            searchQuery = "(info LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
+            String searchQuery1 = "(sub_name LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
+            query = "SELECT * FROM Subforum WHERE " + searchQuery + " OR " + searchQuery1 + ";";
+            ps = conn.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            queryContents = new JSONArray();
+            while (resultSet.next()) {
+                queryContent = new JSONObject();
+                queryContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
+                queryContent.put(UserController.info, resultSet.getString(UserController.info));
+                queryContents.put(queryContent);
+            }
+            searchResults.put("subs", queryContents);
+            ps.close();
+            conn.close();
+            return new ResponseEntity(searchResults.toString(), responseHeaders, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity("{\"message\":\"Could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+
+    }
+
+
+
+    @RequestMapping(value = "/sub", method = RequestMethod.POST) // <-- setup the endpoint URL at /sub with the HTTP POST method
+    public ResponseEntity<String> makeSub(@RequestBody String body, HttpServletRequest request) {
+        System.out.println(body); // debugging
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        try {
+            JSONObject temp = new JSONObject(body);
+            // Grabbing post info from request body
+            String username = temp.getString(UserController.username);
+            String sub_name = temp.getString(UserController.sub_name);
+            String info = temp.getString(UserController.info);
+            String token = temp.getString(UserController.token);
+            if (!checkToken(username, token)) {
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+            }
+            Connection conn = null;
+            PreparedStatement ps = null;
+            String query;
+            try {
+                Class.forName(Project.JDBC_DRIVER);
+                conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+                // check if sub exists
+                query = "SELECT * FROM Subforum WHERE sub_name = ?";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, sub_name);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return new ResponseEntity("{\"message\": \"Sub already exists\"}", responseHeaders, HttpStatus.FORBIDDEN);
+                }
+                // add new sub
+                query = "INSERT INTO Subforum (sub_name, info) VALUES (?,?)";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, sub_name);
+                ps.setString(2, info);
+                System.out.println(ps); // debugging
+                ps.executeUpdate();
+                ps.close();
+                conn.close();
+                return new ResponseEntity("{\"message\": \"Sub successfully created\"}", responseHeaders, HttpStatus.OK);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("not JSON");
+        }
+        return new ResponseEntity("{\"message\": \"Post was not posted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+    }
+
+
+
     @RequestMapping(value = "/post", method = RequestMethod.POST) // <-- setup the endpoint URL at /post with the HTTP POST method
     public ResponseEntity<String> post(@RequestBody String body, HttpServletRequest request) {
         System.out.println(body); // debugging
@@ -255,7 +677,7 @@ public class UserController {
             String content = temp.getString(UserController.content);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
             Connection conn = null;
             PreparedStatement ps = null;
@@ -282,18 +704,14 @@ public class UserController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            System.out.println("not JSON");
-            return new ResponseEntity(
-                    "{\"message\":\"response body was not in a proper JSON format\", \"original message\": \"" + body
-                            + "\"}",
-                    responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("{\"message\": \"post was not posted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\": \"Post was not posted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/post", method = RequestMethod.GET) // <-- setup the endpoint URL at /post with the HTTP GET method
     public ResponseEntity<String> getPosts(HttpServletRequest request) {
         String sub = request.getParameter(UserController.sub_name);
+        // fixme get type too
         JSONArray posts = new JSONArray();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
@@ -339,7 +757,7 @@ public class UserController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity("{\"message\":\"could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\":\"Could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 
     }
 
@@ -356,7 +774,7 @@ public class UserController {
             String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
             Connection conn = null;
             PreparedStatement ps = null;
@@ -385,7 +803,7 @@ public class UserController {
             e.printStackTrace();
             System.out.println("not JSON");
         }
-        return new ResponseEntity("{\"message\": \"comment was not edited due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\": \"Comment was not edited due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -402,7 +820,7 @@ public class UserController {
             String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -430,13 +848,8 @@ public class UserController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            System.out.println("not JSON");
-            return new ResponseEntity(
-                    "{\"message\":\"response body was not in a proper JSON format\", \"original message\": \"" + body
-                            + "\"}",
-                    responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("{\"message\": \"comment was not edited due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\": \"Comment was not edited due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -454,7 +867,7 @@ public class UserController {
             String content = temp.getString(UserController.content);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -471,7 +884,7 @@ public class UserController {
                 if (resultSet.next()) {
                     number = resultSet.getInt("num_of_comments") + 1;
                 } else {
-                    return new ResponseEntity("{\"message\": \"comment was not posted because that post doesn't exist\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity("{\"message\": \"Comment was not posted because that post doesn't exist\"}", responseHeaders, HttpStatus.FORBIDDEN);
                 }
                 try {
                     // add comment reply
@@ -496,7 +909,7 @@ public class UserController {
                 ps.executeUpdate();
                 ps.close();
                 conn.close();
-                return new ResponseEntity("{\"message\": \"comment was posted\"}", responseHeaders, HttpStatus.OK);
+                return new ResponseEntity("{\"message\": \"Comment was posted\"}", responseHeaders, HttpStatus.OK);
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -504,13 +917,8 @@ public class UserController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            System.out.println("not JSON");
-            return new ResponseEntity(
-                    "{\"message\":\"response body was not in a proper JSON format\", \"original message\": \"" + body
-                            + "\"}",
-                    responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("{\"message\": \"comment was not posted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\": \"Comment was not posted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/replyComment", method = RequestMethod.POST) // <-- setup the endpoint URL at /replyComment with the HTTP POST method
@@ -528,7 +936,7 @@ public class UserController {
             int c_number = temp.getInt(UserController.c_number);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
 
@@ -551,13 +959,8 @@ public class UserController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            System.out.println("not JSON");
-            return new ResponseEntity(
-                    "{\"message\":\"response body was not in a proper JSON format\", \"original message\": \"" + body
-                            + "\"}",
-                    responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("{\"message\": \"comment was not posted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\": \"Comment was not posted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/editComment", method = RequestMethod.POST) // <-- setup the endpoint URL at /editComment with the HTTP POST method
@@ -574,7 +977,7 @@ public class UserController {
             String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -603,13 +1006,8 @@ public class UserController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            System.out.println("not JSON");
-            return new ResponseEntity(
-                    "{\"message\":\"response body was not in a proper JSON format\", \"original message\": \"" + body
-                            + "\"}",
-                    responseHeaders, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("{\"message\": \"comment was not edited due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\": \"Comment was not edited due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     // /comment?p_number=1&number=1&deleted=true
@@ -635,7 +1033,7 @@ public class UserController {
             System.out.println(token);
 
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 
             Connection conn = null;
@@ -657,7 +1055,7 @@ public class UserController {
                 ps.executeUpdate();
                 ps.close();
                 conn.close();
-                return new ResponseEntity("{\"message\": \"comment was posted\"}", responseHeaders, HttpStatus.OK);
+                return new ResponseEntity("{\"message\": \"Comment was deleted\"}", responseHeaders, HttpStatus.OK);
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -665,9 +1063,8 @@ public class UserController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            System.out.println("not JSON");
         }
-        return new ResponseEntity("{\"message\": \"comment was not edited due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity("{\"message\": \"Comment was not deleted due to an error\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
 	@RequestMapping(value = "/comment", method = RequestMethod.GET) // <-- setup the endpoint URL at /comment with the HTTP GET method
@@ -759,12 +1156,13 @@ public class UserController {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity("{\"message\":\"could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity("{\"message\":\"Could not get comments\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 
 	}
 
 
 
+	// not using these messaging endpoints;
 	@RequestMapping(value = "/message", method = RequestMethod.POST) // <-- setup the endpoint URL at /message with the HTTP POST method
 	public ResponseEntity<String> message(@RequestBody String body, HttpServletRequest request) {
 
@@ -777,7 +1175,7 @@ public class UserController {
 			String username = temp.getString(UserController.username);
             String token = temp.getString(UserController.token);
             if (!checkToken(username, token)) {
-                return new ResponseEntity("{\"message\": \"invalid token\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
             }
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -794,18 +1192,19 @@ public class UserController {
 				System.out.println(ps);
 				ps.executeUpdate();
 				close(ps, conn);
-			} catch (SQLException e) {
+                return new ResponseEntity("{\"message\":\"Message sent\", \"content\":" + body + "}", responseHeaders, HttpStatus.OK);
+            } catch (SQLException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		} catch (JSONException je) {
-			return new ResponseEntity(
-					"{\"message\":\"response body was not in a proper JSON format\", \"original message\": " + body
-							+ "}",
-					responseHeaders, HttpStatus.BAD_REQUEST);
+		    je.printStackTrace();
 		}
-		return new ResponseEntity("{\"message\":\"message sent\", \"content\":" + body + "}", responseHeaders, HttpStatus.OK);
+        return new ResponseEntity(
+                "{\"message\":\"Message could not be sent\", \"original message\": " + body
+                        + "}",
+                responseHeaders, HttpStatus.BAD_REQUEST);
 	}
 
 	@RequestMapping(value = "/message", method = RequestMethod.GET) // <-- setup the endpoint URL at /message with the HTTP GET method
@@ -889,8 +1288,9 @@ public class UserController {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity("{\"message\":\"could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
-
+        return new ResponseEntity(
+                "{\"message\":\"Could not get messages\"}",
+                responseHeaders, HttpStatus.BAD_REQUEST);
 	}
     
     //Helper method to convert bytes into hexadecimal

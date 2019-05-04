@@ -31,7 +31,6 @@ CREATE TABLE Subforum (
 
 CREATE TABLE Post (
     p_number INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    type ENUM('u','s') NOT NULL,
     sub_name VARCHAR(30),
     title TEXT NOT NULL,
     date DATETIME(6) NOT NULL DEFAULT NOW(6),
@@ -132,7 +131,7 @@ CREATE TABLE PReaction (
     p_number INT UNSIGNED NOT NULL,
     reaction ENUM('s','c','a') NOT NULL,
     username VARCHAR(16) NOT NULL,
-    PRIMARY KEY (p_number),
+    PRIMARY KEY (p_number, reaction, username),
     FOREIGN KEY (p_number) REFERENCES Post(p_number),
     FOREIGN KEY (username) REFERENCES User(username)
 );
@@ -142,7 +141,7 @@ CREATE TABLE CReaction (
     number INT UNSIGNED NOT NULL,
     reaction ENUM('s','c','a') NOT NULL,
     username VARCHAR(16) NOT NULL,
-    PRIMARY KEY (p_number, number),
+    PRIMARY KEY (p_number, number, reaction, username),
     FOREIGN KEY (p_number, number) REFERENCES Comment(p_number, number),
     FOREIGN KEY (username) REFERENCES User(username)
 );
@@ -211,3 +210,22 @@ SELECT * FROM (SELECT * FROM Post WHERE p_number = 1) as p NATURAL JOIN PReactio
 
 //INSERT INTO MReaction (name, date) VALUES (2);
 SELECT * FROM Post;
+
+
+
+SELECT R.p_number, R.reaction
+FROM
+	(SELECT P.p_number, P.sub_name, P.title, P.date, P.username, P.content, P.edited,
+	P.deleted, P.edit_date, P.num_of_comments, P.r_sparkle, P.r_cry, P.r_angry
+	FROM ((SELECT * FROM User WHERE username = 'temp') as U NATURAL JOIN Follow), Post as P
+	WHERE ((P.sub_name = name AND item = 's') OR (P.username = name AND item = 'u'))) as Pi
+LEFT OUTER JOIN (SELECT * FROM PReaction WHERE username = 'temp') as R ON Pi.p_number = R.p_number;
+
+
+
+
+SELECT P.p_number, P.sub_name, P.title, P.date, P.username, P.content, P.edited,
+P.deleted, P.edit_date, P.num_of_comments, P.r_sparkle, P.r_cry, P.r_angry
+FROM ((SELECT * FROM User WHERE username = 'temp') as U NATURAL JOIN Follow), Post as P
+WHERE ((P.sub_name = name AND item = 's') OR (P.username = name AND item = 'u'))
+ORDER BY date DESC;
