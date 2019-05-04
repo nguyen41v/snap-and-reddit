@@ -114,7 +114,7 @@ public class LoginSignup extends AppCompatActivity implements LoginTab.OnButtonC
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
     }

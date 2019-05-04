@@ -349,6 +349,7 @@ public class UserController {
     @RequestMapping(value = "/popular", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
     public ResponseEntity<String> getPopularContent(HttpServletRequest request) {
         String username = request.getParameter(UserController.username);
+        String token = request.getParameter(UserController.token);
         JSONArray posts = new JSONArray();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
@@ -363,7 +364,7 @@ public class UserController {
 
             HashMap<Integer, ArrayList<String>> preactions = new HashMap<Integer, ArrayList<String>>();
             // if user is logged in, get their reactions
-            if (!username.isEmpty()) {
+            if (checkToken(username,token)) {
                 query = "SELECT * FROM PReaction WHERE username = ?;";
                 ps = conn.prepareStatement(query);
                 ps.setString(1, username);

@@ -120,7 +120,7 @@ public class Navigation extends NavigationDrawer {
             Intent intent = new Intent(this, LogIn.class);
             startActivity(intent);
         } else if (id == R.id.profile) {
-            Intent intent = new Intent(this, ViewProfile.class); //fixme make profile activity
+            Intent intent = new Intent(this, ViewProfile.class);
             startActivity(intent);
         } else if (id == R.id.logout) {
             setContentView(R.layout.activity_navigation);
@@ -157,8 +157,6 @@ public class Navigation extends NavigationDrawer {
                 logout.setVisible(true);
                 System.out.println("changing drawer");
                 MainActivity.loggedIn = true;
-            } else {
-                noConnection.setVisibility(View.VISIBLE);
             }
         }
 
