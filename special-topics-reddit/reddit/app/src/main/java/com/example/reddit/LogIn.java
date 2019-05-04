@@ -1,11 +1,17 @@
 package com.example.reddit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,17 +27,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class LogIn extends AppCompatActivity {
+public class LogIn extends AppCompatActivity implements LoginTab.OnButtonClickListener {
 
-    private String username;
-    private String password;
-    private Button logIn;
-    private EditText user;
-    private EditText pass;
-    private ProgressBar progressBar;
-    private final String valid = "Successfully logged in";
-    private final String invalid = "Invalid username/password combo";
-    private final String noConnection = "Could not connect to the server at this moment";
+
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
 
 
     @Override
@@ -39,11 +39,6 @@ public class LogIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         System.out.println(MainActivity.username + " " + MainActivity.token);
-        progressBar = findViewById(R.id.progressBar);
-        user = findViewById(R.id.username);
-        pass = findViewById(R.id.password);
-
-
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,114 +46,66 @@ public class LogIn extends AppCompatActivity {
             }
         });
 
-        logIn = findViewById(R.id.logInButton);
-        logIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logIn.setEnabled(false);
-                progressBar.setVisibility(View.VISIBLE);
-                username = user.getText().toString();
-                password = pass.getText().toString();
-                System.out.println(username);
-                System.out.println(password);
-                if (username.length() == 0) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "You must have a username", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER,0,64);
-                    toast.show();
-                } else if (password.length() == 0) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "You must have a password", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER,0,64);
-                    toast.show();
-                } else if (username.length() > 16) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "A username is 16 characters or less", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER,0,64);
-                    toast.show();
-                } else {
-                    ValidateLogin validateLogin = new ValidateLogin();
-                    validateLogin.execute();
-                }
-            }
-        });
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
     }
-    class ValidateLogin extends AsyncTask<Void, Void, String> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+
+    @Override
+    public void onButtonClicked(View view){
+        mViewPager.setCurrentItem(1);
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Launcher/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            logIn.setEnabled(true);
-            progressBar.setVisibility(View.GONE);
-            if (s.contentEquals("0")) {
-                Toast toast = Toast.makeText(getApplicationContext(), invalid, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER,0,64);
-                toast.show();
-            } else if (s.contentEquals("-1")) {
-                Toast toast = Toast.makeText(getApplicationContext(), noConnection, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER,0,64);
-                toast.show();
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            if (position == 0) {
+                return new LoginTab();
             }
-            else {
-                Toast toast = Toast.makeText(getApplicationContext(), valid, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL,0,64);
-                toast.show();
-                try {
-                    JSONObject json = new JSONObject(s);
-                    String tokenInfo = json.getString("token");
-                    MainActivity.username = username;
-                    MainActivity.token = tokenInfo;
-                    System.out.println(tokenInfo);
-                    MainActivity.editor.putString("username", username);
-                    MainActivity.editor.putString("token", tokenInfo);
-                    MainActivity.editor.apply();
-                    MainActivity.loggedIn = true;
-                    MainActivity.recreate = true;
-                    System.out.println(MainActivity.loggedIn);
-                    setResult(RESULT_OK,getIntent());
-                    finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            if (position == 1) {
+                return new SignupTab();
             }
+            return null;
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                System.out.println("hello");
-                System.out.println(MainActivity.URL);
-                URL url = new URL(MainActivity.URL + "/login?username=" + username + "&password=" + password);
-                System.out.println("uuhhh");
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                System.out.println("am i connecting?");
-
-                con.setRequestMethod("GET");
-                System.out.println("uuhhh");
-                con.setConnectTimeout(5000);
-                con.setReadTimeout(5000);
-                con.connect();
-                int responseCode = con.getResponseCode();
-                System.out.println(responseCode);
-                if (responseCode == MainActivity.OK) {
-                    StringBuilder sb = new StringBuilder();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    String json;
-                    System.out.println("got data");
-                    while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
-                    }
-                    return sb.toString().trim();
-                } else if (responseCode == MainActivity.UNAUTHORIZED) {
-                    return "0";
-                }
-            } catch (Exception e) {
-                System.out.println("Connection probably failed :3\ngo start the server");
-                return "-1";
-            }
-        return "-1";
+        public int getCount() {
+            // Show 3 total pages.
+            return 2;
         }
     }
+
 }

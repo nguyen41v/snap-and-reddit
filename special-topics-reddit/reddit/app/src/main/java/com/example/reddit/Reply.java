@@ -38,7 +38,7 @@ public class Reply extends AppCompatActivity {
         TextView response = (TextView) findViewById(R.id.response);
         TextView user = (TextView) findViewById(R.id.user);
         TextView text = (TextView) findViewById(R.id.sub);
-        final TextView responseType = (TextView) findViewById(R.id.subname);
+        final TextView responseType = (TextView) findViewById(R.id.title);
         text.setText(content);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override

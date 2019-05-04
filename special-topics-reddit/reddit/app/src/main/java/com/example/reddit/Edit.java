@@ -37,7 +37,7 @@ public class Edit extends AppCompatActivity {
         number = intent.getIntExtra("number", 0);
         String content = intent.getStringExtra("content");
         progressBar = findViewById(R.id.progressBar);
-        edit = findViewById(R.id.subname);
+        edit = findViewById(R.id.title);
         final TextView response = (TextView) findViewById(R.id.response);
         edit.setText(content);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {

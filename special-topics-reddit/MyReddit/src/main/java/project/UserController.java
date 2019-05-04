@@ -223,13 +223,15 @@ public class UserController {
 				    System.out.println(newToken);
 				    User user = new User(username, newToken);
                     if (Project.tokensArrayList.size() == 100) {
-                        Project.tokens.remove(Project.tokensArrayList.remove(99).username); // look at this again fixme
+                        Project.tokens.remove(Project.tokensArrayList.remove(99).username);
                     }
 				    Project.tokensArrayList.add(0, user);
 				    Project.tokens.put(username, user);
-					return new ResponseEntity("{\"message\":\"user logged in\",\"token\":\"" + newToken +"\"}", responseHeaders, HttpStatus.OK);
+				    JSONObject response = new JSONObject("{\"message\":\"Successfully logged in\"}");
+				    response.put("token", newToken);
+					return new ResponseEntity(response.toString(), responseHeaders, HttpStatus.OK);
 				} else {
-					return new ResponseEntity("{\"message\":\"username/password combination is incorrect\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+					return new ResponseEntity("{\"message\":\"Username/password combination is incorrect\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 				}
 			}
 			ps.close();
@@ -239,7 +241,7 @@ public class UserController {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity("{\"message\":\"username not registered\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity("{\"message\":\"Username not registered\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 	}
 
 
@@ -253,7 +255,7 @@ public class UserController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
         if (!checkToken(username, token)) {
-            return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity("{\"message\": \"Please log in\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
         }
         String query;
         JSONObject postContent;
@@ -383,7 +385,7 @@ public class UserController {
             }
 
             // my popularity formula . . .
-            query = "SELECT *, r_sparkle + r_cry + r_angry + UNIX_TIMESTAMP(date) as popularity FROM Post ORDER BY popularity;";
+            query = "SELECT *, r_sparkle + r_cry + r_angry + UNIX_TIMESTAMP(date)/10000000 as popularity FROM Post ORDER BY popularity;";
             ps = conn.prepareStatement(query);
             System.out.println(ps);
             resultSet = ps.executeQuery();
@@ -426,6 +428,49 @@ public class UserController {
     }
 
 
+
+    @RequestMapping(value = "/subs", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
+    public ResponseEntity<String> usersSubs(HttpServletRequest request) {
+        String username = request.getParameter(UserController.username);
+        String token = request.getParameter(UserController.token);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        if (!checkToken(username, token)) {
+            return new ResponseEntity("{\"message\": \"Please log in\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+        }
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        try {
+            Class.forName(Project.JDBC_DRIVER);
+            conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+
+            JSONArray queryContents;
+            String query;
+
+            query = "SELECT sub_name " +
+                    "FROM User as U, Subforum as S, Follow as F " +
+                    "WHERE U.username = ? AND U.username = F.username AND F.item = 's' AND F.name = S.sub_name;";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            System.out.println(ps);
+            resultSet = ps.executeQuery();
+            queryContents = new JSONArray();
+            while (resultSet.next()) {
+                queryContents.put(resultSet.getString(UserController.sub_name));
+            }
+            ps.close();
+            conn.close();
+            return new ResponseEntity(queryContents.toString(), responseHeaders, HttpStatus.OK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity("{\"message\":\"Could not get messages\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+
+    }
+
     @RequestMapping(value = "/searchSubs", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
     public ResponseEntity<String> searchSubs(HttpServletRequest request) {
         String search = request.getParameter(UserController.search);
@@ -439,19 +484,17 @@ public class UserController {
             conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
 
             JSONArray queryContents;
-            JSONObject queryContent;
             String query;
 
             String[] searchStrings = search.split(" ");
-            String searchQuery = "sub_name LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%";
+            String searchQuery = "sub_name LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\'";
             query = "SELECT * FROM Subforum WHERE " + searchQuery + ";";
             ps = conn.prepareStatement(query);
+            System.out.println(ps);
             resultSet = ps.executeQuery();
             queryContents = new JSONArray();
             while (resultSet.next()) {
-                queryContent = new JSONObject();
-                queryContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
-                queryContents.put(queryContent);
+                queryContents.put(resultSet.getString(UserController.sub_name));
             }
             ps.close();
             conn.close();
@@ -510,7 +553,7 @@ public class UserController {
             // if user is searching within a sub
             if (searchStrings.length > 1 && searchStrings[0].matches("^r\\/.+")) {
                 String sub = searchStrings[0].substring(searchStrings[0].indexOf("\\"));
-                String searchQuery = "(content LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
+                String searchQuery = "(content LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
                 query = "SELECT * FROM Post WHERE sub_name = ? AND " + searchQuery + " ORDER BY date DESC;";
                 ps = conn.prepareStatement(query);
                 ps.setString(1, sub);
@@ -549,7 +592,7 @@ public class UserController {
                 return new ResponseEntity(searchResults.toString(), responseHeaders, HttpStatus.OK);
             }
 
-            String searchQuery = "(content LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
+            String searchQuery = "(content LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
             query = "SELECT * FROM Post WHERE " + searchQuery + " ORDER BY date DESC;";
             ps = conn.prepareStatement(query);
             System.out.println(ps);
@@ -583,8 +626,8 @@ public class UserController {
             }
             searchResults.put("posts", queryContents);
 
-            searchQuery = "(info LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
-            String searchQuery1 = "(sub_name LIKE%" + String.join("% OR content LIKE %", searchStrings)+ "%)";
+            searchQuery = "(info LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
+            String searchQuery1 = "(sub_name LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
             query = "SELECT * FROM Subforum WHERE " + searchQuery + " OR " + searchQuery1 + ";";
             ps = conn.prepareStatement(query);
             resultSet = ps.executeQuery();
@@ -685,6 +728,15 @@ public class UserController {
             try {
                 Class.forName(Project.JDBC_DRIVER);
                 conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+
+                // check if sub exists.... doesn't matter in app though
+                query = "SELECT * FROM Subforum WHERE sub_name =?;";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, sub_name);
+                ResultSet resultSet = ps.executeQuery();
+                if (!resultSet.next()) {
+                    return new ResponseEntity("{\"message\": \"You are posting to a non-existent sub\"}", responseHeaders, HttpStatus.FORBIDDEN);
+                }
                 // add new post
                 query = "INSERT INTO Post (sub_name, title, content, username) VALUES (?,?,?,?)";
                 ps = conn.prepareStatement(query);

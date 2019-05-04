@@ -1,4 +1,4 @@
-package com.example.SNAPapp;
+package com.example.reddit;
 
 import android.app.Activity;
 import android.content.Context;
@@ -122,7 +122,6 @@ public class LoginTab extends Fragment{
     }
 
 
-
     class ValidateLogin extends AsyncTask<Void, Void, String> {
 
         @Override
@@ -145,25 +144,22 @@ public class LoginTab extends Fragment{
                 toast.show();
             }
             else {
-                Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL,0,64);
                 toast.show();
                 try {
                     JSONObject json = new JSONObject(s);
                     String tokenInfo = json.getString("token");
-                    Launcher.username = username;
-                    Launcher.token = tokenInfo;
+                    MainActivity.username = username;
+                    MainActivity.token = tokenInfo;
                     System.out.println(tokenInfo);
-                    Launcher.write();
-                    Launcher.editor.putString("username", username);
-                    Launcher.editor.putString("token", tokenInfo);
-                    Launcher.editor.apply();
-                    Launcher.loggedIn = true;
-                    Overview.recreate = true;
-                    System.out.println(Launcher.loggedIn);
-                    getActivity().setResult(RESULT_OK, getActivity().getIntent());
-                    Intent intent = new Intent(getContext(), Overview.class);
-                    startActivity(intent);
+                    MainActivity.editor.putString("username", username);
+                    MainActivity.editor.putString("token", tokenInfo);
+                    MainActivity.editor.apply();
+                    MainActivity.loggedIn = true;
+                    MainActivity.recreate = true;
+                    System.out.println(MainActivity.loggedIn);
+                    getActivity().setResult(RESULT_OK,getActivity().getIntent());
                     getActivity().finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -175,21 +171,20 @@ public class LoginTab extends Fragment{
         protected String doInBackground(Void... voids) {
             try {
                 System.out.println("hello");
-                System.out.println(Launcher.URL);
-                URL url = new URL(Launcher.URL + "/login?username=" + username + "&password=" + password);
+                System.out.println(MainActivity.URL);
+                URL url = new URL(MainActivity.URL + "/login?username=" + username + "&password=" + password);
                 System.out.println("uuhhh");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 System.out.println("am i connecting?");
 
                 con.setRequestMethod("GET");
                 System.out.println("uuhhh");
-
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
                 con.connect();
                 int responseCode = con.getResponseCode();
                 System.out.println(responseCode);
-                if (responseCode == Launcher.OK) {
+                if (responseCode == MainActivity.OK) {
                     StringBuilder sb = new StringBuilder();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     String json;
@@ -197,10 +192,8 @@ public class LoginTab extends Fragment{
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json + "\n");
                     }
-                    String temp = sb.toString().trim();
-                    System.out.print(temp);
-                    return temp;
-                } else if (responseCode == Launcher.UNAUTHORIZED) {
+                    return sb.toString().trim();
+                } else if (responseCode == MainActivity.UNAUTHORIZED) {
                     return "0";
                 }
             } catch (Exception e) {
@@ -210,4 +203,5 @@ public class LoginTab extends Fragment{
             return "-1";
         }
     }
+
 }

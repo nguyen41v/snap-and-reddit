@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewSub"></activity>
+        <activity android:name=".Chat"></activity>
+        <activity android:name=".SubsScreen" />
+        <activity android:name=".ViewSub" />
         <activity android:name=".SearchResults" />
         <activity android:name=".ChooseSub" />
         <activity android:name=".MakePost" />
@@ -40,10 +42,6 @@
             android:name=".ViewPost"
             android:label="ViewPost"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".MainPage"
-            android:label="@string/title_activity_main_page"
-            android:theme="@style/AppTheme.Light" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

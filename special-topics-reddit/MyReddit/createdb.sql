@@ -29,6 +29,8 @@ CREATE TABLE Subforum (
 );
 
 
+
+
 CREATE TABLE Post (
     p_number INT UNSIGNED NOT NULL AUTO_INCREMENT,
     sub_name VARCHAR(30),

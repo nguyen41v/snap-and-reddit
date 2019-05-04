@@ -1,4 +1,4 @@
-package com.example.SNAPapp;
+package com.example.reddit;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,7 +31,7 @@ public class SignupTab extends Fragment {
 
     private static String username;
     private static String password;
-    private static String phone_number;
+    private static String email;
     private static Button signUp;
     private static EditText user;
     private static EditText pass;
@@ -42,66 +42,66 @@ public class SignupTab extends Fragment {
 
 
     public SignupTab() {
-        }
+    }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static SignupTab newInstance(int sectionNumber) {
-            SignupTab fragment = new SignupTab();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
+    /**
+     * Returns a new instance of this fragment for the given section
+     * number.
+     */
+    public static SignupTab newInstance(int sectionNumber) {
+        SignupTab fragment = new SignupTab();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.signup, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.signup, container, false);
 
-            progressBar = rootView.findViewById(R.id.progressBar);
-            user = rootView.findViewById(R.id.username);
-            pass = rootView.findViewById(R.id.new_password);
-            phone = rootView.findViewById(R.id.new_phone_number);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        user = rootView.findViewById(R.id.username);
+        pass = rootView.findViewById(R.id.new_password);
+        phone = rootView.findViewById(R.id.new_email);
 
-            signUp = rootView.findViewById(R.id.signupButton);
-            signUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    username = user.getText().toString();
-                    password = pass.getText().toString();
-                    phone_number = phone.getText().toString();
-                    System.out.println(username);
-                    System.out.println(password);
-                    System.out.println(phone_number);
-                    if (!phone_number.matches("^[0-9]{3}-[0-9]{3}-[0-9]{4}$")) {
-                        Toast toast = Toast.makeText(getActivity(), "Your phone number must be in the following format: ###-###-####", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 64);
-                        toast.show();
-                    } else if (username.length() == 0) {
-                        Toast toast = Toast.makeText(getActivity(), "You must have a username", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER,0,64);
-                        toast.show();
-                    } else if (username.length() > 16) {
-                        Toast toast = Toast.makeText(getActivity(), "A username is 16 characters or less", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER,0,64);
-                        toast.show();
-                    } else if (password.length() == 0) {
-                        Toast toast = Toast.makeText(getActivity(), "You must have a password", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER,0,64);
-                        toast.show();
-                    } else {
-                        signUp.setEnabled(false);
-                        progressBar.setVisibility(View.VISIBLE);
-                        ValidateLogin validateLogin = new ValidateLogin();
-                        validateLogin.execute();
-                    }
+        signUp = rootView.findViewById(R.id.signupButton);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                username = user.getText().toString();
+                password = pass.getText().toString();
+                email = phone.getText().toString();
+                System.out.println(username);
+                System.out.println(password);
+                System.out.println(email);
+                if (!email.matches("^.*@.*\\..*$")) {
+                    Toast toast = Toast.makeText(getActivity(), "Your email is not valid", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
+                } else if (username.length() == 0) {
+                    Toast toast = Toast.makeText(getActivity(), "You must have a username", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,64);
+                    toast.show();
+                } else if (username.length() > 16) {
+                    Toast toast = Toast.makeText(getActivity(), "A username is 16 characters or less", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,64);
+                    toast.show();
+                } else if (password.length() == 0) {
+                    Toast toast = Toast.makeText(getActivity(), "You must have a password", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,64);
+                    toast.show();
+                } else {
+                    signUp.setEnabled(false);
+                    progressBar.setVisibility(View.VISIBLE);
+                    ValidateLogin validateLogin = new ValidateLogin();
+                    validateLogin.execute();
                 }
-            });
+            }
+        });
 
-            return rootView;
-        }
+        return rootView;
+    }
 
 
 
@@ -130,18 +130,17 @@ public class SignupTab extends Fragment {
                         toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL,0,64);
                         toast.show();
                         String tokenInfo = json.getString("token");
-                        Launcher.username = username;
-                        Launcher.token = tokenInfo;
+                        MainActivity.username = username;
+                        MainActivity.token = tokenInfo;
                         System.out.println(tokenInfo);
-                        Launcher.write();
-                        Launcher.editor.putString("username", username);
-                        Launcher.editor.putString("token", tokenInfo);
-                        Launcher.editor.apply();
-                        Launcher.loggedIn = true;
-                        Overview.recreate = true;
-                        System.out.println(Launcher.loggedIn);
+                        MainActivity.editor.putString("username", username);
+                        MainActivity.editor.putString("token", tokenInfo);
+                        MainActivity.editor.apply();
+                        MainActivity.loggedIn = true;
+                        MainActivity.recreate = true;
+                        System.out.println(MainActivity.loggedIn);
                         getActivity().setResult(RESULT_OK, getActivity().getIntent());
-                        Intent intent = new Intent(getContext(), Overview.class);
+                        Intent intent = new Intent(getContext(), MainActivity.class);
                         startActivity(intent);
                         getActivity().finish();
                     } else {
@@ -160,8 +159,8 @@ public class SignupTab extends Fragment {
         protected String doInBackground(Void... voids) {
             try {
                 System.out.println("hello");
-                System.out.println(Launcher.URL);
-                URL url = new URL(Launcher.URL + "/register");
+                System.out.println(MainActivity.URL);
+                URL url = new URL(MainActivity.URL + "/register");
                 System.out.println("uuhhh");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 System.out.println("am i connecting?");
@@ -171,15 +170,14 @@ public class SignupTab extends Fragment {
                 JSONObject requestBody = new JSONObject();
                 requestBody.put("username", username);
                 requestBody.put("password", password);
-                requestBody.put("phone_number", phone_number);
-                requestBody.put("state", Launcher.state);
-                requestBody.put("benefits_day", Launcher.benefitsDay);
+                requestBody.put("email", email);
                 System.out.println(requestBody);
                 con.setDoOutput(true);
                 con.setRequestProperty("Content-Type","application/json");
                 OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
                 writer.write(requestBody.toString());
                 writer.flush();
+
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
                 con.connect();
@@ -196,7 +194,7 @@ public class SignupTab extends Fragment {
                 String json;
                 System.out.println("got data");
                 while ((json = bufferedReader.readLine()) != null) {
-                    sb.append(json + "\n");
+                    sb.append(json);
                 }
                 return sb.toString().trim();
             } catch (Exception e) {

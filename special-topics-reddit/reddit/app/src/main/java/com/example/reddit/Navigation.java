@@ -1,14 +1,18 @@
 package com.example.reddit;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,26 +21,63 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
-public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+public class Navigation extends NavigationDrawer {
+    public Button name;
+    public View signUpMessage;
+    public MenuItem signUp;
+    public MenuItem profile;
+    public MenuItem logout;
+    public static TextView noConnection;
+
+
+    public static NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+
+    }
+
+    public void makeMenu () {
+        // navigation drawer set up
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
+//        setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        toolbar.setNavigationIcon(R.drawable.ic_person_purple_24dp);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        name = header.findViewById(R.id.username);
+        signUpMessage = header.findViewById(R.id.SignUpMessage);
+
+        Menu menu = navigationView.getMenu();
+        for (int menuItemIndex = 0; menuItemIndex < menu.size(); menuItemIndex++) {
+            MenuItem menuItem= menu.getItem(menuItemIndex);
+            if(menuItem.getItemId() == R.id.Sign_up){
+                signUp = menuItem;
+            } else if (menuItem.getItemId() == R.id.profile) {
+                profile = menuItem;
+            } else if (menuItem.getItemId() == R.id.logout) {
+                logout = menuItem;
+            }
+        }
+        if (!MainActivity.username.isEmpty() && !MainActivity.token.isEmpty()) {
+            ValidateToken validateToken = new ValidateToken();
+            validateToken.execute();
+        }
+
     }
 
     @Override
@@ -71,18 +112,76 @@ public class Navigation extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
 
         if (id == R.id.Sign_up) {
-            // Handle the camera action
+            Intent intent = new Intent(this, LogIn.class);
+            startActivity(intent);
+        } else if (id == R.id.profile) {
+            Intent intent = new Intent(this, ViewProfile.class); //fixme make profile activity
+            startActivity(intent);
+        } else if (id == R.id.logout) {
+            setContentView(R.layout.activity_navigation);
+            MainActivity.loggedIn = false;
+            MainActivity.editor.clear();
+            MainActivity.editor.apply();
+            System.out.println("hellloooooooooooooooooooooooooooo");
+            recreate();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    class ValidateToken extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            if (s) {
+                name.setVisibility(View.VISIBLE);
+                signUpMessage.setVisibility(View.GONE);
+                String temp = "u\\" + MainActivity.username;
+                name.setText(temp);
+                signUp.setVisible(false);
+                profile.setVisible(true);
+                logout.setVisible(true);
+                System.out.println("changing drawer");
+                MainActivity.loggedIn = true;
+            } else {
+                noConnection.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                URL url = new URL(MainActivity.URL + "/validate?username=" + MainActivity.username + "&token=" + URLEncoder.encode(MainActivity.token, "UTF-8"));
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setConnectTimeout(5000);
+                con.setReadTimeout(5000);
+                con.connect();
+                int responseCode = con.getResponseCode();
+                if (responseCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.e("Exception", "Sad life");
+                e.printStackTrace();
+            }
+            return false;
+        }
+    }
+
+
 }

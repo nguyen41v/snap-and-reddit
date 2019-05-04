@@ -31,9 +31,14 @@ public class MakeSub extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        if (!MainActivity.username.isEmpty() && !MainActivity.token.isEmpty()) {
+            // fixme
+        } else {
+            startActivity(new Intent(this, LogIn.class));
+        }
+        setContentView(R.layout.activity_make_sub);
         progressBar = findViewById(R.id.progressBar);
-        sub = findViewById(R.id.subname);
+        sub = findViewById(R.id.title);
         sub_info = findViewById(R.id.sub_info);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +59,7 @@ public class MakeSub extends AppCompatActivity {
             }
         });
     }
-    class SendSubInfo extends AsyncTask<Void, Void, Boolean> {
+    class SendSubInfo extends AsyncTask<Void, Void, Integer> {
 
         @Override
         protected void onPreExecute() {
@@ -62,22 +67,30 @@ public class MakeSub extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean s) {
+        protected void onPostExecute(Integer s) {
             super.onPostExecute(s);
             create.setEnabled(true);
             progressBar.setVisibility(View.GONE);
-            if (s) {
-                finish();
-            } else if (!s) {
-                Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Could not create to the server\nPlease try again", Toast.LENGTH_SHORT).show();
+            switch (s) {
+                case HttpURLConnection.HTTP_OK:
+                    Toast.makeText(getApplicationContext(), "Sub created!", Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
+                case HttpURLConnection.HTTP_UNAUTHORIZED:
+                    Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), LogIn.class));
+                    break;
+                case HttpURLConnection.HTTP_FORBIDDEN:
+                    Toast.makeText(getApplicationContext(), "That sub already exists", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(getApplicationContext(), "Could not create to the server\nPlease try again", Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
 
         @Override
-        protected Boolean doInBackground(Void... voids) {
+        protected Integer doInBackground(Void... voids) {
             try {
                 URL url = new URL(MainActivity.URL + "/sub");
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -95,18 +108,12 @@ public class MakeSub extends AppCompatActivity {
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
                 con.connect();
-                int responseCode = con.getResponseCode();
-                if (responseCode == MainActivity.OK) {
-                    return true;
-                } else if (responseCode == MainActivity.UNAUTHORIZED) {
-                    startActivity(new Intent(getApplicationContext(), LogIn.class));
-                    return false;
-                }
+                return con.getResponseCode();
             } catch (Exception e) {
                 Log.e("Exception", "Sad life");
                 e.printStackTrace();
             }
-            return null;
+            return -1;
         }
     }
 }

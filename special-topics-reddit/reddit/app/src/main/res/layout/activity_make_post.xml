@@ -21,7 +21,7 @@
         app:srcCompat="@mipmap/evil" />
 
     <Button
-        android:id="@+id/replyButton2"
+        android:id="@+id/sub_name"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
@@ -85,7 +85,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/save"
+                android:id="@+id/post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -100,7 +100,7 @@
 
 
     <EditText
-        android:id="@+id/subname"
+        android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -123,7 +123,7 @@
         android:layout_height="1dp"
         android:layout_margin="16dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@+id/subname"
+        app:layout_constraintTop_toBottomOf="@+id/title"
         tools:layout_editor_absoluteX="7dp" />
 
     <View
@@ -136,7 +136,7 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <EditText
-        android:id="@+id/sub_info"
+        android:id="@+id/content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -163,7 +163,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/subname" />
+        app:layout_constraintTop_toTopOf="@+id/title" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

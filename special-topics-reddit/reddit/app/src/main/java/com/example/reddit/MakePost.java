@@ -2,59 +2,95 @@ package com.example.reddit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class MakePost extends AppCompatActivity {
 
-    private String sub_name;
-    private String info;
-    private EditText sub;
-    private EditText sub_info;
+    public static String sub_name;
+    private String content;
+    private String title;
+    public static Button sub;
+    private EditText title_info;
+    private EditText content_info;
     private ProgressBar progressBar;
-    private TextView create;
-
+    private TextView post;
+    private int responseCode = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit);
+        ValidateToken validateToken = new ValidateToken();
+        validateToken.execute();
+        setContentView(R.layout.activity_make_post);
+        Intent intent = getIntent();
+        sub_name = intent.getStringExtra("sub_name");
         progressBar = findViewById(R.id.progressBar);
-        sub = findViewById(R.id.subname);
-        sub_info = findViewById(R.id.sub_info);
+        sub = findViewById(R.id.sub_name);
+        content_info = findViewById(R.id.content);
+        title_info = findViewById(R.id.title);
+        System.out.println(sub_name);
+        if (sub_name != null) {
+            sub.setText(sub_name);
+        }
+        sub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ChooseSub.class));
+            }
+        });
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        create = (TextView) findViewById(R.id.save);
-        create.setOnClickListener(new View.OnClickListener() {
+        post = (TextView) findViewById(R.id.post);
+        post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                create.setEnabled(false);
-                progressBar.setVisibility(View.VISIBLE);
-                sub_name = sub.getText().toString();
-                info = sub_info.getText().toString();
-                SendSubInfo sendSubInfo = new SendSubInfo();
-                sendSubInfo.execute();
+                post.setEnabled(false);
+                System.out.println("clicked on POST");
+                if (sub_name == null) {
+                    Toast.makeText(getApplicationContext(), "Pick a sub to post to", Toast.LENGTH_SHORT).show();
+                    post.setEnabled(true);
+                    startActivity(new Intent(getApplicationContext(), ChooseSub.class));
+                    return;
+                }
+                if (!title_info.getText().toString().isEmpty()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    title = title_info.getText().toString();
+                    content = content_info.getText().toString();
+                    SendPostInfo sendPostInfo = new SendPostInfo();
+                    sendPostInfo.execute();
+                }
             }
         });
     }
-    class SendSubInfo extends AsyncTask<Void, Void, Boolean> {
+
+
+    class ValidateToken extends AsyncTask<Void, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -64,29 +100,96 @@ public class MakePost extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
-            create.setEnabled(true);
-            progressBar.setVisibility(View.GONE);
-            if (s) {
-                finish();
-            } else if (!s) {
-                Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Could not create to the server\nPlease try again", Toast.LENGTH_SHORT).show();
+            Intent intent;
+            if (!s) {
+                startActivity(new Intent(getApplication(), LogIn.class));
             }
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                URL url = new URL(MainActivity.URL + "/sub");
+                System.out.println(MainActivity.loggedIn);
+                if (!MainActivity.loggedIn) {
+                    return false;
+                }
+                URL url = new URL(MainActivity.URL + "/validate?username=" + MainActivity.username + "&token=" + URLEncoder.encode(MainActivity.token, "UTF-8"));
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setConnectTimeout(5000);
+                con.setReadTimeout(5000);
+                con.connect();
+                int responseCode = con.getResponseCode();
+                System.out.println(responseCode);
+                if (responseCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.e("Exception", "Sad life");
+                e.printStackTrace();
+            }
+            return false;
+        }
+    }
+
+    class SendPostInfo extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            post.setEnabled(true);
+            progressBar.setVisibility(View.GONE);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                Toast toast;
+                switch (responseCode) {
+                    case HttpURLConnection.HTTP_OK:
+                        toast = Toast.makeText(getApplication(), jsonObject.getString("message"), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 64);
+                        toast.show();
+                        finish();
+                        break;
+                    case -1:
+                        toast = Toast.makeText(getApplication(), "Could not post to the server\nPlease try again", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 64);
+                        toast.show();
+                        break;
+                    case HttpURLConnection.HTTP_UNAUTHORIZED:
+                        toast = Toast.makeText(getApplication(), jsonObject.getString("message"), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 64);
+                        toast.show();
+                        startActivity(new Intent(getApplicationContext(), LogIn.class));
+                        break;
+                    default:
+                        toast = Toast.makeText(getApplication(), jsonObject.getString("message"), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 64);
+                        toast.show();
+                        finish();
+                        break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL(MainActivity.URL + "/post");
+                System.out.println(url);
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
                 JSONObject requestBody = new JSONObject();
                 requestBody.put("username", MainActivity.username);
                 requestBody.put("token", MainActivity.token);
                 requestBody.put("sub_name", sub_name);
-                requestBody.put("info", info);
+                requestBody.put("content", content);
+                requestBody.put("title", title);
                 con.setDoOutput(true);
                 con.setRequestProperty("Content-Type","application/json");
                 OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
@@ -95,18 +198,26 @@ public class MakePost extends AppCompatActivity {
                 con.setConnectTimeout(5000);
                 con.setReadTimeout(5000);
                 con.connect();
-                int responseCode = con.getResponseCode();
-                if (responseCode == MainActivity.OK) {
-                    return true;
-                } else if (responseCode == MainActivity.UNAUTHORIZED) {
-                    startActivity(new Intent(getApplicationContext(), LogIn.class));
-                    return false;
+                responseCode = con.getResponseCode();
+                StringBuilder sb = new StringBuilder();
+                InputStream in;
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    in = con.getInputStream();
+                } else {
+                    in = con.getErrorStream();
                 }
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+                String json;
+                System.out.println("got data");
+                while ((json = bufferedReader.readLine()) != null) {
+                    sb.append(json + "\n");
+                }
+                return sb.toString().trim();
             } catch (Exception e) {
                 Log.e("Exception", "Sad life");
                 e.printStackTrace();
             }
-            return null;
+            return "{}";
         }
     }
 }
