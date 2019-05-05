@@ -2,6 +2,7 @@ package project;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,17 +119,7 @@ public class UserController {
 			String username = temp.getString(UserController.username);
 			String password = temp.getString(UserController.password);
 			String email = temp.getString(UserController.email);
-			// Initializing a MessageDigest object which will allow us to digest a String with SHA-256
-			MessageDigest digest = null;
-			String hashedKey = null;
-			try {
-				digest = MessageDigest.getInstance("SHA-256"); // digest algorithm set to SHA-256
-					// Converts the password to SHA-256 bytes. Then the bytes are converted to
-					// hexadecimal with the helper method written below
-				hashedKey = bytesToHex(digest.digest(password.getBytes("UTF-8")));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			String hashedKey = BCrypt.hashpw(password, BCrypt.gensalt());
 			Connection conn = null;
 			PreparedStatement ps = null;
 			String query;
@@ -199,14 +190,6 @@ public class UserController {
 		HttpHeaders responseHeaders = new HttpHeaders(); 
     	responseHeaders.set("Content-Type", "application/json");
 		MessageDigest digest = null;
-		String hashedKey = null;
-		try {
-			digest = MessageDigest.getInstance("SHA-256");
-            //Hashing the input password so that we have something to compare with the stored hashed password
-			hashedKey = bytesToHex(digest.digest(password.getBytes("UTF-8")));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
@@ -218,7 +201,7 @@ public class UserController {
 			System.out.print(ps);
 			ResultSet resultSet = ps.executeQuery();
 			if (resultSet.next()) {
-				if (resultSet.getString(UserController.password).equals(hashedKey)) {
+				if (BCrypt.checkpw(password, resultSet.getString(UserController.password))) {
 				    String newToken = generateRandomString(10);
 				    System.out.println(newToken);
 				    User user = new User(username, newToken);
