@@ -34,7 +34,6 @@ import java.util.List;
 public class SearchResults extends AppCompatActivity {
 
 
-    private static SwipeRefreshLayout swipeRefreshLayout;
     private static SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -72,25 +71,6 @@ public class SearchResults extends AppCompatActivity {
             }
         });
 
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        update();
-                    }
-                }
-        );
-
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(true);
-                }
-                update();
-            }
-        });
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
@@ -128,30 +108,35 @@ public class SearchResults extends AppCompatActivity {
                 return true;
             }
         });
+        update();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private Fragment[] fragments;
+
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            this.fragments = new Fragment[4];
         }
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return new BestFrag();
+                    bestFrag = new BestFrag();
+                    return bestFrag;
                 case 1:
-                    return new PostFrag();
+                    postFrag = new PostFrag();
+                    return postFrag;
                 case 2:
-                    return new SubFrag();
+                    subFrag = new SubFrag();
+                    return subFrag;
                 case 3:
-                    return new ProfFrag();
-                default:
-                    return null;
+                    profFrag = new ProfFrag();
+                    return profFrag;
             }
+            return null;
         }
 
         @Override
@@ -160,16 +145,16 @@ public class SearchResults extends AppCompatActivity {
             // save the appropriate reference depending on position
             switch (position) {
                 case 0:
-                    bestFrag = (BestFrag) createdFragment;
+                    fragments[0] = createdFragment;
                     break;
                 case 1:
-                    postFrag = (PostFrag) createdFragment;
+                    fragments[1] = createdFragment;
                     break;
                 case 2:
-                    subFrag = (SubFrag) createdFragment;
+                    fragments[2] = createdFragment;
                     break;
                 case 3:
-                    profFrag = (ProfFrag) createdFragment;
+                    fragments[3] =  createdFragment;
             }
             return createdFragment;
         }
@@ -179,17 +164,24 @@ public class SearchResults extends AppCompatActivity {
             // even exist yet, otherwise you'll get an NPE.
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                if (bestFrag != null) {
-                    bestFrag.loadIntoRecyclerView(jsonObject);
+                if (fragments[0] != null) {
+                    ((BestFrag) fragments[0]).loadIntoRecyclerView(jsonObject);
+                    ((BestFrag) fragments[0]).swipeRefreshLayout.setRefreshing(false);
                 }
-                if (postFrag != null) {
-                    postFrag.loadIntoRecyclerView(jsonObject.getJSONArray("posts"));
+                if (fragments[1] != null) {
+                    ((PostFrag) fragments[1]).loadIntoRecyclerView(jsonObject.getJSONArray("posts"));
+                    ((PostFrag) fragments[1]).swipeRefreshLayout.setRefreshing(false);
+
                 }
-                if (subFrag != null) {
-                    subFrag.loadIntoRecyclerView(jsonObject.getJSONArray("subs"));
+                if (fragments[2] != null) {
+                    ((SubFrag) fragments[2]).loadIntoRecyclerView(jsonObject.getJSONArray("subs"));
+                    ((SubFrag) fragments[2]).swipeRefreshLayout.setRefreshing(false);
+
                 }
-                if (profFrag != null) {
-                    profFrag.loadIntoRecyclerView(jsonObject.getJSONArray("users"));
+                if (fragments[3] != null) {
+                    ((ProfFrag) fragments[3]).loadIntoRecyclerView(jsonObject.getJSONArray("users"));
+                    ((ProfFrag) fragments[3]).swipeRefreshLayout.setRefreshing(false);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -214,6 +206,8 @@ public class SearchResults extends AppCompatActivity {
         private static RecyclerView.Adapter adapter2;
         private static List<PostItem> postItems;
         private static List<SubItem> subItems;
+        private SwipeRefreshLayout swipeRefreshLayout;
+
 
         private static final String valid = "Successfully logged in";
         private static final String invalid = "Invalid username/password combo";
@@ -240,6 +234,16 @@ public class SearchResults extends AppCompatActivity {
             recyclerView2 = rootView.findViewById(R.id.recyclerView2);
             recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView2.setAdapter(new SubAdapterToViewSubs(new ArrayList<SubItem>(), getActivity()));
+
+            swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            update();
+                        }
+                    }
+            );
             return rootView;
         }
 
@@ -289,6 +293,8 @@ public class SearchResults extends AppCompatActivity {
         private static RecyclerView recyclerView;
         private static RecyclerView.Adapter adapter;
         private static List<PostItem> postItems;
+        private SwipeRefreshLayout swipeRefreshLayout;
+
 
         public PostFrag() {
 
@@ -311,6 +317,15 @@ public class SearchResults extends AppCompatActivity {
             recyclerView.setAdapter(new PostAdapter(new ArrayList<PostItem>(), getActivity()));
             postItems = new ArrayList<>();
 
+            swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            update();
+                        }
+                    }
+            );
             return rootView;
         }
 
@@ -346,6 +361,8 @@ public class SearchResults extends AppCompatActivity {
         private static RecyclerView recyclerView;
         private static RecyclerView.Adapter adapter;
         private static List<SubItem> subItems;
+        private SwipeRefreshLayout swipeRefreshLayout;
+
 
         public SubFrag() {
 
@@ -368,6 +385,15 @@ public class SearchResults extends AppCompatActivity {
             recyclerView.setAdapter(new PostAdapter(new ArrayList<PostItem>(), getActivity()));
             subItems = new ArrayList<>();
 
+            swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            update();
+                        }
+                    }
+            );
             return rootView;
         }
 
@@ -397,6 +423,8 @@ public class SearchResults extends AppCompatActivity {
         private static RecyclerView recyclerView;
         private static RecyclerView.Adapter adapter;
         private static List<UserItem> userItems;
+        private SwipeRefreshLayout swipeRefreshLayout;
+
 
         public ProfFrag() {
 
@@ -417,6 +445,16 @@ public class SearchResults extends AppCompatActivity {
             recyclerView = rootView.findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(new PostAdapter(new ArrayList<PostItem>(), getActivity()));
+
+            swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            update();
+                        }
+                    }
+            );
             return rootView;
         }
 
@@ -439,7 +477,7 @@ public class SearchResults extends AppCompatActivity {
 
     }
 
-    private void update() {
+    static private void update() {
         GetSearchResults getSearchResults = new GetSearchResults();
         getSearchResults.execute();
 
@@ -456,7 +494,6 @@ public class SearchResults extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             sectionsPagerAdapter.loadResults(s);
-            swipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
