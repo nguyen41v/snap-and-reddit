@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,15 +79,26 @@ public class MakePost extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), ChooseSub.class));
                     return;
                 }
-                if (!title_info.getText().toString().isEmpty()) {
-                    sub.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                    title_info.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                    progressBar.setVisibility(View.VISIBLE);
-                    title = title_info.getText().toString();
-                    content = content_info.getText().toString();
-                    SendPostInfo sendPostInfo = new SendPostInfo();
-                    sendPostInfo.execute();
+                Toast toast;
+                title = title_info.getText().toString();
+                if (title.isEmpty()) {
+                    toast = Toast.makeText(getApplication(), "Your post must have a title in order to be created", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
+                    return;
                 }
+                if (title.length() > 255) {
+                    toast = Toast.makeText(getApplication(), "Post titles must be less than 255 characters", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
+                    return;
+                }
+                content = content_info.getText().toString();
+                content_info.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                title_info.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                progressBar.setVisibility(View.VISIBLE);
+                SendPostInfo sendPostInfo = new SendPostInfo();
+                sendPostInfo.execute();
             }
         });
     }

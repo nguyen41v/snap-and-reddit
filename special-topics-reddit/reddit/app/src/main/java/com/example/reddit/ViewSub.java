@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,20 @@ public class ViewSub extends AppCompatActivity {
         sub_name = findViewById(R.id.sub);
         sub_info = findViewById(R.id.info);
         String temp = "s/" + sub;
+
+        ((SearchView)findViewById(R.id.searchView)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                startActivity(new Intent(getApplication(), SearchResults.class).putExtra("query", query));
+                startActivity(new Intent(getApplication(), SearchResults.class).putExtra("sub", sub));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
         sub_name.setText(temp);
         noConnection = findViewById(R.id.NoConnection);
         endOfPosts = findViewById(R.id.endCard);

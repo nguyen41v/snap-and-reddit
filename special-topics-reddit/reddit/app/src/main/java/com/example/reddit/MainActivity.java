@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
@@ -64,6 +65,18 @@ public class MainActivity extends Navigation {
         activity = "main";
         makeMenu();
         setBotBarClickListeners();
+        ((SearchView)findViewById(R.id.searchView)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                startActivity(new Intent(getApplication(), SearchResults.class).putExtra("query", query));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
         noConnection = findViewById(R.id.NoConnection);
         tabLayout = findViewById(R.id.tab_layout);
 

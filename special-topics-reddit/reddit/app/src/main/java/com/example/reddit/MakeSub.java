@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -48,6 +49,25 @@ public class MakeSub extends AppCompatActivity {
                 create.setEnabled(false);
                 progressBar.setVisibility(View.VISIBLE);
                 sub_name = sub.getText().toString();
+                Toast toast;
+                if (sub_name.isEmpty()) {
+                    toast = Toast.makeText(getApplication(), "Your sub must have a name in order to be created", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
+                    return;
+                }
+                if (sub_name.contains(" ")) {
+                    toast = Toast.makeText(getApplication(), "Sub names cannot have spaces", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
+                    return;
+                }
+                if (sub_name.length() > 30) {
+                    toast = Toast.makeText(getApplication(), "Sub names have to be less than 30 characters", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
+                    return;
+                }
                 info = sub_info.getText().toString();
                 SendSubInfo sendSubInfo = new SendSubInfo();
                 sendSubInfo.execute();
@@ -66,20 +86,29 @@ public class MakeSub extends AppCompatActivity {
             super.onPostExecute(s);
             create.setEnabled(true);
             progressBar.setVisibility(View.GONE);
+            Toast toast;
             switch (s) {
                 case HttpURLConnection.HTTP_OK:
-                    Toast.makeText(getApplicationContext(), "Sub created!", Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplication(), "Sub created!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
                     finish();
                     break;
                 case HttpURLConnection.HTTP_UNAUTHORIZED:
-                    Toast.makeText(getApplicationContext(), "Please log in again", Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplication(), "Please log in again", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
                     startActivity(new Intent(getApplicationContext(), LogIn.class));
                     break;
                 case HttpURLConnection.HTTP_FORBIDDEN:
-                    Toast.makeText(getApplicationContext(), "That sub already exists", Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplication(), "That sub already exists", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
                     break;
                 default:
-                    Toast.makeText(getApplicationContext(), "Could not create to the server\nPlease try again", Toast.LENGTH_SHORT).show();
+                    toast = Toast.makeText(getApplication(), "Could not connect to the server\nPlease try again", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
                     break;
             }
         }

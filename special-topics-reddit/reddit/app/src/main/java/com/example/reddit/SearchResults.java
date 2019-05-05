@@ -42,6 +42,7 @@ public class SearchResults extends AppCompatActivity {
     private PostFrag postFrag;
     private SubFrag subFrag;
     private ProfFrag profFrag;
+    String sub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,12 @@ public class SearchResults extends AppCompatActivity {
         setContentView(R.layout.activity_search_results);
         Intent intent = getIntent();
         query = intent.getStringExtra("query");
+        sub = intent.getStringExtra("sub");
+        if (sub == null) {
+            sub = "";
+        } else {
+            sub = "s/" + sub;
+        }
         sectionsPagerAdapter = new SearchResults.SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(sectionsPagerAdapter);

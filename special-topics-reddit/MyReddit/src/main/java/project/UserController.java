@@ -563,7 +563,7 @@ public class UserController {
             int number;
             String[] searchStrings = search.split(" ");
             // if user is searching within a sub
-            if (searchStrings.length > 1 && searchStrings[0].matches("^r\\/.+")) {
+            if (searchStrings.length > 1 && searchStrings[0].matches("^s\\/.+")) {
                 String sub = searchStrings[0].substring(searchStrings[0].indexOf("\\"));
                 String searchQuery = "(content LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
                 query = "SELECT * FROM Post WHERE sub_name = ? AND " + searchQuery + " ORDER BY date DESC;";
@@ -752,7 +752,7 @@ public class UserController {
                 query = "INSERT INTO Follow (item, name, username) VALUES ('s', ?, ?);";
                 ps = conn.prepareStatement(query);
                 ps.setString(1, sub_name);
-                ps.setString(1, username);
+                ps.setString(2, username);
                 ps.executeUpdate();
                 ps.close();
                 conn.close();
@@ -891,6 +891,7 @@ public class UserController {
                 postContent = new JSONObject();
                 postContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
                 postContent.put(UserController.info, resultSet.getString(UserController.info));
+                posts.put(postContent);
             } else {
                 postContent = new JSONObject();
                 postContent.put("message", "That sub doesn't exist");
