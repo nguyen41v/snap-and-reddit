@@ -46,8 +46,8 @@ public class ViewPost extends AppCompatActivity {
                                             // and to determine whether a user is sending a comment or post reply
     public static Boolean card = false; // true if clicked on a card object,
                                         // false if clicked on button -> enableclick of item clicked
-    public static Boolean recreate = false; // true if went to reply; clear commentItem for future purposes
-    public static Boolean changed = false; // true if change occurred (post, delete, edit) -> update page
+    public static Boolean changed = false; // true if went to reply; clear commentItem for future purposes
+    public static Boolean recreate = false; // true if change occurred (post, delete, edit) -> update page
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,17 +106,19 @@ public class ViewPost extends AppCompatActivity {
         super.onResume();
         System.out.println("resuming");
         System.out.println(card);
-        System.out.println(recreate);
         System.out.println(changed);
+        System.out.println(recreate);
 
         if (card) {
             reply.setEnabled(true);
         } else {
             replyButton.setEnabled(true);
         }
-        if (recreate) {
+        if (changed) {
             commentItem = null;
-            if (changed) {
+            if (recreate) {
+                MainActivity.recreate = true;
+                ViewSub.recreate = true;
                 update();
             }
         }
@@ -139,7 +141,6 @@ public class ViewPost extends AppCompatActivity {
     }
 
     private void replyToPost() {
-        recreate = true;
         Intent intent = new Intent(ViewPost.this, Reply.class);
         intent.putExtra("reply_to", "post");
         intent.putExtra("content", post.getTitle());
@@ -149,7 +150,6 @@ public class ViewPost extends AppCompatActivity {
     }
 
     private void replyToComment() {
-        recreate = true;
         Intent intent = new Intent(ViewPost.this, Reply.class);
         intent.putExtra("reply_to", "comment");
         intent.putExtra("content", commentItem.getContent());

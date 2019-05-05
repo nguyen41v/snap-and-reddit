@@ -193,7 +193,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     if(item.getItemId() == R.id.edit){
-                        ViewPost.recreate = true;
+                        ViewPost.changed = true;
                         Intent intent = new Intent(context, Edit.class);
                         intent.putExtra("edit", "comment");
                         intent.putExtra("content", comment.getContent());
@@ -246,7 +246,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     intent = new Intent(context, LogIn.class);
                     ((Activity) parent.getContext()).startActivityForResult(intent, 1);
                 } else {
-                    ViewPost.recreate = true;
+                    ViewPost.changed = true;
                     intent = new Intent(context, Reply.class);
                     intent.putExtra("reply_to", "comment");
                     intent.putExtra("content", comment.getContent());
@@ -296,8 +296,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             protected void onPostExecute(Boolean s) {
                 super.onPostExecute(s);
                 if (s) {
-                    ViewPost.changed = true;
                     ViewPost.recreate = true;
+                    ViewPost.changed = true;
                     comment.setDeleted(!comment.getDeleted());
                     if (comment.getDeleted()) {
                         content.setText("[deleted]");

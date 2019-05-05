@@ -44,7 +44,7 @@ public class MainActivity extends Navigation {
     public static String token = "";
     public static Editor editor;
     public static Boolean loggedIn = false;
-    public static Boolean recreate = false;
+    public static Boolean recreate;
     public static int OK = 200;
     public static int UNAUTHORIZED = 401;
     private SectionsPagerAdapter sectionsPagerAdapter;
@@ -56,6 +56,7 @@ public class MainActivity extends Navigation {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // get shared preferences: username, token
+        recreate = false;
         pref = getApplicationContext().getSharedPreferences(PREFS_NAME, 0); // 0 - for private mode
         username = pref.getString("username", "");
         token = pref.getString("token", "");
@@ -236,6 +237,7 @@ public class MainActivity extends Navigation {
             if (json.isEmpty()) {
                 noConnection.setVisibility(View.VISIBLE);
                 endOfPosts.setVisibility(View.INVISIBLE);
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 return;
             }
             if (json.equals("0")) {

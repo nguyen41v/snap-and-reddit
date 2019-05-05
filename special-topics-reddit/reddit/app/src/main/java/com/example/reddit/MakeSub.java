@@ -46,8 +46,6 @@ public class MakeSub extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                create.setEnabled(false);
-                progressBar.setVisibility(View.VISIBLE);
                 sub_name = sub.getText().toString();
                 Toast toast;
                 if (sub_name.isEmpty()) {
@@ -68,6 +66,8 @@ public class MakeSub extends AppCompatActivity {
                     toast.show();
                     return;
                 }
+                create.setEnabled(false);
+                progressBar.setVisibility(View.VISIBLE);
                 info = sub_info.getText().toString();
                 SendSubInfo sendSubInfo = new SendSubInfo();
                 sendSubInfo.execute();

@@ -51,8 +51,27 @@ public class SubsScreen extends Navigation {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SubAdapterToViewSubs(new ArrayList<SubItem>(), this));
         subItems = new ArrayList<>();
-        GetSubs getSubs = new GetSubs();
-        getSubs.execute();
+
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        swipeRefreshLayout.setRefreshing(true);
+                        update();
+                    }
+                }
+        );
+
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+                update();
+            }
+        });
         searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -67,6 +86,12 @@ public class SubsScreen extends Navigation {
             }
         });
 
+
+    }
+
+    private void update() {
+        GetSubs getSubs = new GetSubs();
+        getSubs.execute();
     }
 
 
@@ -106,6 +131,7 @@ public class SubsScreen extends Navigation {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Toast toast;
+            swipeRefreshLayout.setRefreshing(false);
             if (s == null) {
                 toast = Toast.makeText(getApplication(), "Could not connect to the server\nPlease try again", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 64);

@@ -1,5 +1,6 @@
 package com.example.SNAPapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,9 +26,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 public class Overview extends Navigation {
 
-
-    private final String noConnection = "Could not connect to the server at this moment";
-
     private TextView balance;
     private TextView average;
     private TextView past_benefits;
@@ -44,6 +42,15 @@ public class Overview extends Navigation {
         average = findViewById(R.id.average);
         past_benefits = findViewById(R.id.pastBenefits);
         past_spent = findViewById(R.id.pastSpent);
+        final Button viewButton = findViewById(R.id.viewRecentButton);
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewButton.setEnabled(false);
+                startActivity(new Intent(getApplicationContext(), RecentTransactions.class));
+                viewButton.setEnabled(true);
+            }
+        });
         update();
     }
 
@@ -69,7 +76,7 @@ public class Overview extends Navigation {
             temp = "$" + jsonObject.getString("balance");
             System.out.println(temp);
             balance.setText(temp);
-            temp = "You can spend $" +  jsonObject.getString("average") +" per meal until you receive your next benefits";
+            temp = "You can spend $" +  jsonObject.getString("average") +" per meal until the end of the month";
             System.out.println(temp);
             average.setText(temp);
             temp = "$" + jsonObject.getString("past_benefits");
@@ -84,6 +91,19 @@ public class Overview extends Navigation {
             e.printStackTrace();
         }
 
+    }
+
+    private String ithDay(String day) {
+        switch (day) {
+            case "1":
+                return day + "st";
+            case "2":
+                return day + "nd";
+            case "3":
+                return day + "rd";
+            default:
+                return day + "th";
+        }
     }
 
     class GetData extends AsyncTask<Void, Void, String> {

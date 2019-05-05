@@ -30,6 +30,7 @@ public class Reply extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reply);
+        ViewPost.changed = true;
         Intent intent = getIntent();
         p_number = intent.getIntExtra("p_number", -1);
         String type = intent.getStringExtra("reply_to");
@@ -87,7 +88,7 @@ public class Reply extends AppCompatActivity {
             post.setEnabled(true);
             progressBar.setVisibility(View.GONE);
             if (s) {
-                ViewPost.changed = true;
+                ViewPost.recreate = true;
                 finish();
             } else {
             Toast.makeText(getApplicationContext(), "Could not post comment to the server\nPlease try again", Toast.LENGTH_LONG).show();

@@ -128,6 +128,8 @@ public class Navigation extends AppCompatActivity implements NavigationView.OnNa
             MainActivity.loggedIn = false;
             MainActivity.editor.clear();
             MainActivity.editor.apply();
+            MainActivity.username = "";
+            MainActivity.token = "";
             System.out.println("hellloooooooooooooooooooooooooooo");
             recreate();
         }

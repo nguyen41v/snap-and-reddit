@@ -71,7 +71,6 @@ public class MakePost extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                post.setEnabled(false);
                 System.out.println("clicked on POST");
                 if (sub_name == null) {
                     Toast.makeText(getApplicationContext(), "Pick a sub to post to", Toast.LENGTH_SHORT).show();
@@ -93,6 +92,7 @@ public class MakePost extends AppCompatActivity {
                     toast.show();
                     return;
                 }
+                post.setEnabled(false);
                 content = content_info.getText().toString();
                 content_info.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 title_info.onEditorAction(EditorInfo.IME_ACTION_DONE);
@@ -126,6 +126,7 @@ public class MakePost extends AppCompatActivity {
                         toast.setGravity(Gravity.CENTER, 0, 64);
                         toast.show();
                         MainActivity.recreate = true;
+                        ViewSub.recreate = true;
                         finish();
                         break;
                     case -1:

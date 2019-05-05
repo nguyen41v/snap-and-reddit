@@ -45,12 +45,14 @@ public class ViewSub extends AppCompatActivity {
     private TextView sub_name;
     private TextView sub_info;
     private String newActivity;
+    public static Boolean recreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_sub);
         setBotBarClickListeners();
+        recreate = false;
         Intent intent = getIntent();
         sub = intent.getStringExtra("sub");
         sub_name = findViewById(R.id.sub);
@@ -152,6 +154,15 @@ public class ViewSub extends AppCompatActivity {
                 anotherValidateToken.execute();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (recreate) {
+            recreate();
+            MainActivity.recreate = true;
+        }
     }
 
     class AnotherValidateToken extends AsyncTask<Void, Void, Boolean> {

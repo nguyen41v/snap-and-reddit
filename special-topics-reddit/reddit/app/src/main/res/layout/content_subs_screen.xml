@@ -4,11 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
+    android:background="@color/white"
     android:theme="@style/AppTheme.Light"
     android:fitsSystemWindows="false"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".SubsScreen">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:text="Subs you're subcribed to"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -17,8 +30,7 @@
         android:elevation="10dp"
         android:isScrollContainer="false"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
-        app:layout_constraintTop_toTopOf="@+id/viewPager">
+        app:layout_constraintTop_toBottomOf="@+id/textView12">
 
 
         <androidx.core.widget.NestedScrollView
@@ -313,20 +325,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:background="@color/white"
-        android:elevation="0dp"
-        android:paddingTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/toolbar2"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-
-    </androidx.viewpager.widget.ViewPager>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

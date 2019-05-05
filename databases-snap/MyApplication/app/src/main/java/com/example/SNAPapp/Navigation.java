@@ -1,6 +1,7 @@
 package com.example.SNAPapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
@@ -11,10 +12,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,10 +41,10 @@ public class Navigation extends AppCompatActivity
     public MenuItem message;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
     }
 
     public void makeMenu() {
@@ -72,26 +80,8 @@ public class Navigation extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         name = header.findViewById(R.id.username);
         signUpMessage = header.findViewById(R.id.SignUpMessage);
-        System.out.println("logging in?");
-        System.out.println(Launcher.loggedIn);
-        if (Launcher.loggedIn) {
-            System.out.println("name");
-            if (name != null) {
-                String temp = "User: " + Launcher.username;
-                name.setVisibility(View.VISIBLE);
-                name.setText(temp);
-            }
-            System.out.println("signup");
-            if (signUpMessage != null) {
-                signUpMessage.setVisibility(View.GONE);
-            }
-            signUp.setVisible(false);
-            overview.setVisible(true);
-            recentTransactions.setVisible(true);
-            logout.setVisible(true);
-            message.setVisible(true);
-            System.out.println("changing drawer");
-        }
+        ValidateToken validateToken = new ValidateToken();
+        validateToken.execute();
     }
 
     @Override
@@ -152,16 +142,20 @@ public class Navigation extends AppCompatActivity
         } else if (id == R.id.nearby && !activity.equals("NearbyStores")) {
             startActivity(new Intent(this, NearbyStores.class));
         } else if (id == R.id.message && !activity.equals("Message")) {
-
+            startActivity(new Intent(this, Message.class));
         } else if (id == R.id.forum && !activity.equals("Forum")) {
-            startActivity(new Intent(this, Launcher.class));
+            startActivity(new Intent(this, Forum.class));
         } else if (id == R.id.faq && !activity.equals("FAQ")) {
+            startActivity(new Intent(this, FAQ.class));
 
         } else if (id == R.id.logout) {
             Launcher.write();
             Launcher.editor.putString("username", "");
             Launcher.editor.putString("token", "");
+            Launcher.editor.apply();
             Launcher.loggedIn = false;
+            Launcher.username = "";
+            Launcher.token = "";
             startActivity(new Intent(this, StateInfo.class));
         }
 
@@ -169,4 +163,61 @@ public class Navigation extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    class ValidateToken extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            if (s == null) {
+                return;
+            }
+            if (s) {
+                System.out.println("name");
+                if (name != null) {
+                    String temp = "User: " + Launcher.username;
+                    name.setVisibility(View.VISIBLE);
+                    name.setText(temp);
+                }
+                System.out.println("signup");
+                if (signUpMessage != null) {
+                    signUpMessage.setVisibility(View.GONE);
+                }
+                signUp.setVisible(false);
+                overview.setVisible(true);
+                recentTransactions.setVisible(true);
+                logout.setVisible(true);
+                message.setVisible(true);
+                System.out.println("changing drawer");
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                URL url = new URL(Launcher.URL + "/validate?username=" + Launcher.username + "&token=" + URLEncoder.encode(Launcher.token, "UTF-8"));
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setConnectTimeout(5000);
+                con.setReadTimeout(5000);
+                con.connect();
+                int responseCode = con.getResponseCode();
+                if (responseCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.e("Exception", "Sad life");
+                e.printStackTrace();
+                return null;
+            }
+            return false;
+        }
+    }
+
 }

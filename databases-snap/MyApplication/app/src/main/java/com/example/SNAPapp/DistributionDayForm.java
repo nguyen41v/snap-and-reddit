@@ -422,9 +422,6 @@ public class DistributionDayForm extends AppCompatActivity {
                         break;
 
                     case "j":
-                        temp = "Your state distributes benefits based off of " +
-                                "your birth month and last name, so please provide your birth month and the first letter of your last name";
-
                         temp = lname.getText().toString().trim();
                         if (position == 0) {
                             Toast toast = Toast.makeText(getApplicationContext(), "Pick a birth month", Toast.LENGTH_SHORT);
