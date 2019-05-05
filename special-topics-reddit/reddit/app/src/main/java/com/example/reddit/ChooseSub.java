@@ -45,8 +45,8 @@ public class ChooseSub extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SubAdapter(new ArrayList<SubItem>(), this));
         subItems = new ArrayList<>();
-        SendSubInfo sendSubInfo = new SendSubInfo();
-        sendSubInfo.execute();
+        GetSubs getSubs = new GetSubs();
+        getSubs.execute();
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +76,7 @@ public class ChooseSub extends AppCompatActivity {
     }
 
 
-    class SendSubInfo extends AsyncTask<Void, Void, String> {
+    class GetSubs extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {

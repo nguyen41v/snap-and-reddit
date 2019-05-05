@@ -1,13 +1,9 @@
 package com.example.reddit;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,13 +14,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
 
@@ -60,9 +53,7 @@ public class MainActivity extends Navigation {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
-        setBotBarClickListeners();
-        noConnection = findViewById(R.id.NoConnection);
+        setContentView(R.layout.activity_main);
         // get shared preferences: username, token
         pref = getApplicationContext().getSharedPreferences(PREFS_NAME, 0); // 0 - for private mode
         username = pref.getString("username", "");
@@ -71,6 +62,8 @@ public class MainActivity extends Navigation {
         System.out.println("got shared preferences");
         editor = pref.edit();
         makeMenu();
+        setBotBarClickListeners();
+        noConnection = findViewById(R.id.NoConnection);
         tabLayout = findViewById(R.id.tab_layout);
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -129,45 +122,6 @@ public class MainActivity extends Navigation {
         }
     }
 
-    private void setBotBarClickListeners() {
-        final CardView home = findViewById(R.id.home);
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        final CardView communitites = findViewById(R.id.communities);
-        communitites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SubsScreen.class));
-            }
-        });
-        final CardView addSub = findViewById(R.id.addSub);
-        addSub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MakeSub.class));
-            }
-        });
-        final CardView chat = findViewById(R.id.home);
-        chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Chat.class));
-            }
-        });
-        final CardView makePost = findViewById(R.id.makePost);
-        makePost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MakePost.class));
-            }
-        });
-    }
-
 
     @Override
     protected void onResume() {
@@ -179,30 +133,7 @@ public class MainActivity extends Navigation {
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int id = menuItem.getItemId();
 
-        if (id == R.id.Sign_up) {
-            Intent intent = new Intent(this, LogIn.class);
-            startActivity(intent);
-        } else if (id == R.id.profile) {
-            Intent intent = new Intent(this, ViewProfile.class);
-            startActivity(intent);
-        } else if (id == R.id.logout) {
-            setContentView(R.layout.activity_navigation);
-            MainActivity.loggedIn = false;
-            MainActivity.editor.clear();
-            MainActivity.editor.apply();
-            System.out.println("hellloooooooooooooooooooooooooooo");
-            recreate();
-            switchTab();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

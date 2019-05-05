@@ -89,6 +89,11 @@ public class MakePost extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recreate();
+    }
 
     class ValidateToken extends AsyncTask<Void, Void, Boolean> {
 
@@ -100,7 +105,6 @@ public class MakePost extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
-            Intent intent;
             if (!s) {
                 startActivity(new Intent(getApplication(), LogIn.class));
             }
@@ -152,6 +156,7 @@ public class MakePost extends AppCompatActivity {
                         toast = Toast.makeText(getApplication(), jsonObject.getString("message"), Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 64);
                         toast.show();
+                        MainActivity.recreate = true;
                         finish();
                         break;
                     case -1:

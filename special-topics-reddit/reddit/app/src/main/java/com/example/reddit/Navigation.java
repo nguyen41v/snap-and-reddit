@@ -4,19 +4,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
@@ -45,6 +42,8 @@ public class Navigation extends NavigationDrawer {
         super.onCreate(savedInstanceState);
 
     }
+
+
 
     public void makeMenu () {
         // navigation drawer set up
@@ -123,7 +122,7 @@ public class Navigation extends NavigationDrawer {
             Intent intent = new Intent(this, ViewProfile.class);
             startActivity(intent);
         } else if (id == R.id.logout) {
-            setContentView(R.layout.activity_navigation);
+            setContentView(R.layout.activity_main);
             MainActivity.loggedIn = false;
             MainActivity.editor.clear();
             MainActivity.editor.apply();
@@ -135,6 +134,47 @@ public class Navigation extends NavigationDrawer {
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    public void setBotBarClickListeners() {
+        final CardView home = findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        final CardView communitites = findViewById(R.id.communities);
+        communitites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SubsScreen.class));
+            }
+        });
+        final CardView addSub = findViewById(R.id.addSub);
+        addSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MakeSub.class));
+            }
+        });
+        final CardView chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Chat.class));
+            }
+        });
+        final CardView makePost = findViewById(R.id.makePost);
+        makePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MakePost.class));
+            }
+        });
+    }
+
 
 
     class ValidateToken extends AsyncTask<Void, Void, Boolean> {

@@ -386,7 +386,7 @@ public class UserController {
             }
 
             // my popularity formula . . .
-            query = "SELECT *, r_sparkle + r_cry + r_angry + UNIX_TIMESTAMP(date)/10000000 as popularity FROM Post ORDER BY popularity;";
+            query = "SELECT *, r_sparkle + r_cry + r_angry + UNIX_TIMESTAMP(date)/10000000 as popularity FROM Post ORDER BY popularity DESC;";
             ps = conn.prepareStatement(query);
             System.out.println(ps);
             resultSet = ps.executeQuery();
@@ -436,9 +436,7 @@ public class UserController {
         String token = request.getParameter(UserController.token);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
-        if (!checkToken(username, token)) {
-            return new ResponseEntity("{\"message\": \"Please log in\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
-        }
+
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
@@ -448,6 +446,18 @@ public class UserController {
 
             JSONArray queryContents;
             String query;
+            if (!checkToken(username, token)) {
+                query = "SELECT sub_name FROM Subforum";
+                ps = conn.prepareStatement(query);
+                resultSet = ps.executeQuery();
+                queryContents = new JSONArray();
+                while (resultSet.next()) {
+                    queryContents.put(resultSet.getString(UserController.sub_name));
+                }
+                ps.close();
+                conn.close();
+                return new ResponseEntity(queryContents.toString(), responseHeaders, HttpStatus.UNAUTHORIZED);
+            }
 
             query = "SELECT sub_name " +
                     "FROM User as U, Subforum as S, Follow as F " +
@@ -513,6 +523,7 @@ public class UserController {
     @RequestMapping(value = "/search", method = RequestMethod.GET) // <-- setup the endpoint URL at /home with the HTTP GET method
     public ResponseEntity<String> search(HttpServletRequest request) {
         String username = request.getParameter(UserController.username);
+        String token = request.getParameter(UserController.token);
         String search = request.getParameter(UserController.search);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json");
@@ -529,7 +540,7 @@ public class UserController {
             String query;
             HashMap<Integer, ArrayList<String>> preactions = new HashMap<Integer, ArrayList<String>>();
             // if user is logged in, get their reactions
-            if (!username.isEmpty()) {
+            if (checkToken(username, token)) {
                 query = "SELECT * FROM PReaction WHERE username = ?;";
                 ps = conn.prepareStatement(query);
                 ps.setString(1, username);
@@ -640,6 +651,16 @@ public class UserController {
                 queryContents.put(queryContent);
             }
             searchResults.put("subs", queryContents);
+
+            searchQuery = "(username LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
+            query = "SELECT * FROM User WHERE " + searchQuery + ";";
+            ps = conn.prepareStatement(query);
+            resultSet = ps.executeQuery();
+            queryContents = new JSONArray();
+            while (resultSet.next()) {
+                queryContents.put(resultSet.getString(UserController.username));
+            }
+            searchResults.put("users", queryContents);
             ps.close();
             conn.close();
             return new ResponseEntity(searchResults.toString(), responseHeaders, HttpStatus.OK);

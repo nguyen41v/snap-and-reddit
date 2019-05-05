@@ -70,7 +70,7 @@
         android:autofillHints="Email"
         android:background="@color/white"
         android:ems="10"
-        android:hint="Email e.g. email@email.com"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:maxLines="1"
         android:singleLine="true"

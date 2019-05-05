@@ -18,7 +18,8 @@
             android:theme="@style/AppTheme.Light"></activity>
         <activity
             android:name=".SubsScreen"
-            android:theme="@style/AppTheme.Light"/>
+            android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity android:name=".ViewSub" />
         <activity
             android:name=".SearchResults"

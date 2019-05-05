@@ -144,7 +144,7 @@ public class LoginTab extends Fragment{
                 toast.show();
             }
             else {
-                Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getActivity(), valid, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL,0,64);
                 toast.show();
                 try {
@@ -193,14 +193,13 @@ public class LoginTab extends Fragment{
                         sb.append(json + "\n");
                     }
                     return sb.toString().trim();
-                } else if (responseCode == MainActivity.UNAUTHORIZED) {
+                } else {
                     return "0";
                 }
             } catch (Exception e) {
                 System.out.println("Connection probably failed :3\ngo start the server");
                 return "-1";
             }
-            return "-1";
         }
     }
 
