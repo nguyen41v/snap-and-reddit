@@ -179,7 +179,7 @@ public class ViewPost extends AppCompatActivity {
         user.setText(temp);
         TextView title = findViewById(R.id.title);
         title.setText(post.getTitle());
-        content = findViewById(R.id.sub);
+        content = findViewById(R.id.content);
         content.setText(post.getContent());
         numC = findViewById(R.id.reactionsAndComments);
         numC.setText(Integer.toString(post.getNum_comments()));
@@ -325,6 +325,7 @@ public class ViewPost extends AppCompatActivity {
             super.onPostExecute(s);
             System.out.println(s);
             if (!s) {
+                MainActivity.loggedIn = false;
                 startActivityForResult(new Intent(ViewPost.this, LogIn.class),1);
             } else {
                 replyToPost();

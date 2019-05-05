@@ -44,6 +44,7 @@ public class ViewSub extends AppCompatActivity {
     private Boolean follow;
     private TextView sub_name;
     private TextView sub_info;
+    private String newActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +56,12 @@ public class ViewSub extends AppCompatActivity {
         sub_name = findViewById(R.id.sub);
         sub_info = findViewById(R.id.info);
         String temp = "s/" + sub;
-
-        ((SearchView)findViewById(R.id.searchView)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        SearchView searchView = findViewById(R.id.searchView);
+        searchView.setQueryHint("Search in " + temp);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                startActivity(new Intent(getApplication(), SearchResults.class).putExtra("query", query));
-                startActivity(new Intent(getApplication(), SearchResults.class).putExtra("sub", sub));
+                startActivity(new Intent(getApplication(), SearchResults.class).putExtra("query", query).putExtra("sub", sub));
                 return true;
             }
 
@@ -113,7 +114,7 @@ public class ViewSub extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
 
@@ -121,31 +122,86 @@ public class ViewSub extends AppCompatActivity {
         communitites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SubsScreen.class));
+                    startActivity(new Intent(getApplicationContext(), SubsScreen.class));
+
             }
         });
         final CardView addSub = findViewById(R.id.addSub);
         addSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MakeSub.class));
+                newActivity = "sub";
+                AnotherValidateToken anotherValidateToken = new AnotherValidateToken();
+                anotherValidateToken.execute();
             }
         });
         final CardView chat = findViewById(R.id.chat);
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Chat.class));
+                    startActivity(new Intent(getApplicationContext(), Chat.class));
+
             }
         });
         final CardView makePost = findViewById(R.id.makePost);
         makePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MakePost.class));
+                newActivity = "post";
+                AnotherValidateToken anotherValidateToken = new AnotherValidateToken();
+                anotherValidateToken.execute();
             }
         });
     }
+
+    class AnotherValidateToken extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            if (!s) {
+                MainActivity.loggedIn = false;
+                startActivityForResult(new Intent(getApplicationContext(), LogIn.class),1);
+            } else {
+                switch (newActivity) {
+                    case "post":
+                        startActivity(new Intent(getApplicationContext(), MakePost.class));
+                        break;
+                    case "sub":
+                        startActivity(new Intent(getApplicationContext(), MakeSub.class));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                URL url = new URL(MainActivity.URL + "/validate?username=" + MainActivity.username + "&token=" + URLEncoder.encode(MainActivity.token, "UTF-8"));
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setConnectTimeout(5000);
+                con.setReadTimeout(5000);
+                con.connect();
+                int responseCode = con.getResponseCode();
+                if (responseCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.e("Exception", "Sad life");
+                e.printStackTrace();
+            }
+            return false;
+        }
+    }
+
 
 
     private void loadIntoRecyclerView(String json) {

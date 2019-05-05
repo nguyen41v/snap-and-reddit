@@ -21,7 +21,9 @@
             android:theme="@style/AppTheme.Light"
             android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity android:name=".ViewSub"
-            android:theme="@style/AppTheme.Light"/>
+            android:theme="@style/AppTheme.Light"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
+
         <activity
             android:name=".SearchResults"
             android:theme="@style/AppTheme.Light"/>

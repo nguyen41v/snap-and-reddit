@@ -171,7 +171,9 @@ public class Navigation extends AppCompatActivity implements NavigationView.OnNa
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Chat.class));
+                if (!activity.equals("chat")) {
+                    startActivity(new Intent(getApplicationContext(), Chat.class));
+                }
             }
         });
         final CardView makePost = findViewById(R.id.makePost);
@@ -225,6 +227,7 @@ public class Navigation extends AppCompatActivity implements NavigationView.OnNa
         protected void onPostExecute(Boolean s) {
             super.onPostExecute(s);
             if (!s) {
+                MainActivity.loggedIn = false;
                 startActivityForResult(new Intent(getApplicationContext(), LogIn.class),1);
             } else {
                 switch (newActivity) {

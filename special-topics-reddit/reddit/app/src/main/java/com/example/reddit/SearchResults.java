@@ -55,9 +55,11 @@ public class SearchResults extends AppCompatActivity {
             sub = "";
         } else {
             sub = "s/" + sub;
+            query = sub + " " + query;
         }
         sectionsPagerAdapter = new SearchResults.SectionsPagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -102,7 +104,9 @@ public class SearchResults extends AppCompatActivity {
                 finish();
             }
         });
-        ((SearchView) findViewById(R.id.searchView)).setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        SearchView searchView = findViewById(R.id.searchView);
+        searchView.setQuery(query, true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 startActivity(new Intent(getApplication(), SearchResults.class).putExtra("query", query));
@@ -150,19 +154,7 @@ public class SearchResults extends AppCompatActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
             // save the appropriate reference depending on position
-            switch (position) {
-                case 0:
-                    fragments[0] = createdFragment;
-                    break;
-                case 1:
-                    fragments[1] = createdFragment;
-                    break;
-                case 2:
-                    fragments[2] = createdFragment;
-                    break;
-                case 3:
-                    fragments[3] =  createdFragment;
-            }
+            fragments[position] = createdFragment;
             return createdFragment;
         }
 
@@ -181,14 +173,17 @@ public class SearchResults extends AppCompatActivity {
 
                 }
                 if (fragments[2] != null) {
-                    ((SubFrag) fragments[2]).loadIntoRecyclerView(jsonObject.getJSONArray("subs"));
-                    ((SubFrag) fragments[2]).swipeRefreshLayout.setRefreshing(false);
+                    if (jsonObject.has("subs")) {
+                        ((SubFrag) fragments[2]).loadIntoRecyclerView(jsonObject.getJSONArray("subs"));
+                        ((SubFrag) fragments[2]).swipeRefreshLayout.setRefreshing(false);
+                    }
 
                 }
                 if (fragments[3] != null) {
-                    ((ProfFrag) fragments[3]).loadIntoRecyclerView(jsonObject.getJSONArray("users"));
-                    ((ProfFrag) fragments[3]).swipeRefreshLayout.setRefreshing(false);
-
+                    if (jsonObject.has("users")) {
+                        ((SubFrag) fragments[2]).loadIntoRecyclerView(jsonObject.getJSONArray("users"));
+                        ((SubFrag) fragments[2]).swipeRefreshLayout.setRefreshing(false);
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -275,10 +270,12 @@ public class SearchResults extends AppCompatActivity {
                             post.getInt("p_number"));
                     postItems.add(postItem);
                 }
-                jsonArray = json.getJSONArray("subs");
-                for (int i = 0; i < jsonArray.length() && i < 10; i++) {
-                    JSONObject sub = jsonArray.getJSONObject(i);
-                    subItems.add(new SubItem(sub.getString("sub_name")));
+                if (json.has("subs")) {
+                    jsonArray = json.getJSONArray("subs");
+                    for (int i = 0; i < jsonArray.length() && i < 10; i++) {
+                        JSONObject sub = jsonArray.getJSONObject(i);
+                        subItems.add(new SubItem(sub.getString("sub_name")));
+                    }
                 }
                 System.out.println("done getting data");
             } catch (JSONException e) {
@@ -500,7 +497,9 @@ public class SearchResults extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            sectionsPagerAdapter.loadResults(s);
+            if (!s.isEmpty()) {
+                sectionsPagerAdapter.loadResults(s);
+            }
         }
 
         @Override

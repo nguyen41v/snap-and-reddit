@@ -28,21 +28,20 @@
         android:id="@+id/imageView4"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="128dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/xd" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            app:srcCompat="@mipmap/kiss" />
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:srcCompat="@mipmap/kiss" />
 
         <TextView
             android:id="@+id/textView2"

@@ -95,6 +95,7 @@ public class MakeSub extends AppCompatActivity {
                     finish();
                     break;
                 case HttpURLConnection.HTTP_UNAUTHORIZED:
+                    MainActivity.loggedIn = false;
                     toast = Toast.makeText(getApplication(), "Please log in again", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 64);
                     toast.show();

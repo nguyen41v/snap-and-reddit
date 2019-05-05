@@ -345,6 +345,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     if (responseCode == MainActivity.OK) {
                         return true;
                     } else if (responseCode == MainActivity.UNAUTHORIZED) {
+                        MainActivity.loggedIn = false;
                         Intent intent = new Intent(context, LogIn.class);
                         context.startActivity(intent);
                     }

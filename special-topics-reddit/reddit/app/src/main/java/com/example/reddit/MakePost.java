@@ -134,6 +134,7 @@ public class MakePost extends AppCompatActivity {
                         toast.show();
                         break;
                     case HttpURLConnection.HTTP_UNAUTHORIZED:
+                        MainActivity.loggedIn = false;
                         toast = Toast.makeText(getApplication(), jsonObject.getString("message"), Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 64);
                         toast.show();

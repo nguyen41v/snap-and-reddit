@@ -112,6 +112,7 @@ public class Edit extends AppCompatActivity {
                 if (responseCode == MainActivity.OK) {
                     return true;
                 } else if (responseCode == MainActivity.UNAUTHORIZED) {
+                    MainActivity.loggedIn = false;
                     startActivity(new Intent(getApplicationContext(), LogIn.class));
                     return false;
                 }

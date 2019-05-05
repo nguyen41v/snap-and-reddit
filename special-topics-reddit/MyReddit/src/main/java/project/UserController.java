@@ -561,10 +561,13 @@ public class UserController {
                 }
             }
             int number;
-            String[] searchStrings = search.split(" ");
+            String[] searchStrings = search.trim().split(" ");
+            for (String s : searchStrings) {
+                System.out.println(s);
+            }
             // if user is searching within a sub
-            if (searchStrings.length > 1 && searchStrings[0].matches("^s\\/.+")) {
-                String sub = searchStrings[0].substring(searchStrings[0].indexOf("\\"));
+            if (searchStrings.length > 1 && searchStrings[0].matches("^s/.+")) {
+                String sub = searchStrings[0].substring(searchStrings[0].indexOf("/") + 1);
                 String searchQuery = "(content LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
                 query = "SELECT * FROM Post WHERE sub_name = ? AND " + searchQuery + " ORDER BY date DESC;";
                 ps = conn.prepareStatement(query);
@@ -599,13 +602,15 @@ public class UserController {
                     queryContents.put(queryContent);
                 }
                 searchResults.put("posts", queryContents);
+
                 ps.close();
                 conn.close();
                 return new ResponseEntity(searchResults.toString(), responseHeaders, HttpStatus.OK);
             }
 
             String searchQuery = "(content LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
-            query = "SELECT * FROM Post WHERE " + searchQuery + " ORDER BY date DESC;";
+            String searchQuery1 = "(title LIKE \'%" + String.join("%\' OR title LIKE \'%", searchStrings)+ "%\')";
+            query = "SELECT * FROM Post WHERE " + searchQuery + " OR " + searchQuery1 + " ORDER BY date DESC;";
             ps = conn.prepareStatement(query);
             System.out.println(ps);
             resultSet = ps.executeQuery();
@@ -638,8 +643,8 @@ public class UserController {
             }
             searchResults.put("posts", queryContents);
 
-            searchQuery = "(info LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
-            String searchQuery1 = "(sub_name LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
+            searchQuery = "(info LIKE \'%" + String.join("%\' OR info LIKE \'%", searchStrings)+ "%\')";
+            searchQuery1 = "(sub_name LIKE \'%" + String.join("%\' OR sub_name LIKE \'%", searchStrings)+ "%\')";
             query = "SELECT * FROM Subforum WHERE " + searchQuery + " OR " + searchQuery1 + ";";
             ps = conn.prepareStatement(query);
             System.out.println(ps);
@@ -653,7 +658,7 @@ public class UserController {
             }
             searchResults.put("subs", queryContents);
 
-            searchQuery = "(username LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
+            searchQuery = "(username LIKE \'%" + String.join("%\' OR username LIKE \'%", searchStrings)+ "%\')";
             query = "SELECT * FROM User WHERE " + searchQuery + ";";
             ps = conn.prepareStatement(query);
             resultSet = ps.executeQuery();
