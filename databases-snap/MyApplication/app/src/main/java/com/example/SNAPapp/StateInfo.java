@@ -28,6 +28,7 @@ public class StateInfo extends Navigation {
     private TextView messageText;
     private ProgressBar progressBar;
     private Button viewDis;
+    public static Boolean recreate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,12 @@ public class StateInfo extends Navigation {
                 viewDis.setEnabled(false);
                 startActivity(new Intent(getApplicationContext(), DistributionDayForm.class));
                 viewDis.setEnabled(true);
+            }
+        });
+        findViewById(R.id.change_state).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), InitialState.class));
             }
         });
         if (Launcher.state.isEmpty()) {
@@ -84,7 +91,14 @@ public class StateInfo extends Navigation {
         getData.execute();
     }
 
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (recreate) {
+            recreate();
+            recreate = false;
+        }
+    }
 
 
     private void loadInfo(String s) {

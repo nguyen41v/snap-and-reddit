@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +31,16 @@ public class DistributionDayForm extends AppCompatActivity {
     private CardView ssn_card;
     private CardView lname_card;
     private CardView birthday_card;
+    private Spinner birth_month;
+    private CardView birth_month_card;
     private TextView info;
+    private int position;
+    private final Integer[] monthes = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+    };
+    private final String[] month_names = new String[]{
+            "Select your birth month",
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +55,9 @@ public class DistributionDayForm extends AppCompatActivity {
         ssn_card = findViewById(R.id.ssn_card);
         lname_card = findViewById(R.id.last_name_card);
         birthday_card = findViewById(R.id.birthday_card);
+        birth_month_card = findViewById(R.id.birth_month_card);
         info = findViewById(R.id.dis_info);
+
         String temp;
         switch (Launcher.benefitsType) {
             case "n":
@@ -91,8 +105,19 @@ public class DistributionDayForm extends AppCompatActivity {
                 temp = "Your state distributes benefits based off of " +
                         "your birth month and last name, so please provide your birth month and the first letter of your last name";
                 benefits.setText(temp);
-                birthday.setVisibility(View.VISIBLE);
-                birthday.setHint("Birth month");
+                birth_month_card.setVisibility(View.VISIBLE);
+                birth_month = findViewById(R.id.birth_month);
+                //create a list of state_names for the spinner.
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, month_names);
+                birth_month.setAdapter(adapter);
+                birth_month.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        position = pos;
+                    }
+
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
                 lname_card.setVisibility(View.VISIBLE);
                 lname.setHint("First letter of last name");
                 break;
@@ -108,14 +133,12 @@ public class DistributionDayForm extends AppCompatActivity {
                         "your last name, so please provide your last name";
                 benefits.setText(temp);
                 lname_card.setVisibility(View.VISIBLE);
-//                lname.setHint("Mylastname");
                 break;
             case "ml":
                 temp = "Your state distributes benefits based off of " +
                         "your last name, so please provide your last name";
                 benefits.setText(temp);
                 lname_card.setVisibility(View.VISIBLE);
-//                lname.setHint("Last");
                 break;
             case "s":
                 temp = "Your state distributes benefits based off of " +
@@ -183,6 +206,7 @@ public class DistributionDayForm extends AppCompatActivity {
             public void onClick(View v) {
                 disDay.setEnabled(false);
                 String temp;
+                String originalTemp;
                 int some_num;
                 String day = "";
                 Boolean gotDay = false;
@@ -195,7 +219,8 @@ public class DistributionDayForm extends AppCompatActivity {
                             toast.show();
                         } else {
                             try {
-                                Integer.parseInt(temp.substring(temp.length() - 1)); // see if NumberFormatException arises
+                                temp = temp.substring(temp.length() - 1);
+                                Integer.parseInt(temp); // see if NumberFormatException arises
                                 ArrayList<String> conditions;
                                 for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
                                     conditions = entry.getValue();
@@ -207,20 +232,136 @@ public class DistributionDayForm extends AppCompatActivity {
                                         }
                                     }
                                     if (gotDay) {
-                                        switch (day) {
-                                            case "1":
-                                                day += "st";
-                                                break;
-                                            case "2":
-                                                day += "nd";
-                                                break;
-                                            case "3":
-                                                day += "rd";
-                                                break;
-                                            default:
-                                                day += "th";
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last case number digit of " + temp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!gotDay) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You need to have a valid number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        }
+                        break;
+                    case "mc":
+                        temp = case_num.getText().toString().trim();
+                        if (temp.length() < 2) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input the last two digits of your case number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                temp = temp.substring(temp.length() - 2);
+                                some_num = Integer.parseInt(temp); // see if NumberFormatException arises
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    System.out.println(conditions.get(0));
+                                    System.out.println(conditions.get(1));
+                                    System.out.println(some_num);
+
+                                    if (Integer.parseInt(conditions.get(0)) <= some_num && some_num <= Integer.parseInt(conditions.get(1))) {
+                                        day = entry.getKey();
+                                        gotDay = true;
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last two case number digits of " + temp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!gotDay) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You need to have a valid two digit number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        }
+                        break;
+                    case "e":
+                        originalTemp = case_num.getTransitionName().trim();
+                        temp = new StringBuffer(originalTemp).reverse().toString();
+                        if (temp.length() != 2) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input only the 8th and 9th digits of your case number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                Integer.parseInt(temp); // see if NumberFormatException arises
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    for (String number : conditions) {
+                                        if (number.equals(temp)) {
+                                            day = entry.getKey();
+                                            gotDay = true;
+                                            break;
                                         }
-                                        temp = "Your distribution day is the " + day;
+                                    }
+                                    if (gotDay) {
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your 8th and 9th case number digits of " + originalTemp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!gotDay) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You need to have a valid two digit number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        }
+                        break;
+                    case "v":
+                        temp = case_num.getText().toString().trim();
+                        if (temp.length() != 1) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input only the 7th digit of your case number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                Integer.parseInt(temp); // see if NumberFormatException arises
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    for (String number : conditions) {
+                                        if (number.equals(temp)) {
+                                            day = entry.getKey();
+                                            gotDay = true;
+                                            break;
+                                        }
+                                    }
+                                    if (gotDay) {
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your 7th case number digit of " + temp + " means that your distribution day is on the " + day;
                                         info.setVisibility(View.VISIBLE);
                                         info.setText(temp);
                                         break;
@@ -237,81 +378,315 @@ public class DistributionDayForm extends AppCompatActivity {
                         }
                         break;
 
-                        // placeholders fixme
-                    case "mc":
-                        temp = "Your state distributes benefits based off of the last two digits " +
-                                "of your case number, so please provide the last two digits of your case number";
-                        benefits.setText(temp);
-                        case_card.setVisibility(View.VISIBLE);
-                        case_num.setHint("##");
-                        break;
-                    case "e":
-                        temp = "Your state distributes benefits based off of the 8th and 9th digits " +
-                                "of your case number, so please provide the 8th and 9th digits of your case number";
-                        benefits.setText(temp);
-                        case_card.setVisibility(View.VISIBLE);
-                        case_num.setHint("##");
-                        break;
-                    case "v":
-                        temp = "Your state distributes benefits based off of the 7th digit " +
-                                "of your case number, so please provide the 7th digit of your case number";
-                        benefits.setText(temp);
-                        case_card.setVisibility(View.VISIBLE);
-                        break;
                     case "d":
-                        temp = "Your state distributes benefits based off of " +
-                                "of your birth day, so please provide the last digit of your birth day (Ex. 0 for 10, 20, or 30)";
-                        benefits.setText(temp);
-                        birthday_card.setVisibility(View.VISIBLE);
-                        birthday.setHint("#");
+                        temp = birthday.getText().toString().trim();
+                        if (temp.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input the last digit of your birth day", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                temp = temp.substring(temp.length() - 1);
+                                Integer.parseInt(temp); // see if NumberFormatException arises
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    for (String number : conditions) {
+                                        if (number.equals(temp)) {
+                                            day = entry.getKey();
+                                            gotDay = true;
+                                            break;
+                                        }
+                                    }
+                                    if (gotDay) {
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last birth day digit of " + temp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!gotDay) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You need to have a valid number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        }
                         break;
+
                     case "j":
                         temp = "Your state distributes benefits based off of " +
                                 "your birth month and last name, so please provide your birth month and the first letter of your last name";
-                        benefits.setText(temp);
-                        birthday.setVisibility(View.VISIBLE);
-                        birthday.setHint("##");
-                        lname_card.setVisibility(View.VISIBLE);
-                        lname.setHint("*");
+
+                        temp = lname.getText().toString().trim();
+                        if (position == 0) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Pick a birth month", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else if (temp.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input the first letter of your last name", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                some_num = monthes[position - 1];
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    if (Integer.parseInt(conditions.get(0)) == some_num &&
+                                            temp.compareToIgnoreCase(conditions.get(1)) >= 0 &&
+                                            temp.compareToIgnoreCase(conditions.get(2)) <= 0) {
+                                        day = entry.getKey();
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last name of  " + temp + " and your birth month of" + month_names[position] + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                         break;
                     case "y":
-                        temp = "Your state distributes benefits based off of " +
-                                "your birth year, so please provide the last digit of your birth year (Ex. 0 for 2000, 1990, 1980)";
-                        benefits.setText(temp);
-                        birthday.setVisibility(View.VISIBLE);
-                        birthday.setHint("#");
+                        temp = birthday.getText().toString().trim();
+                        if (temp.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input the last digit of your birth year", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                temp = temp.substring(temp.length() - 1);
+                                Integer.parseInt(temp); // see if NumberFormatException arises
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    for (String number : conditions) {
+                                        if (number.equals(temp)) {
+                                            day = entry.getKey();
+                                            gotDay = true;
+                                            break;
+                                        }
+                                    }
+                                    if (gotDay) {
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last birth year digit of  " + temp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!gotDay) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You need to have a valid number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        }
                         break;
                     case "l":
-                        temp = "Your state distributes benefits based off of " +
-                                "your last name, so please provide your last name";
-                        benefits.setText(temp);
-                        lname_card.setVisibility(View.VISIBLE);
-                        lname.setHint("Mylastname");
+                        temp = lname.getText().toString().trim();
+                        if (temp.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input your last name", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    if ((conditions.size() == 1 && temp.substring(0, conditions.get(0).length()).equals(conditions.get(0))) ||
+                                            (temp.compareToIgnoreCase(conditions.get(0)) >= 0 &&
+                                                    temp.compareToIgnoreCase(conditions.get(1)) <= 0)) {
+                                        day = entry.getKey();
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last name of " + temp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                         break;
                     case "ml":
-                        temp = "Your state distributes benefits based off of " +
-                                "your last name, so please provide your last name";
-                        benefits.setText(temp);
-                        lname_card.setVisibility(View.VISIBLE);
-                        lname.setHint("Mylastname");
+                        temp = lname.getText().toString().trim();
+                        if (temp.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input your last name", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    for (String name : conditions) {
+                                        if (temp.substring(0, name.length()).equals(name)) {
+                                            day = entry.getKey();
+                                            gotDay = true;
+                                        }
+                                    }
+                                    if (gotDay) {
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last name " + temp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                         break;
                     case "s":
-                        temp = "Your state distributes benefits based off of " +
-                                "of the last digit of your SSN, so please provide the last digit of your SSN";
-                        benefits.setText(temp);
-                        ssn_card.setVisibility(View.VISIBLE);
-                        ssn_num.setHint("#");
+                        temp = ssn_num.getText().toString().trim();
+                        if (temp.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input the last digit of your SSN", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                temp = temp.substring(temp.length() - 1);
+                                Integer.parseInt(temp); // see if NumberFormatException arises
+                                ArrayList<String> conditions;
+                                for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                    conditions = entry.getValue();
+                                    for (String number : conditions) {
+                                        if (number.equals(temp)) {
+                                            day = entry.getKey();
+                                            gotDay = true;
+                                            break;
+                                        }
+                                    }
+                                    if (gotDay) {
+                                        Launcher.benefitsDay = day;
+                                        Launcher.write();
+                                        Launcher.editor.putString("benefitsDay", day);
+                                        Launcher.editor.apply();
+                                        day = ithDay(day);
+                                        temp = "Your last SSN digit of " + temp + " means that your distribution day is on the " + day;
+                                        info.setVisibility(View.VISIBLE);
+                                        info.setText(temp);
+                                        break;
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!gotDay) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You need to have a valid number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        }
                         break;
                     case "ms":
-                        temp = "Your state distributes benefits based off of " +
-                                "of the last two digits of your SSN, so please provide the last two digits of your SSN";
-                        benefits.setText(temp);
-                        ssn_card.setVisibility(View.VISIBLE);
-                        ssn_num.setHint("##");
+                        temp = ssn_num.getText().toString().trim();
+                        if (temp.length() < 2) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Input the last two digits of your SSN", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        } else {
+                            try {
+                                temp = temp.substring(temp.length() - 2);
+                                some_num = Integer.parseInt(temp); // see if NumberFormatException arises
+                                ArrayList<String> conditions;
+                                if (Launcher.state.equals("TN")) {
+                                    for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                        conditions = entry.getValue();
+                                        if (Integer.parseInt(conditions.get(0)) <= some_num && some_num <= Integer.parseInt(conditions.get(1))) {
+                                            day = entry.getKey();
+                                            gotDay = true;
+                                            Launcher.benefitsDay = day;
+                                            Launcher.write();
+                                            Launcher.editor.putString("benefitsDay", day);
+                                            Launcher.editor.apply();
+                                            day = ithDay(day);
+                                            temp = "Your last two SSN digits of " + temp + " means that your distribution day is on the " + day;
+                                            info.setVisibility(View.VISIBLE);
+                                            info.setText(temp);
+                                            break;
+                                        }
+                                    }
+                                    // new mexico
+                                } else {
+                                    for (HashMap.Entry<String, ArrayList<String>> entry : Launcher.userBenefits.entrySet()) {
+                                        conditions = entry.getValue();
+                                        for (String number : conditions) {
+                                            if (number.equals(temp)) {
+                                                day = entry.getKey();
+                                                gotDay = true;
+                                                break;
+                                            }
+                                        }
+                                        if (gotDay) {
+                                            Launcher.benefitsDay = day;
+                                            Launcher.write();
+                                            Launcher.editor.putString("benefitsDay", day);
+                                            Launcher.editor.apply();
+                                            day = ithDay(day);
+                                            temp = "Your last two SSN digits of " + temp + " means that your distribution day is on the " + day;
+                                            info.setVisibility(View.VISIBLE);
+                                            info.setText(temp);
+                                            break;
+                                        }
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!gotDay) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You need to have a valid two digit number", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 64);
+                            toast.show();
+                        }
                         break;
                 }
                 disDay.setEnabled(true);
             }
         });
+    }
+
+    private String ithDay(String day) {
+        switch (day) {
+            case "1":
+                return day + "st";
+            case "2":
+                return day + "nd";
+            case "3":
+                return day + "rd";
+            default:
+                return day + "th";
+        }
     }
 }

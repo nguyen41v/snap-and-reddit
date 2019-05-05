@@ -20,7 +20,7 @@ KY,Kentucky,855-306-8959,TRUE,c,FALSE,1,19,https://www.myalabama.gov/Default.asp
 LA,Louisiana,888-524-3578,FALSE,s,TRUE,1,14,https://www.myalabama.gov/Default.aspx
 ME,Maine,800-442-6003,TRUE,d,TRUE,10,14,https://www.myalabama.gov/Default.aspx
 MD,Maryland,800-332-6347,TRUE,l,TRUE,4,23,https://www.myalabama.gov/Default.aspx
-MA,Massachusetts,877-382-2363,TRUE,l,FALSE,1,14,https://www.myalabama.gov/Default.aspx
+MA,Massachusetts,877-382-2363,TRUE,s,FALSE,1,14,https://www.myalabama.gov/Default.aspx
 MI,Michigan,855-275-6424,TRUE,c,FALSE,3,21,https://www.myalabama.gov/Default.aspx
 MN,Minnesota,800-657-3698,TRUE,c,TRUE,4,13,https://www.myalabama.gov/Default.aspx
 MS,Mississippi,800-948-3050,TRUE,mc,TRUE,4,21,https://www.myalabama.gov/Default.aspx

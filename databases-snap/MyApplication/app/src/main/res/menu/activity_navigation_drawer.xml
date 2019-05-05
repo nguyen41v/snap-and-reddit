@@ -8,10 +8,12 @@
         android:title="Sign Up/Log In" />
     <item
         android:id="@+id/overview"
-        android:title="Overview" />
+        android:title="Overview"
+        android:visible="false" />
     <item
         android:id="@+id/recent_transactions"
-        android:title="Recent Transactions" />
+        android:title="Recent Transactions"
+        android:visible="false" />
     <item
         android:id="@+id/home"
         android:title="Home" />
