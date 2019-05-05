@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -41,8 +42,7 @@ public class MakePost extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ValidateToken validateToken = new ValidateToken();
-        validateToken.execute();
+
         setContentView(R.layout.activity_make_post);
         Intent intent = getIntent();
         sub_name = intent.getStringExtra("sub_name");
@@ -79,6 +79,8 @@ public class MakePost extends AppCompatActivity {
                     return;
                 }
                 if (!title_info.getText().toString().isEmpty()) {
+                    sub.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                    title_info.onEditorAction(EditorInfo.IME_ACTION_DONE);
                     progressBar.setVisibility(View.VISIBLE);
                     title = title_info.getText().toString();
                     content = content_info.getText().toString();
@@ -89,52 +91,7 @@ public class MakePost extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        recreate();
-    }
 
-    class ValidateToken extends AsyncTask<Void, Void, Boolean> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Boolean s) {
-            super.onPostExecute(s);
-            if (!s) {
-                startActivity(new Intent(getApplication(), LogIn.class));
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... voids) {
-            try {
-                System.out.println(MainActivity.loggedIn);
-                if (!MainActivity.loggedIn) {
-                    return false;
-                }
-                URL url = new URL(MainActivity.URL + "/validate?username=" + MainActivity.username + "&token=" + URLEncoder.encode(MainActivity.token, "UTF-8"));
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                con.setConnectTimeout(5000);
-                con.setReadTimeout(5000);
-                con.connect();
-                int responseCode = con.getResponseCode();
-                System.out.println(responseCode);
-                if (responseCode == 200) {
-                    return true;
-                }
-            } catch (Exception e) {
-                Log.e("Exception", "Sad life");
-                e.printStackTrace();
-            }
-            return false;
-        }
-    }
 
     class SendPostInfo extends AsyncTask<Void, Void, String> {
 

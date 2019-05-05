@@ -18,8 +18,8 @@ public class SubAdapterToViewSubs extends RecyclerView.Adapter<SubAdapterToViewS
     private List<SubItem> subItems;
     private Context context;
 
-    public SubAdapterToViewSubs(List<SubItem> postItems, Context context) {
-        this.subItems = postItems;
+    public SubAdapterToViewSubs(List<SubItem> subItems, Context context) {
+        this.subItems = subItems;
         this.context = context;
     }
 
@@ -51,7 +51,7 @@ public class SubAdapterToViewSubs extends RecyclerView.Adapter<SubAdapterToViewS
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.sub = itemView.findViewById(R.id.sub);
-            sub.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, ViewSub.class).putExtra("sub", subItem.getSubname()));

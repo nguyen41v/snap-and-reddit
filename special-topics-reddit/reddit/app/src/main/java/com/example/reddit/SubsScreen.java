@@ -44,6 +44,8 @@ public class SubsScreen extends Navigation {
         setContentView(R.layout.activity_subs_screen);
         makeMenu();
         setBotBarClickListeners();
+        activity = "communities";
+
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -137,11 +139,12 @@ public class SubsScreen extends Navigation {
                     }
                     return sb.toString().trim();
                 }
+                return "-1";
             } catch (Exception e) {
                 Log.e("Exception", "Sad life");
                 e.printStackTrace();
             }
-            return "-1";
+            return null;
         }
     }
 

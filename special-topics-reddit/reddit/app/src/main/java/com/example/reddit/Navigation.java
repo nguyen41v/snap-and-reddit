@@ -10,6 +10,7 @@ import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,13 +26,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class Navigation extends NavigationDrawer {
+public class Navigation extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public Button name;
     public View signUpMessage;
     public MenuItem signUp;
     public MenuItem profile;
     public MenuItem logout;
     public static TextView noConnection;
+    public String activity;
+    public String newActivity = "";
 
 
     public static NavigationView navigationView;
@@ -40,7 +43,6 @@ public class Navigation extends NavigationDrawer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 
@@ -141,7 +143,9 @@ public class Navigation extends NavigationDrawer {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!activity.equals("main")) {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }
             }
         });
 
@@ -149,14 +153,18 @@ public class Navigation extends NavigationDrawer {
         communitites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SubsScreen.class));
+                if (!activity.equals("communities")) {
+                    startActivity(new Intent(getApplicationContext(), SubsScreen.class));
+                }
             }
         });
         final CardView addSub = findViewById(R.id.addSub);
         addSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MakeSub.class));
+                newActivity = "sub";
+                AnotherValidateToken anotherValidateToken = new AnotherValidateToken();
+                anotherValidateToken.execute();
             }
         });
         final CardView chat = findViewById(R.id.chat);
@@ -170,9 +178,87 @@ public class Navigation extends NavigationDrawer {
         makePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MakePost.class));
+                newActivity = "post";
+                AnotherValidateToken anotherValidateToken = new AnotherValidateToken();
+                anotherValidateToken.execute();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (MainActivity.recreate) {
+            recreate();
+            MainActivity.recreate = false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("clickAction?");
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("starting reply?");
+        System.out.println(MainActivity.loggedIn);
+        if (MainActivity.loggedIn) {
+            switch (newActivity) {
+                case "post":
+                    startActivity(new Intent(getApplicationContext(), MakePost.class));
+                    break;
+                case "sub":
+                    startActivity(new Intent(getApplicationContext(), MakeSub.class));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    class AnotherValidateToken extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean s) {
+            super.onPostExecute(s);
+            if (!s) {
+                startActivityForResult(new Intent(getApplicationContext(), LogIn.class),1);
+            } else {
+                switch (newActivity) {
+                    case "post":
+                        startActivity(new Intent(getApplicationContext(), MakePost.class));
+                        break;
+                    case "sub":
+                        startActivity(new Intent(getApplicationContext(), MakeSub.class));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                URL url = new URL(MainActivity.URL + "/validate?username=" + MainActivity.username + "&token=" + URLEncoder.encode(MainActivity.token, "UTF-8"));
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setConnectTimeout(5000);
+                con.setReadTimeout(5000);
+                con.connect();
+                int responseCode = con.getResponseCode();
+                if (responseCode == 200) {
+                    return true;
+                }
+            } catch (Exception e) {
+                Log.e("Exception", "Sad life");
+                e.printStackTrace();
+            }
+            return false;
+        }
     }
 
 

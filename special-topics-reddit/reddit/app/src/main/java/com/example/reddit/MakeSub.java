@@ -31,11 +31,6 @@ public class MakeSub extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!MainActivity.username.isEmpty() && !MainActivity.token.isEmpty()) {
-            // fixme
-        } else {
-            startActivity(new Intent(this, LogIn.class));
-        }
         setContentView(R.layout.activity_make_sub);
         progressBar = findViewById(R.id.progressBar);
         sub = findViewById(R.id.title);

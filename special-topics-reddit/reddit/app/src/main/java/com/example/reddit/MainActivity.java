@@ -61,6 +61,7 @@ public class MainActivity extends Navigation {
         System.out.println(username + " " + token);
         System.out.println("got shared preferences");
         editor = pref.edit();
+        activity = "main";
         makeMenu();
         setBotBarClickListeners();
         noConnection = findViewById(R.id.NoConnection);
@@ -121,19 +122,6 @@ public class MainActivity extends Navigation {
             viewPager.setCurrentItem(0);
         }
     }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (recreate) {
-            recreate();
-            switchTab();
-            recreate = false;
-        }
-    }
-
-
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -209,8 +197,8 @@ public class MainActivity extends Navigation {
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
+                            swipeRefreshLayout.setRefreshing(true);
                             home_update();
-                            swipeRefreshLayout.setRefreshing(false);
                         }
                     }
             );
@@ -371,8 +359,8 @@ public class MainActivity extends Navigation {
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
+                            swipeRefreshLayout.setRefreshing(true);
                             update();
-                            swipeRefreshLayout.setRefreshing(false);
                         }
                     }
             );

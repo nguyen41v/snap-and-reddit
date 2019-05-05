@@ -1,6 +1,5 @@
 package com.example.reddit;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,15 +10,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
-    private List<SubItem> subItems;
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+    private List<UserItem> userItems;
     private Context context;
 
-    public SubAdapter(List<SubItem> subItems, Context context) {
-        this.subItems = subItems;
+    public UserAdapter(List<UserItem> userItems, Context context) {
+        this.userItems = userItems;
         this.context = context;
     }
 
@@ -32,21 +30,21 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SubItem subItem = this.subItems.get(position);
-        holder.subItem = subItem;
-        String temp = "s/" + subItem.getSubname();
+        UserItem userItem = this.userItems.get(position);
+        holder.userItem = userItem;
+        String temp = "u/" + userItem.getUsername();
         holder.sub.setText(temp);
     }
 
     @Override
     public int getItemCount() {
-        return this.subItems.size();
+        return this.userItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView sub;
-        public SubItem subItem;
+        public UserItem userItem;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,10 +52,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
             sub.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("i've been clicked!!");
-                    MakePost.sub.setText(sub.getText().toString());
-                    MakePost.sub_name = subItem.getSubname();
-                    ((Activity) context).finish();
+                    context.startActivity(new Intent(context, ViewSub.class).putExtra("sub", userItem.getUsername()));
                 }
             });
         }

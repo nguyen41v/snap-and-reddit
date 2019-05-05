@@ -456,7 +456,7 @@ public class UserController {
                 }
                 ps.close();
                 conn.close();
-                return new ResponseEntity(queryContents.toString(), responseHeaders, HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity(queryContents.toString(), responseHeaders, HttpStatus.OK);
             }
 
             query = "SELECT sub_name " +
@@ -642,6 +642,7 @@ public class UserController {
             String searchQuery1 = "(sub_name LIKE \'%" + String.join("%\' OR content LIKE \'%", searchStrings)+ "%\')";
             query = "SELECT * FROM Subforum WHERE " + searchQuery + " OR " + searchQuery1 + ";";
             ps = conn.prepareStatement(query);
+            System.out.println(ps);
             resultSet = ps.executeQuery();
             queryContents = new JSONArray();
             while (resultSet.next()) {
@@ -727,6 +728,89 @@ public class UserController {
     }
 
 
+    @RequestMapping(value = "/follow", method = RequestMethod.POST) // <-- setup the endpoint URL at /follow with the HTTP POST method
+    public ResponseEntity<String> follow(@RequestBody String body, HttpServletRequest request) {
+        System.out.println(body); // debugging
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        try {
+            JSONObject temp = new JSONObject(body);
+            // Grabbing post info from request body
+            String username = temp.getString(UserController.username);
+            String sub_name = temp.getString(UserController.sub_name);
+            String token = temp.getString(UserController.token);
+            if (!checkToken(username, token)) {
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+            }
+            Connection conn = null;
+            PreparedStatement ps = null;
+            String query;
+            try {
+                Class.forName(Project.JDBC_DRIVER);
+                conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+                // check if sub exists
+                query = "INSERT INTO Follow (item, name, username) VALUES ('s', ?, ?);";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, sub_name);
+                ps.setString(1, username);
+                ps.executeUpdate();
+                ps.close();
+                conn.close();
+                return new ResponseEntity("{\"message\": \"Successfully followed the sub\"}", responseHeaders, HttpStatus.OK);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("not JSON");
+        }
+        return new ResponseEntity("{\"message\": \"Could not follow this sub for some reason\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @RequestMapping(value = "/unfollow", method = RequestMethod.POST) // <-- setup the endpoint URL at /unfollow with the HTTP POST method
+    public ResponseEntity<String> unfollow(@RequestBody String body, HttpServletRequest request) {
+        System.out.println(body); // debugging
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        try {
+            JSONObject temp = new JSONObject(body);
+            // Grabbing post info from request body
+            String username = temp.getString(UserController.username);
+            String sub_name = temp.getString(UserController.sub_name);
+            String token = temp.getString(UserController.token);
+            if (!checkToken(username, token)) {
+                return new ResponseEntity("{\"message\": \"Please log in again\"}", responseHeaders, HttpStatus.UNAUTHORIZED);
+            }
+            Connection conn = null;
+            PreparedStatement ps = null;
+            String query;
+            try {
+                Class.forName(Project.JDBC_DRIVER);
+                conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+                // check if sub exists
+                query = "DELETE FROM Follow WHERE item = 's' AND name = ? AND username = ?";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, sub_name);
+                ps.setString(1, username);
+                ps.executeUpdate();
+                ps.close();
+                conn.close();
+                return new ResponseEntity("{\"message\": \"Successfully unfollowed the sub\"}", responseHeaders, HttpStatus.OK);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("not JSON");
+        }
+        return new ResponseEntity("{\"message\": \"Could not unfollow this sub for some reason\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+    }
+
 
     @RequestMapping(value = "/post", method = RequestMethod.POST) // <-- setup the endpoint URL at /post with the HTTP POST method
     public ResponseEntity<String> post(@RequestBody String body, HttpServletRequest request) {
@@ -797,6 +881,21 @@ public class UserController {
         try {
             Class.forName(Project.JDBC_DRIVER);
             conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+            // get sub info
+            query = "SELECT * FROM Subforum WHERE sub_name = ?;";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, sub);
+            System.out.println(ps);
+            resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                postContent = new JSONObject();
+                postContent.put(UserController.sub_name, resultSet.getString(UserController.sub_name));
+                postContent.put(UserController.info, resultSet.getString(UserController.info));
+            } else {
+                postContent = new JSONObject();
+                postContent.put("message", "That sub doesn't exist");
+                return new ResponseEntity(postContent.toString(), responseHeaders, HttpStatus.OK);
+            }
 
             // get post content
             query = "SELECT * FROM Post WHERE sub_name = ? ORDER BY date DESC;";
