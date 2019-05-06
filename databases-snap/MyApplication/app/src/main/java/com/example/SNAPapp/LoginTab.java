@@ -200,14 +200,12 @@ public class LoginTab extends Fragment{
                     String temp = sb.toString().trim();
                     System.out.print(temp);
                     return temp;
-                } else if (responseCode == Launcher.UNAUTHORIZED) {
-                    return "0";
                 }
+                return "0";
             } catch (Exception e) {
                 System.out.println("Connection probably failed :3\ngo start the server");
                 return "-1";
             }
-            return "-1";
         }
     }
 }
