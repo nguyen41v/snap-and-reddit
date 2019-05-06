@@ -446,7 +446,7 @@ public class DistributionDayForm extends AppCompatActivity {
                                         Launcher.editor.putString("benefitsDay", day);
                                         Launcher.editor.apply();
                                         day = ithDay(day);
-                                        temp = "Your last name of  " + temp + " and your birth month of" + month_names[position] + " means that your distribution day is on the " + day;
+                                        temp = "Your last name of  " + temp + " and your birth month of " + month_names[position] + " means that your distribution day is on the " + day;
                                         info.setVisibility(View.VISIBLE);
                                         info.setText(temp);
                                         break;
@@ -553,7 +553,7 @@ public class DistributionDayForm extends AppCompatActivity {
                                         Launcher.editor.putString("benefitsDay", day);
                                         Launcher.editor.apply();
                                         day = ithDay(day);
-                                        temp = "Your last name " + temp + " means that your distribution day is on the " + day;
+                                        temp = "Your last name of" + temp + " means that your distribution day is on the " + day;
                                         info.setVisibility(View.VISIBLE);
                                         info.setText(temp);
                                         break;
