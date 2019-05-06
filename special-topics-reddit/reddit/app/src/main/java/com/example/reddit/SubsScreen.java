@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -45,7 +46,9 @@ public class SubsScreen extends Navigation {
         makeMenu();
         setBotBarClickListeners();
         activity = "communities";
-
+        if (!MainActivity.loggedIn) {
+            ((TextView) findViewById(R.id.subscribed)).setText("All subs");
+        }
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

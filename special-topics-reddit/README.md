@@ -1,6 +1,8 @@
 ## Disclaimer!
 This is just a project! Don't sue me friends.
 
+[Link to demo video](https://drive.google.com/open?id=17u2P_LEzlr45iOuYdfPg53WGvJGHJO9r)
+
 ## Running the app
 1. You can build and run the android studio project to run the app or you can install the apk file on your android phone to run the app.
 

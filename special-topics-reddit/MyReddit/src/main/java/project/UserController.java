@@ -736,6 +736,14 @@ public class UserController {
             try {
                 Class.forName(Project.JDBC_DRIVER);
                 conn = DriverManager.getConnection(Project.DB_URL, Project.USER, Project.PASSWORD);
+                query = "SELECT * FROM Follow WHERE item = 's' AND name = ? AND username = ?;";
+                ps = conn.prepareStatement(query);
+                ps.setString(1, sub_name);
+                ps.setString(2, username);
+                ResultSet resultSet = ps.executeQuery();
+                if (resultSet.next()) {
+                    return new ResponseEntity("{\"message\": \"You're already following this sub\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+                }
                 // check if sub exists
                 query = "INSERT INTO Follow (item, name, username) VALUES ('s', ?, ?);";
                 ps = conn.prepareStatement(query);

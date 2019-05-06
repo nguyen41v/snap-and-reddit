@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -111,6 +112,27 @@ public class ViewSub extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("clickAction?");
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("starting reply?");
+        System.out.println(MainActivity.loggedIn);
+        if (MainActivity.loggedIn) {
+            update();
+            switch (newActivity) {
+                case "post":
+                    startActivity(new Intent(getApplicationContext(), MakePost.class).putExtra("sub_name", sub));
+                    break;
+                case "sub":
+                    startActivity(new Intent(getApplicationContext(), MakeSub.class));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     public void setBotBarClickListeners() {
         final CardView home = findViewById(R.id.home);
         home.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +203,7 @@ public class ViewSub extends AppCompatActivity {
             } else {
                 switch (newActivity) {
                     case "post":
-                        startActivity(new Intent(getApplicationContext(), MakePost.class));
+                        startActivity(new Intent(getApplicationContext(), MakePost.class).putExtra("sub_name", sub));
                         break;
                     case "sub":
                         startActivity(new Intent(getApplicationContext(), MakeSub.class));
@@ -321,8 +343,21 @@ public class ViewSub extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            loadIntoRecyclerView(s);
-            swipeRefreshLayout.setRefreshing(false);
+            if (s.isEmpty()) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Could not connect to the server", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 64);
+                toast.show();
+            } else {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    Toast toast = Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 64);
+                    toast.show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
 
         @Override
@@ -348,17 +383,19 @@ public class ViewSub extends AppCompatActivity {
                 con.connect();
                 StringBuilder sb = new StringBuilder();
                 int responseCode = con.getResponseCode();
-                System.out.println(responseCode);
+                InputStream in;
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    String json;
-                    while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
-                    }
-                    return sb.toString().trim();
+                    in = con.getInputStream();
+                } else {
+                    in = con.getErrorStream();
                 }
-                return "";
-
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+                String json;
+                System.out.println("got data");
+                while ((json = bufferedReader.readLine()) != null) {
+                    sb.append(json);
+                }
+                return sb.toString().trim();
             } catch (Exception e) {
                 System.out.println("Connection probably failed :3\ngo start the server");
                 return "";

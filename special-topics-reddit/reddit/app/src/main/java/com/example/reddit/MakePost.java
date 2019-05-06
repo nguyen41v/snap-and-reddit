@@ -53,7 +53,7 @@ public class MakePost extends AppCompatActivity {
         title_info = findViewById(R.id.title);
         System.out.println(sub_name);
         if (sub_name != null) {
-            sub.setText(sub_name);
+            sub.setText("s/" + sub_name);
         }
         sub.setOnClickListener(new View.OnClickListener() {
             @Override

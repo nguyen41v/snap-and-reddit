@@ -76,19 +76,19 @@ public class SignupTab extends Fragment {
                 System.out.println(password);
                 System.out.println(email);
                 if (!email.matches("^.*@.*\\..*$")) {
-                    Toast toast = Toast.makeText(getActivity(), "Your email is not valid", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getContext(), "Your email is not valid", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 64);
                     toast.show();
                 } else if (username.length() == 0) {
-                    Toast toast = Toast.makeText(getActivity(), "You must have a username", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getContext(), "You must have a username", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,64);
                     toast.show();
                 } else if (username.length() > 16) {
-                    Toast toast = Toast.makeText(getActivity(), "A username is 16 characters or less", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getContext(), "A username is 16 characters or less", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,64);
                     toast.show();
                 } else if (password.length() == 0) {
-                    Toast toast = Toast.makeText(getActivity(), "You must have a password", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getContext(), "You must have a password", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER,0,64);
                     toast.show();
                 } else {

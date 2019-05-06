@@ -146,7 +146,7 @@ public class Navigation extends AppCompatActivity implements NavigationView.OnNa
             @Override
             public void onClick(View v) {
                 if (!activity.equals("main")) {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 }
             }
         });
