@@ -3,10 +3,10 @@ The app is not approved by the USDA, FNS, or SNAP.
 Some information may be incorrect or not updated as the app does not have any functionality to automatically pull data from the SNAP website. 
 The app is also not maintained by any of the said organizations, so use it keeping this in mind.
 
-[Link to full, but low quality demo video](https://drive.google.com/open?id=1IBIatuOsmcm0sowH1DUVrtjkd3jGW-j2)
-[Link to part 1 of demo video](https://drive.google.com/open?id=1ySv0Jf5Fl0kTwhScDI7U1XIxGYnmD1bF)
-[Link to part 2 of demo video](https://drive.google.com/open?id=1QTqeITwQvkhqmGtu0JDo0hkspv7ekTGI)
-[Link to GitHub repo](https://github.com/nguyen41v/snap-and-reddit/tree/master/databases-snap)
+[Link to full, but low quality demo video](https://drive.google.com/open?id=1IBIatuOsmcm0sowH1DUVrtjkd3jGW-j2)  
+[Link to part 1 of demo video](https://drive.google.com/open?id=1ySv0Jf5Fl0kTwhScDI7U1XIxGYnmD1bF)  
+[Link to part 2 of demo video](https://drive.google.com/open?id=1QTqeITwQvkhqmGtu0JDo0hkspv7ekTGI)  
+[Link to GitHub repo](https://github.com/nguyen41v/snap-and-reddit/tree/master/databases-snap)  
 
 ## Running the app
 1. You can build and run the android studio project to run the app or you can install the apk file on your android phone to run the app
